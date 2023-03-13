@@ -16,33 +16,33 @@ export default class TrainerLogin extends Component
         return (
             <div className='login'>
                 <div>
-                    <div className='card'>
-                        <div className='logo'>
-                            <img className='logo-img' src={"https://assets.api.uizard.io/api/cdn/stream/9789bb7f-8141-48f9-87dd-f2ebdadcbec6.png"} alt="logo"/>
+                    <div className='login-card'>
+                        <div className='login-logo'>
+                            <img className='login-logo-img' src={"https://assets.api.uizard.io/api/cdn/stream/9789bb7f-8141-48f9-87dd-f2ebdadcbec6.png"} alt="logo"/>
                         </div>
-                        <div className='header'>
-                            <h1 className='header-h1'>Sign In</h1>
+                        <div className='login-header'>
+                            <h1 className='login-header-h1'>Sign In</h1>
                             <div>Please login to use application</div>
                         </div>
-                        <form className='form'>
-                            <div className='item'>
-                                <FontAwesomeIcon className='icon' icon={faEnvelope}/>
-                                <input className='input' type="text" placeholder="Enter Email" required autoFocus/>
+                        <form className='login-form'>
+                            <div className='login-item'>
+                                <FontAwesomeIcon className='login-icon' icon={faEnvelope}/>
+                                <input className='login-input' type="text" placeholder="Enter Email" required autoFocus/>
                             </div>
-                            <div className='item'>
-                                <FontAwesomeIcon className='icon' icon={faLock}/>
-                                <input className='input' type="password" placeholder="Enter Password" required/>
+                            <div className='login-item'>
+                                <FontAwesomeIcon className='login-icon' icon={faLock}/>
+                                <input className='login-input' type="password" placeholder="Enter Password" required/>
                             </div>
-                            <div className='other'>
-                                <div className='checkbox'>
+                            <div className='login-other'>
+                                <div className='login-checkbox'>
                                     <input type="checkbox" id="rememberMeCheckbox"/>
                                     <label for="rememberMeCheckbox">Remember me</label>
                                 </div>
-                                <a className='a' href="#">Forgot my password</a>
+                                <a className='login-a' href="#">Forgot my password</a>
                             </div>
-                            <button className='button' type="submit">Sign In</button>
+                            <button className='login-button' type="submit">Sign In</button>
                         </form>
-                        <div className='footer'>
+                        <div className='login-footer'>
                             Don't have an account? <Link to="/registertrainer">Create an account</Link>
                         </div>
                     </div>

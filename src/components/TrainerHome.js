@@ -65,7 +65,7 @@ export default class TrainerHome extends Component
         <div className='trainer-home'>
             <Nav />
 
-            <div className='container'>
+            <div className='trainer-home-container'>
                 <div className='clients sections'>
                     <div className='headers'>Clients</div>
                     <div className='clients-content'>

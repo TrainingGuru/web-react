@@ -8,7 +8,7 @@
     justify-content: center;
 }
 
-.card {
+.login-card {
     width: 450px;
     background-color: white;
     padding: 4rem;
@@ -16,33 +16,33 @@
     position: relative;
 }
 
-.logo {
+.login-logo {
     margin-bottom: 2rem;
     text-align: center;
 }
 
-.logo-img {
+.login-logo-img {
     width: 60px;
 }
 
-.header {
+.login-header {
     text-align: center;
     margin-bottom: 2rem;
 }
 
-.header-h1 {
+.login-header-h1 {
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
 
-.form {
+.login-form {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
 
-.item {
+.login-item {
     position: relative;
     top: 0.82rem;
     left: 1.4rem;
@@ -50,14 +50,14 @@
     opacity: 0.4;
 }
 
-.icon {
+.login-icon {
     position: absolute;
     top: 0.82rem;
     font-size: 1.3rem;
     opacity: 0.4;
 }
 
-.input {
+.login-input {
     border: none;
     outline: none;
     background: rgba(255, 255, 255, 0.3);
@@ -66,25 +66,25 @@
     width: 100%;
 }
 
-.other {
+.login-other {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 0.5rem;
 }
 
-.checkbox {
+.login-checkbox {
     display: flex;
     align-items: center;
     gap: 7px;
 }
 
-.a {
+.login-a {
     text-decoration: none;
     color: #35339a;
 }
 
-.button {
+.login-button {
     background: black;
     color: white;
     padding: 1rem;
@@ -93,7 +93,7 @@
     letter-spacing: 2px;
 }
 
-.footer {
+.login-footer {
     text-align: center;
     margin-top: 1.5rem;
 }
