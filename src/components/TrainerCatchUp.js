@@ -38,80 +38,80 @@ export default class TrainerCatchUp extends Component
                     }
                 </select> */}
                 <div className='container'>
-                    <div style={styles.trainerClients.container.fitbitIcons}>
+                    <div className='fitbit-icons'>
                         <div>
-                            <FontAwesomeIcon style={{...styles.trainerClients.container.fitbitIcons.icon, ...styles.trainerClients.container.fitbitIcons.icon.calBurnt}} icon={faFire}/>
+                            <FontAwesomeIcon className='icon calBurnt' icon={faFire}/>
                             <div>Calories Burnt</div>
                             <div>4900kcl</div>
                         </div>
                         <div>
-                            <FontAwesomeIcon style={{...styles.trainerClients.container.fitbitIcons.icon, ...styles.trainerClients.container.fitbitIcons.icon.waterIntake}} icon={faDroplet}/>
+                            <FontAwesomeIcon className='icon waterIntake' icon={faDroplet}/>
                             <div>Water Intake</div>
                             <div>13.5L</div>
                         </div>
                         <div>
-                            <FontAwesomeIcon style={{...styles.trainerClients.container.fitbitIcons.icon, ...styles.trainerClients.container.fitbitIcons.icon.floorsClimbed}} icon={faStairs}/>
+                            <FontAwesomeIcon className='icon floorsClimbed' icon={faStairs}/>
                             <div>Floors Climbed</div>
                             <div>45 Floors</div>
                         </div>
                         <div>
-                            <FontAwesomeIcon style={{...styles.trainerClients.container.fitbitIcons.icon, ...styles.trainerClients.container.fitbitIcons.icon.activeMins}} icon={faBolt}/>
+                            <FontAwesomeIcon className='icon activeMins' icon={faBolt}/>
                             <div>Active Minutes</div>
                             <div>420 Min</div>
                         </div>
                         <div>
-                            <FontAwesomeIcon style={{...styles.trainerClients.container.fitbitIcons.icon, ...styles.trainerClients.container.fitbitIcons.icon.distTravelled}} icon={faRoad}/>
+                            <FontAwesomeIcon className='icon distTravelled' icon={faRoad}/>
                             <div>Distance Travelled</div>
                             <div>27.1km</div>
                         </div>
                     </div>
-                    <div style={{...styles.trainerClients.container.steps, ...styles.trainerClients.container.sections}}>
-                        <div style={styles.trainerClients.container.headers}>Steps</div>
-                        <div style={styles.trainerClients.container.steps.content}>
-                            <div style={styles.trainerClients.container.steps.content.imgContainer}>
-                                <img style={styles.trainerClients.container.steps.content.imgContainer.img}
+                    <div className='steps sections'>
+                        <div className='headers'>Steps</div>
+                        <div className='steps-content'>
+                            <div className='steps-chart-container'>
+                                <img className='steps-bar-chart'
                                     src={barChart}
                                     alt="Bar Chart"/>
                             </div>
-                            <div style={styles.trainerClients.container.steps.content.text}>
-                                <div style={styles.trainerClients.container.steps.content.text.label}>Goal:</div>
-                                <div style={styles.trainerClients.container.steps.content.text.data}>10,000</div>
-                                <div><FontAwesomeIcon style={styles.trainerClients.container.steps.content.text.editIcon} icon={faPenToSquare}/></div>
+                            <div className='steps-text'>
+                                <div className='steps-label'>Goal:</div>
+                                <div className='steps-data'>10,000</div>
+                                <div><FontAwesomeIcon className='edit-icon' icon={faPenToSquare}/></div>
                             </div>
                         </div>
                     </div>
-                    <div style={styles.trainerClients.container.intake}>
-                        <div style={styles.trainerClients.container.intake.heading}>Intake</div>
-                        { <div style={styles.trainerClients.container.intake.table}>
+                    <div className='intake'>
+                        <div className='intake-heading'>Intake</div>
+                        { <div className='intake-table'>
                                     <div>Calories</div>
                                     <div>{clientIntake?.CaloriesIntake}/{clientIntake?.TotalCalories}cal</div>
-                                    <FontAwesomeIcon style={styles.trainerClients.container.intake.table.editIcon} icon={faPenToSquare}/>
+                                    <FontAwesomeIcon className='intake-table-edit-icon' icon={faPenToSquare}/>
                                     <div>Protein</div>
                                     <div>{clientIntake?.ProteinIntake}/{clientIntake?.TotalProtein}g</div>
-                                    <FontAwesomeIcon style={styles.trainerClients.container.intake.table.editIcon} icon={faPenToSquare}/>
+                                    <FontAwesomeIcon className='intake-table-edit-icon' icon={faPenToSquare}/>
                                     <div>Fat</div>
                                     <div>{clientIntake?.FatsIntake}/{clientIntake?.TotalFats}g</div>
-                                    <FontAwesomeIcon style={styles.trainerClients.container.intake.table.editIcon} icon={faPenToSquare}/>
+                                    <FontAwesomeIcon className='intake-table-edit-icon' icon={faPenToSquare}/>
                                     <div>Carbs</div>
                                     <div>{clientIntake?.CarbohydratesIntake}/{clientIntake?.TotalCarbohydrates}g</div>
-                                    <FontAwesomeIcon style={styles.trainerClients.container.intake.table.editIcon} icon={faPenToSquare}/>
+                                    <FontAwesomeIcon className='intake-table-edit-icon' icon={faPenToSquare}/>
                                 </div>
                                 
                             }
                     </div>
-                    <div style={styles.trainerClients.container.progressChart}>
+                    <div className='progress-chart'>
                         Weight Progress Graph
                     </div>
-                    <div style={{...styles.trainerClients.container.goals, ...styles.trainerClients.container.sections}}>
-                        <div style={styles.trainerClients.container.headers}>Goals</div>
+                    <div className='goals sections'>
+                        <div className='headers'>Goals</div>
                             { clientGoals?.map((goal) => {
-                                return <div style={styles.trainerClients.container.goals.entry}>
+                                return <div className='goals-entry'>
                                             {goal.Goal}
                                         </div>
                                 }) 
                             }
                     </div>
-                    <div style={styles.trainerClients.container.calorieSummary}>
+                    <div className='calorie-summary'>
                         <div>M</div>
                         <div>T</div>
                         <div>W</div>
@@ -120,39 +120,39 @@ export default class TrainerCatchUp extends Component
                         <div>S</div>
                         <div>S</div>
 
-                        <FontAwesomeIcon style={styles.trainerClients.container.calorieSummary.icon.check} icon={faCircleCheck}/>
-                        <FontAwesomeIcon style={styles.trainerClients.container.calorieSummary.icon.xmark} icon={faCircleXmark}/>
-                        <FontAwesomeIcon style={styles.trainerClients.container.calorieSummary.icon.check} icon={faCircleCheck}/>
-                        <FontAwesomeIcon style={styles.trainerClients.container.calorieSummary.icon.check} icon={faCircleCheck}/>
-                        <FontAwesomeIcon style={styles.trainerClients.container.calorieSummary.icon.check} icon={faCircleCheck}/>
-                        <FontAwesomeIcon style={styles.trainerClients.container.calorieSummary.icon.check} icon={faCircleCheck}/>
-                        <FontAwesomeIcon style={styles.trainerClients.container.calorieSummary.icon.dash} icon={faMinus}/>
+                        <FontAwesomeIcon className='check' icon={faCircleCheck}/>
+                        <FontAwesomeIcon className='xmark' icon={faCircleXmark}/>
+                        <FontAwesomeIcon className='check' icon={faCircleCheck}/>
+                        <FontAwesomeIcon className='check' icon={faCircleCheck}/>
+                        <FontAwesomeIcon className='check' icon={faCircleCheck}/>
+                        <FontAwesomeIcon className='check' icon={faCircleCheck}/>
+                        <FontAwesomeIcon className='dash' icon={faMinus}/>
 
                     </div>
-                    <div style={{...styles.trainerClients.container.catchUpNotes, ...styles.trainerClients.container.sections}}>
-                        <div style={styles.trainerClients.container.headers}>CatchUp Notes</div>
-                        <div style={styles.trainerClients.container.catchUpNotes.textBox}>
+                    <div className='catchup-notes sectiosn'>
+                        <div className='headers'>CatchUp Notes</div>
+                        <div className='catchup-notes-textbox'>
                             <textarea></textarea>
                         </div>
                     </div>
-                    <div style={{...styles.trainerClients.container.schedule, ...styles.trainerClients.container.sections}}>
+                    <div className='schedule sections'>
                         {/* <FontAwesomeIcon icon={faLessThan}/> */}
-                        <div style={styles.trainerClients.container.headers}>Schedule</div>
+                        <div className='headers'>Schedule</div>
                         {/* <FontAwesomeIcon icon={faGreaterThan}/> */}
-                        <div style={styles.trainerClients.container.schedule.content.carousel}>
-                            <div style={styles.trainerClients.container.schedule.content.carousel.button.left}>
+                        <div className='carousel'>
+                            <div className='button-left'>
                                 <FontAwesomeIcon icon={faLessThan}/>
                             </div>
-                            <div style={styles.trainerClients.container.schedule.content.carousel.trackContainer}>
-                                <div style={styles.trainerClients.container.schedule.content.carousel.trackContainer.track}>
-                                    <div style={styles.trainerClients.container.schedule.content.carousel.trackContainer.track.slide}>
+                            <div className='track-container'>
+                                <div className='track'>
+                                    <div className='slide'>
                                         {   schedule.days?.slice(0,7).map((day) => {
-                                                return <div style={styles.trainerClients.container.schedule.content.carousel.trackContainer.track.slide.content}>
+                                                return <div className='slide-content'>
                                                     <div>{day.day}</div>
                                                     <div>{day.date}</div>
                                                     <div>Chest Beginner</div>
                                                     <div onClick={togglePopup}>notes</div>
-                                                    <div style={isPopupClicked ? styles.trainerClients.container.schedule.content.popup : styles.trainerClients.container.schedule.content.hidden}>
+                                                    <div className={isPopupClicked ? 'popup' : 'hidden'}>
                                                         This is the notes popup!
                                                         <div onClick={togglePopup}>Close</div>
                                                     </div>
@@ -160,9 +160,9 @@ export default class TrainerCatchUp extends Component
                                             })
                                         }
                                     </div>
-                                    <div style={styles.trainerClients.container.schedule.content.carousel.trackContainer.track.slide}>
+                                    <div className='slide'>
                                         {   schedule.days?.slice(7,14).map((day) => {
-                                                return <div style={styles.trainerClients.container.schedule.content.carousel.trackContainer.track.slide.content}>
+                                                return <div className='slide-content'>
                                                     <div>{day.day}</div>
                                                     <div>{day.date}</div>
                                                     <div>Chest Beginner</div>
@@ -171,9 +171,9 @@ export default class TrainerCatchUp extends Component
                                             })
                                         }
                                     </div>
-                                    <div style={styles.trainerClients.container.schedule.content.carousel.trackContainer.track.slide}>
+                                    <div className='slide'>
                                         {   schedule.days?.slice(14,21).map((day) => {
-                                                return <div style={styles.trainerClients.container.schedule.content.carousel.trackContainer.track.slide.content}>
+                                                return <div className='slide-content'>
                                                     <div>{day.day}</div>
                                                     <div>{day.date}</div>
                                                     <div>Chest Beginner</div>
@@ -184,27 +184,27 @@ export default class TrainerCatchUp extends Component
                                     </div>
                                 </div>
                             </div>
-                            <div style={styles.trainerClients.container.schedule.content.carousel.button.right}>
+                            <div className='button-right'>
                                 <FontAwesomeIcon icon={faGreaterThan}/>
                             </div>
-                            <div style={styles.trainerClients.container.schedule.content.carousel.nav}>
-                                <div style={styles.trainerClients.container.schedule.content.carousel.nav.indicator}></div>
-                                <div style={styles.trainerClients.container.schedule.content.carousel.nav.indicator}></div>
-                                <div style={styles.trainerClients.container.schedule.content.carousel.nav.indicator}></div>
+                            <div className='carousel-nav'>
+                                <div className='carousel-nav-indicator'></div>
+                                <div className='carousel-nav-indicator'></div>
+                                <div className='carousel-nav-indicator'></div>
                             </div>
                         </div>
                         
                     </div>
-                    <div style={{...styles.trainerClients.container.personalBests, ...styles.trainerClients.container.sections}}>
-                        <div style={styles.trainerClients.container.headers}>Personal Bests</div>
-                        <div style={styles.trainerClients.container.personalBests.content}>
+                    <div className='personal-bests sections'>
+                        <div className='headers'>Personal Bests</div>
+                        <div className='personal-bests-content'>
                             {   clientPBs?.map((PB) => {
-                                    return <div style={styles.trainerClients.container.personalBests.content.entry}>
-                                        <div style={styles.trainerClients.container.personalBests.content.entry.data}>
-                                            <div style={styles.trainerClients.container.personalBests.content.entry.data.exercise}>{PB.Exercise.Name}</div>
-                                            <div style={styles.trainerClients.container.personalBests.content.entry.data.previous}>{PB.LastPB}</div>
-                                            <FontAwesomeIcon style={styles.trainerClients.container.personalBests.content.entry.data.icon} icon={faChevronUp}/>
-                                            <div style={styles.trainerClients.container.personalBests.content.entry.data.new}>{PB.PersonalBest}</div>
+                                    return <div className='personal-bests-entry'>
+                                        <div className='personal-bests-entry-data'>
+                                            <div className='personal-bests-exercise'>{PB.Exercise.Name}</div>
+                                            <div className='personal-bests-previous'>{PB.LastPB}</div>
+                                            <FontAwesomeIcon className='personal-bests-icon' icon={faChevronUp}/>
+                                            <div className='personal-bests-new'>{PB.PersonalBest}</div>
                                         </div>
                                     </div>
                                 })
