@@ -1,0 +1,111 @@
+/* --------------------------- TrainerHome Styles ----------------------------------*/
+
+.trainer-home {
+    height: 95vh;
+    overflow: hidden;
+}
+
+.container {
+  display: grid;
+  gap: 1.5rem;
+  width: 95%;
+  margin: auto;
+  overflow: hidden;
+  height: 100%;
+  grid-template-rows: 1fr 1fr 3fr;
+}
+
+/* --------------------------- Clients Styles ----------------------------------*/
+
+.clients {
+    grid-row: span 3;
+    height: 100%;
+    overflow: scroll;
+    color: rgb(0, 0, 0);
+    font-family: Roboto;
+    font-weight: 500;
+    font-size: 23px;
+    letter-spacing: 0px;
+    line-height: 30px;
+    text-align: center;
+    text-transform: none;
+}
+
+.clients-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.clients-content-entry {
+    margin: 10% 5%;
+}
+
+.clients-content-entry-name {
+    margin: 5%;
+    font-weight: 700;
+}
+
+/* --------------------------- ActiveToday Styles ----------------------------------*/
+
+.activeToday {
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+    color: rgb(0, 0, 0);
+    font-family: Roboto;
+    font-size: 16px;
+    letter-spacing: 0px;
+    line-height: 21px;
+    text-align: center;
+    text-transform: none;
+}
+
+.activeToday-text {
+    width: 50%;
+    margin: 20% auto;
+}
+
+.activeToday-text-label {
+    margin: 5%;
+}
+
+.activeToday-text-data {
+
+}
+
+.activeToday-imgContainer {
+    width: 50%;
+    margin: 0;
+}
+
+.activeToday-pieChart {
+    width: 100%;
+    height: 100%;
+}
+
+/* --------------------------- Activity Styles ----------------------------------*/
+
+.activity {
+    grid-row: span 2;
+    height: 100%;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* --------------------------- Intake Styles ----------------------------------*/
+
+.intake {
+    grid-column: 2;
+    height: 100%;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+/* --------------------------- UpcomingWorkouts Styles ----------------------------------*/
+.upcomingWorkouts {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    height: 100%;
+    overflow: hidden;
+}
