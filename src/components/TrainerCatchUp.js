@@ -356,7 +356,7 @@ export default class TrainerCatchUp extends Component
                         <FontAwesomeIcon className='dash' icon={faMinus}/>
 
                     </div>
-                    <div className='catchup-notes sectiosn'>
+                    <div className='catchup-notes sections'>
                         <div className='headers'>CatchUp Notes</div>
                         <div className='catchup-notes-textbox'>
                             <textarea></textarea>
