@@ -42,7 +42,62 @@
   height: 4em;
 }
 
+.nav-menu {
+  height: 90%;
+  background: white;
+  position: absolute;
+  box-shadow: rgb(0 0 0 / 10%) 0px 0px 2px;
+  z-index: 1;
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+  width: 20%;
+}
 
+.nav-link {
+  font-size: 1.5rem;
+  position: relative;
+  top: 8%;
+  padding: 1rem 2rem;
+}
+
+.nav-list-icon {
+  padding-right: 1rem;
+}
+
+.nav-a {
+  text-decoration: none;
+  color: rgb(0 0 0);
+}
+
+.nav-button {
+  box-shadow: rgb(0 0 0 / 10%) 2px 2px 2px;
+}
+
+.nav-submenu {
+
+}
+
+.nav-submenu-link {
+  font-size: 1.2rem;
+  position: relative;
+  top: 8%;
+  padding: 0.5rem 2rem;
+}
+
+
+.nav-submenu-a {
+  text-decoration: none;
+  color: grey;
+}
+
+.visible {
+  display: inherit;
+}
+
+.hidden {
+  display: none;
+}
 /* --------------------------- TrainerHome Styles ----------------------------------*/
 
 .trainer-home-container {
