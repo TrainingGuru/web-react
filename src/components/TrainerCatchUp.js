@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Nav from './Nav';
+import CatchUpNav from './CatchUpNav';
 
 import axios from 'axios';
 import moment from 'moment';
@@ -374,14 +374,7 @@ export default class TrainerCatchUp extends Component
     {
         return (
             <div className='catchUp'>
-                <Nav />
-                
-                <select id="clients">
-                    { this.state.clients?.map((client) => {
-                            return <option value={`${client.ClientID}`}>{client.Name}</option>
-                        })
-                    }
-                </select>
+                <CatchUpNav />
                 <div className='catchUp-container'>
                     <div className='fitbit-icons'>
                         <div>

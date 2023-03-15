@@ -5,15 +5,15 @@
   margin: 0;
   margin-bottom: 2%;
   box-sizing: 0;
-  box-shadow: rgb(0 0 0 / 10%) 0px 2px 1px;
 }
 
 .navbar {
-  width: 100%;
+  width: 98%;
   height: 2.5em;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   padding: 1em;
+  box-shadow: rgb(0 0 0 / 10%) 0px 2px 1px;
 }
 
 .burger-menu {
@@ -31,10 +31,22 @@
   width: 100%;
 }
 
+/* .client-heading {
+  
+} */
+
 .nav-logo {
   display: block;
   position: relative;
   margin: auto;
+  top: -0.75em;
+}
+
+.nav-logo-catch-up {
+  /* display: block; */
+  position: relative;
+  /* margin: auto; */
+  /* float: right; */
   top: -0.75em;
 }
 
