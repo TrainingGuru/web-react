@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Nav from './Nav'
+import '../css/TrainerRegister.css';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEnvelope} from "@fortawesome/free-solid-svg-icons/faEnvelope";

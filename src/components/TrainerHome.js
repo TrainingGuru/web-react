@@ -89,31 +89,10 @@ export default class TrainerHome extends Component
                             alt="Pie Chart"/>
                     </div>
                 </div>
-                <div className='activity sections'>
-                    <div className='headers'>Activity</div>
-                    {/* <div style={styles.trainerHome.container.activity.content}>
-                        <img style={styles.trainerHome.container.activity.content.img}
-                            src={barChart}
-                            alt="Bar Chart"/>
-                    
-                        <div style={styles.trainerHome.container.activity.content.dropdown}>
-                            <select id="clients">
-                                
-                            </select>
-                        </div>
-                    </div> */}
-                </div>
-                <div className='intake sections'>
-                    <div className='headers'>Intake</div>
+                
+                <div className='upcoming-meetings sections'>
+                    <div className='headers'>Upcoming Meetings</div>
                     {/* <div style={styles.trainerHome.container.intake.content}>
-                        
-                        
-                    </div> */}
-                </div>
-
-                <div className='upcomingWorkouts sections'>
-                    <div className='headers'>Upcoming Workouts</div>
-                    {/* <div style={styles.trainerHome.container.upcomingWorkouts.content}>
                         
                         
                     </div> */}
