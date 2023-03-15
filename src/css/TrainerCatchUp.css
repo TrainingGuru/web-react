@@ -20,6 +20,14 @@
 
 } */
 
+.up-icon {
+    color: green;
+}
+
+.down-icon {
+    color: red;
+}
+
 /* --------------------------- FitBitIcons Styles ----------------------------------*/
 
 .fitbit-icons {
@@ -56,9 +64,20 @@
     color: rgb(201, 99, 248);
 }
 
+.fitbit-content {
+    display: flex;
+    /* gap: 1rem; */
+}
+
+.fitbit-data {
+    display: flex;
+    flex-direction: column;
+}
+
 /* --------------------------- Steps Styles ----------------------------------*/
 
 .steps {
+    grid-row: span 2;
     height: 100%;
     overflow: hidden;
 }
@@ -99,7 +118,7 @@
 /* --------------------------- Intake Styles ----------------------------------*/
 
 .intake {
-    grid-row: span 2;
+    grid-row: span 3;
     grid-column: span 2;
     height: 100%;
     overflow: hidden;
@@ -122,6 +141,15 @@
 
 } */
 
+/* --------------------------- Feeback Summary Styles ----------------------------------*/
+.feedback-summary {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    height: 100%;
+}
+
+
 /* --------------------------- ProgressChart Styles ----------------------------------*/
 
 .progress-chart {
@@ -129,10 +157,14 @@
     grid-column: span 2;
 }
 
+.progress-chart-image {
+    width: 100%;
+}
+
 /* --------------------------- Goals Styles ----------------------------------*/
 
 .goals {
-    grid-row: span 2;
+    grid-row-start: 6;
     height: 100%;
     overflow: hidden;
 }
@@ -166,9 +198,9 @@
 
 /* --------------------------- Notes Styles ----------------------------------*/
 
-/* .catchup-notes {
-
-} */
+.catchup-notes {
+    grid-row: span 2;
+}
 
 .catchup-notes-textbox {
     width: 100%;
@@ -310,10 +342,6 @@
 
 .personal-bests-previous {
     font-weight: 700;
-}
-
-.personal-bests-icon {
-    color: green;
 }
 
 .personal-bests-new {

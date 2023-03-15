@@ -6,7 +6,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faChevronUp} from "@fortawesome/free-solid-svg-icons/faChevronUp";
+import {faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 import {faFire} from "@fortawesome/free-solid-svg-icons/faFire";
 import {faDroplet} from "@fortawesome/free-solid-svg-icons/faDroplet";
@@ -19,10 +19,11 @@ import {faCircleXmark} from "@fortawesome/free-solid-svg-icons/faCircleXmark";
 import { faMinus } from "@fortawesome/free-solid-svg-icons/faMinus";
 
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
-import { faLessThan } from '@fortawesome/free-solid-svg-icons';
+import { faLessThan, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { faGreaterThan } from '@fortawesome/free-solid-svg-icons';
 
 import barChart from '../barChart.png'
+import progressChart from '../progress-chart.png'
 
 import '../css/TrainerCatchUp.css';
 
@@ -385,28 +386,53 @@ export default class TrainerCatchUp extends Component
                     <div className='fitbit-icons'>
                         <div>
                             <FontAwesomeIcon className='fitbit-icon calBurnt' icon={faFire}/>
-                            <div>Calories Burnt</div>
-                            <div>4900kcl</div>
+                            <div className='fitbit-content'>
+                                <div className='fitbit-data'>
+                                    <div>Calories Burnt</div>
+                                    <div>4900kcl</div>
+                                </div>
+                                <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
+                            </div>
                         </div>
                         <div>
                             <FontAwesomeIcon className='fitbit-icon waterIntake' icon={faDroplet}/>
-                            <div>Water Intake</div>
-                            <div>13.5L</div>
+                            <div className='fitbit-content'>
+                                <div className='fitbit-data'>
+                                    <div>Water Intake</div>
+                                    <div>13.5L</div>
+                                </div>
+                                <FontAwesomeIcon className='down-icon' icon={faChevronDown}/>
+                            </div>
                         </div>
                         <div>
                             <FontAwesomeIcon className='fitbit-icon floorsClimbed' icon={faStairs}/>
-                            <div>Floors Climbed</div>
-                            <div>45 Floors</div>
+                            <div className='fitbit-content'>
+                                <div className='fitbit-data'>
+                                    <div>Floors Climbed</div>
+                                    <div>45 Floors</div>
+                                </div>
+                                <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
+                            </div>
                         </div>
                         <div>
                             <FontAwesomeIcon className='fitbit-icon activeMins' icon={faBolt}/>
-                            <div>Active Minutes</div>
-                            <div>420 Min</div>
+                            <div className='fitbit-content'>
+                                <div className='fitbit-data'>
+                                    <div>Active Minutes</div>
+                                    <div>420 Min</div>
+                                </div>
+                                <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
+                            </div>
                         </div>
                         <div>
                             <FontAwesomeIcon className='fitbit-icon distTravelled' icon={faRoad}/>
-                            <div>Distance Travelled</div>
-                            <div>27.1km</div>
+                            <div className='fitbit-content'>
+                                <div className='fitbit-data'>
+                                    <div>Distance Travelled</div>
+                                    <div>27.1km</div>
+                                </div>
+                                <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
+                            </div>
                         </div>
                     </div>
                     <div className='steps sections'>
@@ -443,17 +469,36 @@ export default class TrainerCatchUp extends Component
                                 
                             }
                     </div>
-                    <div className='progress-chart'>
-                        Weight Progress Graph
+                    <div className='feedback-summary'>
+                        <div>Week:</div>
+                        <div>1</div>
+                        <div>2</div>
+                        <div>3</div>
+                        <div>4</div>
+                        <div>5</div>
+                        <div>6</div>
+                        <div>7</div>
+
+                        <div></div>
+                        <FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/>
+                        <FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/>
+                        <FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/>
+                        <FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/>
+                        <FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/>
+                        <FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/>
+                        <FontAwesomeIcon className='dash' icon={faMinus}/>
+
                     </div>
-                    <div className='goals sections'>
-                        <div className='headers'>Goals</div>
-                            { this.state.goals?.map((goal) => {
-                                return <div className='goals-entry'>
-                                            {goal.Goal}
-                                        </div>
-                                }) 
-                            }
+                    <div className='progress-chart'>
+                        <img className='progress-chart-image'
+                            src={progressChart}
+                            alt="Progress Chart"/>
+                    </div>
+                    <div className='catchup-notes sections'>
+                        <div className='headers'>CatchUp Notes</div>
+                        <div className='catchup-notes-textbox'>
+                            <textarea></textarea>
+                        </div>
                     </div>
                     <div className='calorie-summary'>
                         <div>M</div>
@@ -473,11 +518,14 @@ export default class TrainerCatchUp extends Component
                         <FontAwesomeIcon className='dash' icon={faMinus}/>
 
                     </div>
-                    <div className='catchup-notes sections'>
-                        <div className='headers'>CatchUp Notes</div>
-                        <div className='catchup-notes-textbox'>
-                            <textarea></textarea>
-                        </div>
+                    <div className='goals sections'>
+                        <div className='headers'>Goals</div>
+                            { this.state.goals?.map((goal) => {
+                                return <div className='goals-entry'>
+                                            {goal.Goal}
+                                        </div>
+                                }) 
+                            }
                     </div>
                     <div className='schedule sections'>
                         {/* <FontAwesomeIcon icon={faLessThan}/> */}
@@ -547,7 +595,7 @@ export default class TrainerCatchUp extends Component
                                         <div className='personal-bests-entry-data'>
                                             <div className='personal-bests-exercise'>{PB.Exercise.Name}</div>
                                             <div className='personal-bests-previous'>{PB.LastPB}</div>
-                                            <FontAwesomeIcon className='personal-bests-icon' icon={faChevronUp}/>
+                                            <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
                                             <div className='personal-bests-new'>{PB.PersonalBest}</div>
                                         </div>
                                     </div>

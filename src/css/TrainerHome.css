@@ -117,6 +117,7 @@
 .activeToday-imgContainer {
     width: 50%;
     margin: 0;
+    padding: 5%;
 }
 
 .activeToday-pieChart {
