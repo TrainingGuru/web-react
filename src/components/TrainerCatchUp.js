@@ -41,6 +41,12 @@ export default class TrainerCatchUp extends Component
         }
     }
 
+    handleClientChange = (event) => {
+        this.setState({currentClientID: event.target.value});
+        this.setState({goals: this.getClientGoals(event.target.value)});
+        this.setState({intake: this.getClientIntake(event.target.value)});
+    }
+
     componentDidMount()
     {
         // --------------------- Clients -------------------
@@ -63,11 +69,7 @@ export default class TrainerCatchUp extends Component
 
         // -------------------------- select -------------------------
         const clientSelect = document.getElementById("clients");
-        clientSelect.addEventListener('change', function handleChange(event) {
-            this.setState({currentClientID: event.target.value});
-            this.setState({goals: this.getClientGoals(this.state.currentClientID)});
-            this.setState({intake: this.getClientIntake(this.state.currentClientID)});
-        })
+        clientSelect.addEventListener('change', this.handleClientChange);
 
         this.getClientGoals(this.state.currentClientID);
 
