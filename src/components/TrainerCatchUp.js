@@ -49,6 +49,113 @@ export default class TrainerCatchUp extends Component
 
     componentDidMount()
     {
+        // const script = document.createElement("script");
+
+        // script.src = "../js/TrainerCatchUpCarousel.js";
+        // script.async = true;
+
+        // document.body.appendChild(script);
+
+        const track = document.querySelector('.track');
+        const slides = Array.from(track.children);
+        const nextButton = document.querySelector('.button-right');
+        const prevButton = document.querySelector('.button-left');
+        const dotsNav = document.querySelector('.carousel-nav');
+        const dots = Array.from(dotsNav.children);
+
+        const slideWidth = slides[0].getBoundingClientRect().width;
+
+        const setSlidePosition = (slide, index) => {
+            slide.style.left = slideWidth * index + 'px';
+        }
+        slides.forEach(setSlidePosition);
+
+        // console.log(track.style.left);
+
+        const moveToSlide = (track, currentSlide, targetSlide) => {
+            track.style.transform = 'translateX(-' + targetSlide.style.left + ')';
+            currentSlide.classList.remove('current-slide');
+            targetSlide.classList.add('current-slide');
+        }
+
+        const updateDots = (currentDot, targetDot) => {
+            currentDot.classList.remove('nav-current-slide');
+            targetDot.classList.add('nav-current-slide');
+        }
+
+        const hideShowArrows = (slides, prevButton, nextButton, targetIndex) => {
+            if(targetIndex === 0) {
+                prevButton.classList.add('hidden');
+                nextButton.classList.remove('hidden');
+            } else if (targetIndex === slides.length-1) {
+                nextButton.classList.add('hidden');
+                prevButton.classList.remove('hidden');
+            } else {
+                nextButton.classList.remove('hidden');
+                prevButton.classList.remove('hidden');
+            }
+        }
+
+        const centerCarousel = () => {
+            const currentSlide = track.querySelector('.current-slide');
+            const nextSlide = currentSlide.nextElementSibling;
+
+            // console.log(nextSlide);
+            const currentDot = dotsNav.querySelector('.nav-current-slide');
+            const nextDot = currentDot.nextElementSibling;
+            const nextIndex = slides.findIndex(slide => slide === nextSlide);
+
+            moveToSlide(track, currentSlide, nextSlide);
+            updateDots(currentDot, nextDot);
+            hideShowArrows(slides, prevButton, nextButton, nextIndex);
+        }
+        centerCarousel();
+
+        nextButton.addEventListener('click', e => {
+            const currentSlide = track.querySelector('.current-slide');
+            const nextSlide = currentSlide.nextElementSibling;
+
+            // console.log(nextSlide);
+            const currentDot = dotsNav.querySelector('.nav-current-slide');
+            const nextDot = currentDot.nextElementSibling;
+            const nextIndex = slides.findIndex(slide => slide === nextSlide);
+
+            moveToSlide(track, currentSlide, nextSlide);
+            updateDots(currentDot, nextDot);
+            hideShowArrows(slides, prevButton, nextButton, nextIndex);
+        })
+
+        prevButton.addEventListener('click', e => {
+            const currentSlide = track.querySelector('.current-slide');
+            const prevSlide = currentSlide.previousElementSibling;
+            
+            const currentDot = dotsNav.querySelector('.nav-current-slide');
+            const prevDot = currentDot.previousElementSibling;
+
+            const prevIndex = slides.findIndex(slide => slide === prevSlide);
+
+            moveToSlide(track, currentSlide, prevSlide);
+            updateDots(currentDot, prevDot);
+            hideShowArrows(slides, prevButton, nextButton, prevIndex);
+        })
+
+        dotsNav.addEventListener('click', e => {
+            const targetDot = e.target.closest('button');
+
+            if (!targetDot) return;
+
+            const currentSlide = track.querySelector('.current-slide');
+            const currentDot = dotsNav.querySelector('.nav-current-slide');
+            const targetIndex = dots.findIndex(dot => dot === targetDot);
+
+            const targetSlide = slides[targetIndex];
+
+            moveToSlide(track, currentSlide, targetSlide);
+            updateDots(currentDot, targetDot);
+
+            hideShowArrows(slides, prevButton, nextButton, targetIndex);
+        })
+
         // --------------------- Clients -------------------
         axios.get(`https://traininggurubackend.onrender.com/Trainer/1/Clients`)
             .then(res =>
@@ -76,6 +183,8 @@ export default class TrainerCatchUp extends Component
         this.getClientIntake(this.state.currentClientID);
 
         this.getClientPBs(this.state.currentClientID)
+         
+        this.getSchedule();
 
     }
 
@@ -252,6 +361,8 @@ export default class TrainerCatchUp extends Component
         // console.log(JSON.parse(scheduleDays));
         // var schedule = JSON.parse(scheduleDays);
         this.setState({schedule: JSON.parse(scheduleDays)})
+        // console.log("hello")
+        // console.log(JSON.stringify(this.state.schedule));
     }
 
     render()
@@ -369,12 +480,12 @@ export default class TrainerCatchUp extends Component
                         <div className='headers'>Schedule</div>
                         {/* <FontAwesomeIcon icon={faGreaterThan}/> */}
                         <div className='carousel'>
-                            <div className='button-left'>
+                            <div className='button-left hidden'>
                                 <FontAwesomeIcon icon={faLessThan}/>
                             </div>
                             <div className='track-container'>
-                                <div className='track'>
-                                    <div className='slide'>
+                                <ul className='track'>
+                                    <li className='slide current-slide'>
                                         {   this.state.schedule.days?.slice(0,7).map((day) => {
                                                 return <div className='slide-content'>
                                                     <div>{day.day}</div>
@@ -388,8 +499,8 @@ export default class TrainerCatchUp extends Component
                                                 </div>
                                             })
                                         }
-                                    </div>
-                                    <div className='slide'>
+                                    </li>
+                                    <li className='slide'>
                                         {   this.state.schedule.days?.slice(7,14).map((day) => {
                                                 return <div className='slide-content'>
                                                     <div>{day.day}</div>
@@ -399,8 +510,8 @@ export default class TrainerCatchUp extends Component
                                                 </div>
                                             })
                                         }
-                                    </div>
-                                    <div className='slide'>
+                                    </li>
+                                    <li className='slide'>
                                         {   this.state.schedule.days?.slice(14,21).map((day) => {
                                                 return <div className='slide-content'>
                                                     <div>{day.day}</div>
@@ -410,16 +521,16 @@ export default class TrainerCatchUp extends Component
                                                 </div>
                                             })
                                         }
-                                    </div>
-                                </div>
+                                    </li>
+                                </ul>
                             </div>
                             <div className='button-right'>
                                 <FontAwesomeIcon icon={faGreaterThan}/>
                             </div>
                             <div className='carousel-nav'>
-                                <div className='carousel-nav-indicator'></div>
-                                <div className='carousel-nav-indicator'></div>
-                                <div className='carousel-nav-indicator'></div>
+                                <button className='carousel-nav-indicator nav-current-slide'></button>
+                                <button className='carousel-nav-indicator'></button>
+                                <button className='carousel-nav-indicator'></button>
                             </div>
                         </div>
                         

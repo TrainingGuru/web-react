@@ -1,9 +1,9 @@
 /* --------------------------- CatchUp Styles ----------------------------------*/
 
-.catchUp {
+/* .catchUp {
     height: 95vh;
     overflow: hidden;
-}
+} */
 
 .catchUp-container {
     display: grid;
@@ -183,49 +183,105 @@
     overflow: hidden;
 }
 
-/* .carousel {
-
+.carousel {
+    position: relative;
+    height: 50%;
+    width: 80%;
+    margin: 0 auto;
 }
 
 .button-left {
-
+    background: transparent;
+    border: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-100%);
+    cursor: pointer;
+    left: -25px;
 }
 
 .button-right {
-
+    background: transparent;
+    border: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-100%);
+    cursor: pointer;
+    right: -25px;
 }
 
 .track-container {
-
+    /* background: lightgreen; */
+    height: 80%;
+    position: relative;
+    overflow: hidden;
 }
 
 .track {
-
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    position: relative;
+    height: 100%;
+    transition: transform 250ms ease-in;
 }
 
 .slide {
-
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
 }
 
 .slide-content {
-
-}
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}   
 
 .popup {
-
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .hidden {
-
+    display: none;
 }
 
 .carousel-nav {
-
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0 10px;
 }
 
 .carousel-nav-indicator {
+    border: 0;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    margin: 0 12px;
+    cursor: pointer;
+}
 
-} */
+.nav-current-slide {
+    background: rgba(0, 0, 0, 0.75);
+}
 
 /* --------------------------- PersonalBests Styles ----------------------------------*/
 
