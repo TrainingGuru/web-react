@@ -82,13 +82,9 @@
     gap: 2rem;
 }
 
-/* .clients-add-icon {
-
+.clients-add-icon, .clients-edit-icon {
+    cursor: pointer;
 }
-
-.clients-edit-icon {
-
-} */
 
 /* --------------------------- ActiveToday Styles ----------------------------------*/
 
@@ -136,4 +132,52 @@
     height: 100%;
     overflow: scroll;
     overflow-x: hidden;
+    text-align: center;
+}
+
+.schedule-meeting-button {
+    background: rgb(207, 216, 220);
+    width: fit-content;
+    margin: auto;
+    padding: 1.5%;
+    border-radius: 20px;
+    color: black;
+    cursor: pointer;
+}
+
+.upcoming-meetings-content {
+    width: 80%;
+    margin: 5% auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 2rem;
+}
+
+.upcoming-meeting-entry {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* ------------------ Popup Styles ---------------------------- */
+.hidden {
+    display: none;
+}
+
+.schedule-meeting-popup {
+    position: absolute;
+    margin: 7.5%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.schedule-meeting-popup-close-button {
+    cursor: pointer;
 }

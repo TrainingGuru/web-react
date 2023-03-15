@@ -13,10 +13,7 @@ import {faChartSimple} from "@fortawesome/free-solid-svg-icons/faChartSimple";
 import {faGear} from "@fortawesome/free-solid-svg-icons/faGear";
 import {faPlus} from "@fortawesome/free-solid-svg-icons/faPlus";
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
-
-
-
-
+import {faX} from "@fortawesome/free-solid-svg-icons/faX";
 
 import '../css/TrainerHome.css';
 
@@ -26,6 +23,7 @@ export default class TrainerHome extends Component
     {
         super(props);
         this.state = {
+            isPopupClicked: false,
             clients: []
         }
     }
@@ -111,10 +109,34 @@ export default class TrainerHome extends Component
                 
                 <div className='upcoming-meetings sections'>
                     <div className='headers'>Upcoming Meetings</div>
-                    {/* <div style={styles.trainerHome.container.intake.content}>
-                        
-                        
-                    </div> */}
+                    <div className='schedule-meeting-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Schedule Meeting</div>
+                    <div className='upcoming-meetings-content'>
+                        <div className='upcoming-meeting-entry'>
+                            <div className='upcoming-meeting-name'>Adam Hobbs</div>
+                            <div className='upcoming-meeting-date'>18/03/2023</div>
+                            <div className='upcoming-meeting-time'>13:00</div>
+                        </div>
+                        <div className='upcoming-meeting-entry'>
+                            <div className='upcoming-meeting-name'>James Martin</div>
+                            <div className='upcoming-meeting-date'>18/03/2023</div>
+                            <div className='upcoming-meeting-time'>13:00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className={this.state.isPopupClicked ? 'schedule-meeting-popup sections' : 'hidden'}>
+                <div className='headers'>Schedule Meeting</div>
+                <FontAwesomeIcon onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} className='schedule-meeting-popup-close-button' icon={faX}/>
+                <div className='schedule-meeting-form'>
+                    <select id="clients">
+                        { this.state.clients?.map((client) => {
+                                return <option value={`${client.ClientID}`}>{client.Name}</option>
+                            })
+                        }
+                    </select>
+                    <div>Date</div>
+                    <div>Time</div>
+                    <button className='schedule-meeting-submit-button'>Submit</button>
                 </div>
             </div>
 
