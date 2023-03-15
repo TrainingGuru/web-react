@@ -6,6 +6,18 @@ import Nav from './Nav';
 
 import pieChart from '../pieChart.png'
 
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faThumbsUp} from "@fortawesome/free-solid-svg-icons/faThumbsUp";
+import {faThumbsDown} from "@fortawesome/free-solid-svg-icons/faThumbsDown";
+import {faChartSimple} from "@fortawesome/free-solid-svg-icons/faChartSimple";
+import {faGear} from "@fortawesome/free-solid-svg-icons/faGear";
+import {faPlus} from "@fortawesome/free-solid-svg-icons/faPlus";
+import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
+
+
+
+
+
 import '../css/TrainerHome.css';
 
 export default class TrainerHome extends Component
@@ -71,10 +83,17 @@ export default class TrainerHome extends Component
                     <div className='clients-content'>
                         { this.state.clients?.map((client) => {
                             return <div className='clients-content-entry'>
+                                <FontAwesomeIcon className='clients-content-recent-feedback thumbs-up' icon={faThumbsUp}/>
                                 <div className='clients-content-entry-name'>{client.Name}</div>
-                                <Link to="/CatchUp/" onClick={() => localStorage.currentID = client.ClientID}>{client.Name}</Link>
+                                <Link to="/CatchUp" className='clients-catch-up-link' onClick={() => localStorage.currentID = client.ClientID}><FontAwesomeIcon className='chart-icon' icon={faChartSimple}/></Link>
+                                <Link to="/Manage" className='clients-manage-link' onClick={() => localStorage.currentID = client.ClientID}><FontAwesomeIcon className='gear-icon' icon={faGear}/></Link>
+
                             </div>
                         }) }
+                    </div>
+                    <div className='clients-menu'>
+                        <FontAwesomeIcon className='clients-add-icon' icon={faPlus}/>
+                        <FontAwesomeIcon className='clients-edit-icon' icon={faPenToSquare}/>
                     </div>
                 </div>
                 <div className='activeToday'>

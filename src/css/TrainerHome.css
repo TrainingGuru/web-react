@@ -48,16 +48,47 @@
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    gap: 3rem;
+    width: 80%;
+    margin: 10% auto;
 }
 
 .clients-content-entry {
-    margin: 10% 5%;
+    /* margin: 10% 5%; */
+    display: grid;
+    grid-template-columns: 1fr 8fr 1fr 1fr;
 }
 
 .clients-content-entry-name {
-    margin: 5%;
+    /* margin: 5%; */
     font-weight: 700;
 }
+
+.chart-icon, .gear-icon {
+    color: black;
+}
+
+.thumbs-up {
+    color: green;
+}
+
+.thumbs-down {
+    color: red;
+}
+
+.clients-menu {
+    display: flex;
+    justify-content: flex-end;
+    gap: 2rem;
+}
+
+/* .clients-add-icon {
+
+}
+
+.clients-edit-icon {
+
+} */
 
 /* --------------------------- ActiveToday Styles ----------------------------------*/
 

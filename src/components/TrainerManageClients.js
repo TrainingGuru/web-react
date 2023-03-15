@@ -16,7 +16,7 @@ export default class TrainerManageClients extends Component
         super(props);
         this.state = {
             clients: [],
-            currentClientID: 1,
+            currentClientID: localStorage.currentID,
             goals: [],
             intake: []
         }
