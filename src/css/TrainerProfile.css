@@ -1,0 +1,177 @@
+/* --------------------------- ManageClients Styles ----------------------------------*/
+
+.trainer-profile {
+    height: 95vh;
+    overflow: hidden;
+}
+
+.trainer-profile-container {
+    display: grid;
+    gap: 2rem;
+    width: 90%;
+    margin: auto;
+    overflow: hidden;
+    height: 100%;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.profile-edit-icon {
+    cursor: pointer;
+    max-width: fit-content;
+}
+
+
+/* --------------------------- Profile styles ------------------------------------------- */
+
+.profile {
+    height: 100%;
+}
+
+.profile-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.profile-pic {
+    grid-row: span 2;
+}
+
+/* .profile-pic-image {
+
+} */
+
+.profile-name {
+    margin: 2%;
+}
+
+.profile-description {
+    grid-row: span 2;
+    margin: 2%;
+}
+
+/* --------------------------- Saved Workouts styles ------------------------------------------- */
+
+.saved-workouts {
+    height: 40%;
+}
+
+/* --------------------------- popup styles ------------------------------------------- */
+.hidden {
+    display: none;
+}
+
+.saved-workouts-popup {
+    position: absolute;
+    margin: 7.5%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.saved-workouts-popup-close-button {
+    cursor: pointer;
+}
+
+/* --------------------------- Create Workout styles ------------------------------------------- */
+
+.create-workout {
+    height: 100%;
+}
+
+.create-workout-card {
+    background-color: white;
+    height: 100%;
+    border-radius: 10px;
+    position: relative;
+}   
+
+.create-workout-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.create-workout-header-h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.create-workout-line {
+    border-bottom: 2px solid rgb(0 0 0 / 10%);
+}   
+
+.create-workout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.create-workout-form-item {
+    position: relative;
+    font-size: 1.3rem;
+    width: 100%;
+    margin: auto;
+    padding: 5% 0;
+    display: flex;
+    gap: 1rem;
+}
+
+/* .create-workout-item-label {
+
+} */
+
+.create-workout-item-input {
+    border: none;
+    outline: none;
+    background-color: rgb(245, 245, 245);
+    flex-grow: 1;
+    box-shadow: rgb(0 0 0 / 10%) 0px 2px 1px;
+}
+
+.create-workout-exercise {
+    position: relative;
+    font-size: 1.3rem;
+    width: 80%;
+    margin: auto;
+    padding: 5% 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 3fr;
+}
+
+/* .create-workout-exercise-label {
+
+} */
+
+.create-workout-exercise-input {
+    border: none;
+    outline: none;
+    background-color: rgb(245, 245, 245);
+    flex-grow: 1;
+    box-shadow: rgb(0 0 0 / 20%) 0px 2px 1px;
+}
+
+.create-workout-button {
+    display: block;
+    background-color: black;
+    color: white;
+    padding: 0.2rem 1rem;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    width: 20%;
+    margin: auto;
+}
+
+/* .create-workout-submit-button {
+
+} */
+
+
