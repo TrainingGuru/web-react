@@ -72,7 +72,7 @@ export default class TrainerHome extends Component
                         { this.state.clients?.map((client) => {
                             return <div className='clients-content-entry'>
                                 <div className='clients-content-entry-name'>{client.Name}</div>
-                                <Link to="/CatchUp">{client.Name}</Link>
+                                <Link to="/CatchUp/" onClick={() => localStorage.currentID = client.ClientID}>{client.Name}</Link>
                             </div>
                         }) }
                     </div>

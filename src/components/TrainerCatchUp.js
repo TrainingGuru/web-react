@@ -33,7 +33,7 @@ export default class TrainerCatchUp extends Component
         super(props);
         this.state = {
             clients: [],
-            currentClientID: 1,
+            currentClientID: localStorage.currentID,
             goals: [],
             intake: [],
             pbs: [],
@@ -42,6 +42,8 @@ export default class TrainerCatchUp extends Component
     }
 
     handleClientChange = (event) => {
+        // console.log(parseInt(event.target.value)+5);
+        localStorage.currentID = event.target.value;
         this.setState({currentClientID: event.target.value});
         this.setState({goals: this.getClientGoals(event.target.value)});
         this.setState({intake: this.getClientIntake(event.target.value)});
@@ -55,6 +57,8 @@ export default class TrainerCatchUp extends Component
         // script.async = true;
 
         // document.body.appendChild(script);
+
+        // console.log(this.props.match.params.id);
 
         const track = document.querySelector('.track');
         const slides = Array.from(track.children);
@@ -168,7 +172,7 @@ export default class TrainerCatchUp extends Component
                 else {
                     console.log("Data not Found!")
                 }
-            })
+            });
         // fetch(`https://traininggurubackend.onrender.com/Trainer/1/Clients`)
         //     .then((response) => response.json())
         //     // .then((actualData) => console.log(actualData[0]))
@@ -176,14 +180,14 @@ export default class TrainerCatchUp extends Component
 
         // -------------------------- select -------------------------
         const clientSelect = document.getElementById("clients");
+        // console.log(clientSelect);
+        clientSelect.value = "2";
+        console.log(clientSelect.value);
         clientSelect.addEventListener('change', this.handleClientChange);
 
         this.getClientGoals(this.state.currentClientID);
-
         this.getClientIntake(this.state.currentClientID);
-
         this.getClientPBs(this.state.currentClientID)
-         
         this.getSchedule();
 
     }
