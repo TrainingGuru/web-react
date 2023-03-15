@@ -47,7 +47,7 @@ export default class TrainerRegister extends Component
                             <button className='trainer-register-form-button' type="submit">Create Account</button>
                         </form>
                         <div className='trainer-register-footer'>
-                            Already have an account? <Link to="/login">Sign In</Link>
+                            Already have an account? <Link to="/Login">Sign In</Link>
                         </div>
                     </div>
                 </div>
