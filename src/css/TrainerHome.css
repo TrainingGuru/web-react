@@ -1,26 +1,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 /* --------------------------- TrainerHome Styles ----------------------------------*/
 
-.trainer-home {
-    height: 95vh;
-    overflow: hidden;
-}
-
 .trainer-home-container {
   display: grid;
   gap: 1.5rem;
   width: 95%;
   margin: auto;
-  overflow: hidden;
   height: 100%;
-  grid-template-columns: 1fr 1.5fr;
-  grid-template-rows: 1fr 1.75fr;
+  overflow: hidden;
 }
+
+/* --------------------------- Media Styles ----------------------------------*/
+
+@media (min-width: 800px) {
+    .trainer-home {
+        height: 95vh;
+        overflow: hidden;
+    }
+
+    .trainer-home-container {
+        grid-template-columns: 1fr 1.5fr;
+        grid-template-rows: 1fr 1.75fr;
+    }
+
+    .clients {
+        grid-row: span 2;
+    }
+}
+
 
 /* --------------------------- Clients Styles ----------------------------------*/
 
 .clients {
-    grid-row: span 2;
     height: 100%;
     overflow: scroll;
     color: rgb(0, 0, 0);
