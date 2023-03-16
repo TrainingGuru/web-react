@@ -39,12 +39,12 @@ export default class Nav extends Component
                         <Link to="/CatchUp" className='nav-a' onClick={() => this.setState({ isMenuClicked: !this.state.isMenuClicked })}>CLIENTS</Link>
                         <div className='nav-submenu'>
                             <div className='nav-submenu-link nav-button'>
-                                <FontAwesomeIcon className='nav-list-icon' icon={faClipboardList}/>
-                                <Link to="/Manage" className='nav-submenu-a' onClick={() => this.setState({ isMenuClicked: !this.state.isMenuClicked })}>MANAGE</Link>
-                            </div>
-                            <div className='nav-submenu-link nav-button'>
                                 <FontAwesomeIcon className='nav-list-icon' icon={faChartSimple}/>
                                 <Link to="/CatchUp" className='nav-submenu-a' onClick={() => this.setState({ isMenuClicked: !this.state.isMenuClicked })}>CATCH UP</Link>
+                            </div>
+                            <div className='nav-submenu-link nav-button'>
+                                <FontAwesomeIcon className='nav-list-icon' icon={faClipboardList}/>
+                                <Link to="/Manage" className='nav-submenu-a' onClick={() => this.setState({ isMenuClicked: !this.state.isMenuClicked })}>MANAGE</Link>
                             </div>
                         </div>
                     </div>
