@@ -4,8 +4,13 @@ import Nav from './Nav'
 
 import axios from 'axios';
 
+import {Link} from "react-router-dom";
+
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
+import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons/faRightFromBracket";
+import {faX} from "@fortawesome/free-solid-svg-icons/faX";
+import {faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 import '../css/TrainerProfile.css';
 
@@ -55,18 +60,29 @@ export default class TrainerProfile extends Component
                                 <div>1 to 1 personal trainer working out of DkIT Sport in Dundalk, County Louth. I am a certified Level 3 Personal Trainer and have a Level 7 Qualification in Nutrition.</div>
                                 <div>I am currently open to taking on clients on a 1 to 1 or Online Basis.</div>
                             </div>
-                            <div className='profile-edit-icon'>
-                                Edit
-                                <FontAwesomeIcon icon={faPenToSquare}/>
+                            <div className='profile-icons'>  
+                                <div className='profile-edit-icon'>
+                                    Edit
+                                    <FontAwesomeIcon icon={faPenToSquare}/>
+                                </div>
+                                <Link to="/Login" className='profile-logout-icon'>
+                                    Logout
+                                    <FontAwesomeIcon icon={faRightFromBracket}/>
+                                </Link>
                             </div>
+                            
                         </div>
                         <div className='saved-workouts sections'>
                             <div className='headers'>Saved Workouts</div>
-                            { this.state.workouts?.map((workout) => {
-                                return <div>
-                                        <div>{workout.WorkoutName}</div>
-                                    </div>
-                            }) }
+                            <div className='saved-workouts-content'>
+                                { this.state.workouts?.map((workout) => {
+                                    return <div className='saved-workouts-content-row'>
+                                            <div className='workout-name'>{workout.WorkoutName}</div>
+                                            <div>Number of exercises:</div>
+                                        </div>
+                                }) }
+                            </div>
+                            
 
                         </div>
                         <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} className='profile-edit-icon'>
@@ -117,8 +133,33 @@ export default class TrainerProfile extends Component
                     </div>
                 </div>
                 <div className={this.state.isPopupClicked ? 'saved-workouts-popup sections' : 'hidden'}>
-                    <div className='headers'>Saved Workouts</div>
-                    <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} className='saved-workouts-popup-close-button'>Close</div>
+                    <div className='popup-nav'>
+                        <div className='headers'>Saved Workouts</div>
+                        <FontAwesomeIcon onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} className='schedule-meeting-popup-close-button' icon={faX}/>
+                    </div>
+                    <table className='saved-workouts-popup-table'>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Workout Name</th>
+                                <th>Number of Exercises</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            { this.state.workouts?.map((workout) => {
+                                return <tr>
+                                    <td><FontAwesomeIcon className='expand-icon' icon={faChevronDown}/></td>
+                                    <td>{workout.WorkoutName}</td>
+                                    <td>6</td>
+                                    <td><button>Edit</button></td>
+                                    <td><button>Delete</button></td>
+                                </tr>
+                            }) }
+                        </tbody>
+                    </table>
+                    
                 </div>
             </div>
         )
