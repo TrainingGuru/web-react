@@ -125,17 +125,29 @@ export default class TrainerHome extends Component
                 </div>
             </div>
             <div className={this.state.isPopupClicked ? 'schedule-meeting-popup sections' : 'hidden'}>
-                <div className='headers'>Schedule Meeting</div>
-                <FontAwesomeIcon onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} className='schedule-meeting-popup-close-button' icon={faX}/>
+                <div className='popup-nav'>
+                    <div className='headers'>Schedule Meeting</div>
+                    <FontAwesomeIcon onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} className='schedule-meeting-popup-close-button' icon={faX}/>
+                </div>
                 <div className='schedule-meeting-form'>
-                    <select id="clients">
-                        { this.state.clients?.map((client) => {
-                                return <option value={`${client.ClientID}`}>{client.Name}</option>
-                            })
-                        }
-                    </select>
-                    <div>Date</div>
-                    <div>Time</div>
+                    <div className='schedule-meeting-form-item'>
+                        <div className='schedule-meeting-form-item-label'>Client Name:</div>
+                        <select id="clients">
+                            { this.state.clients?.map((client) => {
+                                    return <option value={`${client.ClientID}`}>{client.Name}</option>
+                                })
+                            }
+                        </select>
+                    </div>
+                    <div className='schedule-meeting-form-item'>
+                        <div className='schedule-meeting-form-item-label'>Date:</div>
+                        <input type="date" id="schedule-date" name="schedule-date"/>
+                    </div>
+                    <div className='schedule-meeting-form-item'>
+                        <div className='schedule-meeting-form-item-label'>Time:</div>
+                        <input type="time" id="schedule-time" name="schedule-time"/>
+                    </div>
+                    
                     <button className='schedule-meeting-submit-button'>Submit</button>
                 </div>
             </div>
