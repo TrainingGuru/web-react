@@ -448,16 +448,12 @@ export default class TrainerCatchUp extends Component
                         { <div className='intake-table'>
                                     <div>Calories</div>
                                     <div>{this.state.intake?.CaloriesIntake}/{this.state.intake?.TotalCalories}cal</div>
-                                    <FontAwesomeIcon className='intake-table-edit-icon' icon={faPenToSquare}/>
                                     <div>Protein</div>
                                     <div>{this.state.intake?.ProteinIntake}/{this.state.intake?.TotalProtein}g</div>
-                                    <FontAwesomeIcon className='intake-table-edit-icon' icon={faPenToSquare}/>
                                     <div>Fat</div>
                                     <div>{this.state.intake?.FatsIntake}/{this.state.intake?.TotalFats}g</div>
-                                    <FontAwesomeIcon className='intake-table-edit-icon' icon={faPenToSquare}/>
                                     <div>Carbs</div>
                                     <div>{this.state.intake?.CarbohydratesIntake}/{this.state.intake?.TotalCarbohydrates}g</div>
-                                    <FontAwesomeIcon className='intake-table-edit-icon' icon={faPenToSquare}/>
                                 </div>
                                 
                             }
