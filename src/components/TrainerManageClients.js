@@ -21,7 +21,10 @@ export default class TrainerManageClients extends Component
             currentClientID: localStorage.currentID,
             goals: [],
             intake: [],
-            isPopupClicked: false
+            isPopupClicked: false,
+            isWorkoutPopupClicked: false,
+            workouts: [],
+            workoutDetails: []
         }
     }
 
@@ -93,6 +96,22 @@ export default class TrainerManageClients extends Component
             {
                 console.log("Intake Data read!")
                 this.setState({intake: res.data})
+            }
+            else {
+                console.log("Data not Found!")
+            }
+        })
+    }
+
+    getWorkoutDetails(workoutId) {
+        // -------------------------- Workout Details ------------------------------
+        axios.get(`https://traininggurubackend.onrender.com/Client/Workout/${workoutId}`)
+        .then(res =>
+        {
+            if(res.data)
+            {
+                console.log("WorkoutDetails Data read!")
+                this.setState({workoutDetails: res.data})
             }
             else {
                 console.log("Data not Found!")
@@ -201,26 +220,37 @@ export default class TrainerManageClients extends Component
                         <div className='headers'>Assign Workout</div>
                         <FontAwesomeIcon onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} className='assign-workout-popup-close-button' icon={faX}/>
                     </div>
-                    <table className='assign-workout-popup-table'>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Workout Name</th>
-                                <th>Number of Exercises</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            { this.state.workouts?.map((workout) => {
-                                return <tr>
-                                    <td><FontAwesomeIcon className='expand-icon' icon={faChevronDown}/></td>
-                                    <td>{workout.WorkoutName}</td>
-                                    <td>6</td>
-                                    <td><button>Assign</button></td>
-                                </tr>
-                            }) }
-                        </tbody>
-                    </table>
+                    <div className='assign-workout-popup-table'>
+                        <div className='assign-workout-popup-table-header-row'>
+                            <div></div>
+                            <div>Workout Name</div>
+                            <div>Number of Exercises</div>
+                            <div></div>
+                        </div>
+                        { this.state.workouts?.map((workout) => {
+                            return <div className='assign-workout-popup-table-row'>
+                                <div><FontAwesomeIcon className='expand-icon' onClick={() => {
+                                        this.getWorkoutDetails(workout.id);
+                                        this.setState({ isWorkoutPopupClicked: !this.state.isWorkoutPopupClicked });
+                                    }} icon={faChevronDown}/></div>
+                                <div>{workout.WorkoutName}</div>
+                                <div>6</div>
+                                <div><button>Assign</button></div>
+                            </div>
+                        }) }
+                        <div className={this.state.isWorkoutPopupClicked ? 'workout-details-popup' : 'hidden'}>
+                            {this.state.workoutDetails?.map((workoutDetail) => {
+                                return <div>
+                                    {/* {workoutDetail.Exercises.forEach(exercise => {
+                                        return <div>
+                                            <div>{exercise.Name}</div>
+                                            <div>{exercise.Type}</div>
+                                        </div>
+                                    })} */}
+                                </div>
+                            })}
+                        </div>
+                    </div>
                     
                 </div>
             </div>

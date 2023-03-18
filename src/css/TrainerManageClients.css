@@ -162,23 +162,25 @@
 }
 
 .assign-workout-popup-table {
-    /* display: flex;
+    display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    align-items: center; */
+    /*align-items: center; */
     /* height: 50%; */
     width: 80%;
     margin: auto;
     text-align: center;
 }
 
-th, td {
+.assign-workout-popup-table-header-row, .assign-workout-popup-table-row {
     border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-evenly;
 }
 
-/* tr:nth-child(even) {
-    background-color: ;
-} */
+.assign-workout-popup-table-header-row > *, .assign-workout-popup-table-row > * {
+    width: 25%;
+}
 
 .assign-workout-popup-close-button {
     cursor: pointer;
@@ -192,4 +194,8 @@ th, td {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.expand-icon {
+    cursor: pointer;
 }
