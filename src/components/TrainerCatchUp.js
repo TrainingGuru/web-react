@@ -14,8 +14,8 @@ import {faStairs} from "@fortawesome/free-solid-svg-icons/faStairs";
 import {faBolt} from "@fortawesome/free-solid-svg-icons/faBolt";
 import {faRoad} from "@fortawesome/free-solid-svg-icons/faRoad";
 
-import {faCircleCheck} from "@fortawesome/free-solid-svg-icons/faCircleCheck";
-import {faCircleXmark} from "@fortawesome/free-solid-svg-icons/faCircleXmark";
+import {faCheck} from "@fortawesome/free-solid-svg-icons/faCheck";
+import {faX} from "@fortawesome/free-solid-svg-icons/faX";
 import { faMinus } from "@fortawesome/free-solid-svg-icons/faMinus";
 
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
@@ -496,21 +496,21 @@ export default class TrainerCatchUp extends Component
                         </div>
                     </div>
                     <div className='calorie-summary'>
-                        <div>M</div>
-                        <div>T</div>
-                        <div>W</div>
-                        <div>T</div>
-                        <div>F</div>
-                        <div>S</div>
-                        <div>S</div>
+                        <div className='calorie-summary-day'>M</div>
+                        <div className='calorie-summary-day'>T</div>
+                        <div className='calorie-summary-day'>W</div>
+                        <div className='calorie-summary-day'>T</div>
+                        <div className='calorie-summary-day'>F</div>
+                        <div className='calorie-summary-day'>S</div>
+                        <div className='calorie-summary-day'>S</div>
 
-                        <FontAwesomeIcon className='check' icon={faCircleCheck}/>
-                        <FontAwesomeIcon className='xmark' icon={faCircleXmark}/>
-                        <FontAwesomeIcon className='check' icon={faCircleCheck}/>
-                        <FontAwesomeIcon className='check' icon={faCircleCheck}/>
-                        <FontAwesomeIcon className='check' icon={faCircleCheck}/>
-                        <FontAwesomeIcon className='check' icon={faCircleCheck}/>
-                        <FontAwesomeIcon className='dash' icon={faMinus}/>
+                        <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
+                        <div className='calorie-summary-icon'><FontAwesomeIcon className='xmark' icon={faX}/></div>
+                        <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
+                        <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
+                        <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
+                        <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
+                        <div className='calorie-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
 
                     </div>
                     <div className='goals sections'>
