@@ -6,21 +6,21 @@
   gap: 1.5rem;
   width: 95%;
   margin: auto;
-  height: 100%;
-  overflow: hidden;
+  height: 80%;
+  /* overflow: hidden; */
 }
 
 /* --------------------------- Media Styles ----------------------------------*/
 
 @media (min-width: 800px) {
     .trainer-home {
-        height: 95vh;
-        overflow: hidden;
+        height: 100%;
+        /* overflow: hidden; */
     }
 
     .trainer-home-container {
         grid-template-columns: 1fr 1.5fr;
-        grid-template-rows: 1fr 1.75fr;
+        /* grid-template-rows: 1fr 1.75fr; */
     }
 
     .clients {

@@ -2,8 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 .manage-clients {
-    height: 95vh;
-    overflow: hidden;
+    height: 100%;
+    /* overflow: hidden; */
 }
 
 .manage-clients-container {
@@ -12,7 +12,7 @@
     width: 95%;
     margin: auto;
     overflow: hidden;
-    height: 100%;
+    /* height: 100%; */
     grid-template-columns: repeat(2, 1fr);
 }
 

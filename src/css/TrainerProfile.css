@@ -1,8 +1,8 @@
 /* --------------------------- ManageClients Styles ----------------------------------*/
 
 .trainer-profile {
-    height: 95vh;
-    overflow: hidden;
+    height: 100%;
+    /* overflow: hidden; */
 }
 
 .trainer-profile-container {
@@ -10,7 +10,7 @@
     gap: 2rem;
     width: 90%;
     margin: auto;
-    overflow: hidden;
+    /* overflow: hidden; */
     height: 100%;
     grid-template-columns: repeat(2, 1fr);
 }
@@ -156,7 +156,7 @@ th, td {
 .create-workout-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    /* gap: 1.5rem; */
 }
 
 .create-workout-form-item {
@@ -164,7 +164,7 @@ th, td {
     font-size: 1.3rem;
     width: 100%;
     margin: auto;
-    padding: 5% 0;
+    padding: 2% 0;
     display: flex;
     gap: 1rem;
 }
@@ -186,7 +186,7 @@ th, td {
     font-size: 1.3rem;
     width: 80%;
     margin: auto;
-    padding: 5% 0;
+    padding: 2% 0;
     display: grid;
     gap: 1rem;
     grid-template-columns: 1fr 3fr;
@@ -214,7 +214,7 @@ th, td {
     letter-spacing: 2px;
     text-align: center;
     width: 20%;
-    margin: auto;
+    margin: 0 auto 2%;
 }
 
 /* .create-workout-submit-button {
