@@ -439,7 +439,6 @@ export default class TrainerCatchUp extends Component
                             <div className='steps-text'>
                                 <div className='steps-label'>Goal:</div>
                                 <div className='steps-data'>10,000</div>
-                                <div><FontAwesomeIcon className='edit-icon' icon={faPenToSquare}/></div>
                             </div>
                         </div>
                     </div>
