@@ -153,7 +153,19 @@
     grid-column: span 4;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    height: 100%;
+    height: 80%;
+    font-size: 2em;
+}
+
+.feedback-summary-day {
+    padding: 20% 20% 0 20%;
+    height: fit-content;
+    text-align: center;
+}
+
+.feedback-summary-icon {
+    padding: 0 20% 20% 20%;
+    text-align: center;
 }
 
 
@@ -189,7 +201,7 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     height: 80%;
-    font-size: 3em;
+    font-size: 2em;
     /* padding: 5%; */
 }
 

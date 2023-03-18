@@ -465,23 +465,23 @@ export default class TrainerCatchUp extends Component
                             }
                     </div>
                     <div className='feedback-summary'>
-                        <div>Week:</div>
-                        <div>1</div>
-                        <div>2</div>
-                        <div>3</div>
-                        <div>4</div>
-                        <div>5</div>
-                        <div>6</div>
-                        <div>7</div>
+                        <div className='feedback-summary-day'>Week:</div>
+                        <div className='feedback-summary-day'>1</div>
+                        <div className='feedback-summary-day'>2</div>
+                        <div className='feedback-summary-day'>3</div>
+                        <div className='feedback-summary-day'>4</div>
+                        <div className='feedback-summary-day'>5</div>
+                        <div className='feedback-summary-day'>6</div>
+                        <div className='feedback-summary-day'>7</div>
 
-                        <div></div>
-                        <FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/>
-                        <FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/>
-                        <FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/>
-                        <FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/>
-                        <FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/>
-                        <FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/>
-                        <FontAwesomeIcon className='dash' icon={faMinus}/>
+                        <div className='feedback-summary-icon'></div>
+                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
+                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
+                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
+                        <div className='feedback-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
 
                     </div>
                     <div className='progress-chart'>
