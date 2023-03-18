@@ -174,6 +174,8 @@
 .progress-chart {
     grid-row: span 3;
     grid-column: span 4;
+    width: 70%;
+    margin: auto;
 }
 
 .progress-chart-image {
@@ -238,7 +240,7 @@
 .catchup-notes-textbox-container {
     width: 80%;
     /* height: 80%; */
-    margin: 2% auto;
+    margin: 5% auto;
 }
 
 .catchup-notes-textbox {
@@ -392,4 +394,81 @@
 
 .personal-bests-new {
     font-weight: 700;
+}
+
+/* --------------------------- Meeting form Styles ----------------------------------*/
+
+.catch-up-meeting-form {
+    width: 80%;
+    margin: 1% auto;
+    text-align: center;
+}
+
+.start-meeting-confirmation-popup {
+    position: absolute;
+    margin: 15%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center; */
+    align-items: center;
+}
+
+.submit-meeting-popup {
+    position: absolute;
+    margin: 15%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center; */
+    align-items: center;
+}
+
+.face-thinking {
+    color: yellow;
+}
+
+.meeting-buttons {
+    background-color: white;
+    padding: 0.5%;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.start-meeting-button {
+    color: green;
+    border: 2px solid green;
+}
+
+.start-meeting-button:hover {
+    color: white;
+    background-color: green;
+}
+
+.cancel-meeting-button {
+    color: red;
+    border: 2px solid red;
+}
+
+.cancel-meeting-button:hover {
+    color: white;
+    background-color: red;
+}
+
+.submit-meeting-button {
+    color: green;
+    border: 2px solid green;
+}
+
+.submit-meeting-button:hover {
+    color: white;
+    background-color: green;
 }

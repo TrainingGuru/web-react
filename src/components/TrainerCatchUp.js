@@ -39,7 +39,10 @@ export default class TrainerCatchUp extends Component
             intake: [],
             pbs: [],
             schedule: {},
-            isPopupClicked: false
+            isPopupClicked: false,
+            meetingStarted: false,
+            isStartMeetingPopupClicked: false,
+            isSubmitMeetingPopupClicked: false
         }
     }
 
@@ -606,6 +609,37 @@ export default class TrainerCatchUp extends Component
                             }
                         </div>
                     </div>
+                </div>
+                <div className='catch-up-meeting-form'>
+                    {this.state.meetingStarted ? 
+                        <div>
+                            <button className='cancel-meeting-button meeting-buttons' onClick={() => this.setState({ meetingStarted: !this.state.meetingStarted })}>Cancel</button>
+                            <button className='submit-meeting-button meeting-buttons' onClick={() => this.setState({ isSubmitMeetingPopupClicked: !this.state.isSubmitMeetingPopupClicked })}>Submit</button>
+                        </div> 
+                        : 
+                        <button className='start-meeting-button meeting-buttons' onClick={() => this.setState({ isStartMeetingPopupClicked: !this.state.isStartMeetingPopupClicked })}>Start Meeting</button>}
+                </div>
+                <div className={this.state.isStartMeetingPopupClicked ? 'start-meeting-confirmation-popup sections' : 'hidden'}>
+                    <div>Start Meeting With</div>
+                    <div>Jane McAvou</div>
+                    <button className='start-meeting-button meeting-buttons' onClick={() => {
+                        this.setState({ isStartMeetingPopupClicked: !this.state.isStartMeetingPopupClicked });
+                        this.setState({ meetingStarted: !this.state.meetingStarted });
+
+                    }}>Start Meeting</button>
+                </div>
+                <div className={this.state.isSubmitMeetingPopupClicked ? 'submit-meeting-popup sections' : 'hidden'}>
+                    <div className='submit-meeting-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+                    <div className='submit-meeting-icon'><FontAwesomeIcon className='face-thinking' icon={faThumbsDown}/></div>
+                    <div className='submit-meeting-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
+                    <div className='catchup-notes-textbox-container' id='catchup-notes-container'>
+                        <textarea className='catchup-notes-textbox' id='catchup-notes'></textarea>
+                    </div>
+                    <button className='submit-meeting-button meeting-buttons' onClick={() => {
+                        this.setState({ isSubmitMeetingPopupClicked: !this.state.isSubmitMeetingPopupClicked });
+                        this.setState({ meetingStarted: !this.state.meetingStarted });
+                        /* Submit details */
+                    }}>Submit</button>
                 </div>
             </div>
         )
