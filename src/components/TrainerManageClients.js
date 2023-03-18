@@ -6,6 +6,8 @@ import axios from 'axios';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
+import {faX} from "@fortawesome/free-solid-svg-icons/faX";
+import {faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 import '../css/TrainerManageClients.css';
 
@@ -18,7 +20,8 @@ export default class TrainerManageClients extends Component
             clients: [],
             currentClientID: localStorage.currentID,
             goals: [],
-            intake: []
+            intake: [],
+            isPopupClicked: false
         }
     }
 
@@ -37,6 +40,20 @@ export default class TrainerManageClients extends Component
                     console.log("Data not Found!")
                 }
             })
+
+        // --------------------- Workouts -------------------
+        axios.get(`https://traininggurubackend.onrender.com/Trainer/1/AllWorkouts`)
+        .then(res =>
+        {
+            if(res.data)
+            {
+                console.log("Saved Workouts Data read!")
+                this.setState({workouts: res.data})
+            }
+            else {
+                console.log("Data not Found!")
+            }
+        })
 
         // -------------------------- select -------------------------
         const clientSelect = document.getElementById("clients");
@@ -91,80 +108,15 @@ export default class TrainerManageClients extends Component
                 <div className='manage-clients-container'>
                     <div className='assign-workouts'>
                         <div className='assign-workouts-name'>
-                            <select id="clients">
+                            <select id="clients" className='clients-dropdown'>
                                 { this.state.clients?.map((client) => {
                                         return <option value={`${client.ClientID}`}>{client.Name}</option>
                                     })
                                 }
                             </select>
                         </div>
-                        <div className='assign-workouts-content'>
-                            <div className='assign-workouts-day'>Monday</div>
-                            <div>
-                                <select id="workouts">
-                                    <option value={"Unassigned"}>Unassigned</option>
-                                    <option value={"Legs"}>Legs Advanced</option>
-                                    <option value={"Chest"}>Chest Beginner</option>
-                                    <option value={"Cardio"}>Cardio Beginner</option>
-                                </select>
-                            </div>
-                            <div className='assign-workouts-day'>Tuesday</div>
-                            <div>
-                                <select id="workouts">
-                                    <option value={"Unassigned"}>Unassigned</option>
-                                    <option value={"Legs"}>Legs</option>
-                                    <option value={"Chest"}>Chest</option>
-                                    <option value={"Cardio"}>Cardio</option>
-                                </select>
-                            </div>
-                            <div className='assign-workouts-day'>Wednesday</div>
-                            <div>
-                                <select id="workouts">
-                                    <option value={"Unassigned"}>Unassigned</option>
-                                    <option value={"Legs"}>Legs</option>
-                                    <option value={"Chest"}>Chest</option>
-                                    <option value={"Cardio"}>Cardio</option>
-                                </select>
-                            </div>
-                            <div className='assign-workouts-day'>Thursday</div>
-                            <div>
-                                <select id="workouts">
-                                    <option value={"Unassigned"}>Unassigned</option>
-                                    <option value={"Legs"}>Legs</option>
-                                    <option value={"Chest"}>Chest</option>
-                                    <option value={"Cardio"}>Cardio</option>
-                                </select>
-                            </div>
-                            <div className='assign-workouts-day'>Friday</div>
-                            <div>
-                                <select id="workouts">
-                                    <option value={"Unassigned"}>Unassigned</option>
-                                    <option value={"Legs"}>Legs</option>
-                                    <option value={"Chest"}>Chest</option>
-                                    <option value={"Cardio"}>Cardio</option>
-                                </select>
-                            </div>
-                            <div className='assign-workouts-day'>Saturday</div>
-                            <div>
-                                <select id="workouts">
-                                    <option value={"Unassigned"}>Unassigned</option>
-                                    <option value={"Legs"}>Legs</option>
-                                    <option value={"Chest"}>Chest</option>
-                                    <option value={"Cardio"}>Cardio</option>
-                                </select>
-                            </div>
-                            <div className='assign-workouts-day'>Sunday</div>
-                            <div>
-                                <select id="workouts">
-                                    <option value={"Unassigned"}>Unassigned</option>
-                                    <option value={"Legs"}>Legs</option>
-                                    <option value={"Chest"}>Chest</option>
-                                    <option value={"Cardio"}>Cardio</option>
-                                </select>
-                            </div>
-                        </div>
                         <div>
-                            <select id="weeks">
+                            <select id="weeks" className='weeks-dropdown'>
                                 <option value={"Mon30Jan"}>w/c Mon 30 Jan</option>
                                 <option value={"Mon06Feb"}>w/c Mon 06 Feb</option>
                                 <option value={"Mon13Feb"}>w/c Mon 13 Feb</option>
@@ -172,6 +124,39 @@ export default class TrainerManageClients extends Component
                                 <option value={"Mon27Feb"}>w/c Mon 27 Feb</option>
                                 <option value={"Mon06Mar"}>w/c Mon 06 Mar</option>
                             </select>
+                        </div>
+                        <div className='assign-workouts-content'>
+                            <div className='assign-workouts-day assign-workout-content'>Monday</div>
+                            <div className='assign-workout-content assign-workout-button'>
+                                {/* if no workout assigned display assign button or else display workout name with edit icon beside it */}
+                                {/* toggle class name */}
+                                <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
+                            </div>
+                            <div className='assign-workouts-day assign-workout-content'>Tuesday</div>
+                            <div className='assign-workout-content assign-workout-name'>
+                                <div className='assign-workout-name-content'>Legs Advanced</div>
+                                <div className='assign-workout-name-content'><FontAwesomeIcon className='assign-workout-name-content-edit-icon' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} icon={faPenToSquare}/></div>
+                            </div>
+                            <div className='assign-workouts-day assign-workout-content'>Wednesday</div>
+                            <div className='assign-workout-content assign-workout-button'>
+                                <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
+                            </div>
+                            <div className='assign-workouts-day assign-workout-content'>Thursday</div>
+                            <div className='assign-workout-content assign-workout-button'>
+                                <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
+                            </div>
+                            <div className='assign-workouts-day assign-workout-content'>Friday</div>
+                            <div className='assign-workout-content assign-workout-button'>
+                                <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
+                            </div>
+                            <div className='assign-workouts-day assign-workout-content'>Saturday</div>
+                            <div className='assign-workout-content assign-workout-button'>
+                                <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
+                            </div>
+                            <div className='assign-workouts-day assign-workout-content'>Sunday</div>
+                            <div className='assign-workout-content assign-workout-button'>
+                                <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
+                            </div>
                         </div>
                     </div>
                     <div className='manage-clients-intake'>
@@ -209,6 +194,33 @@ export default class TrainerManageClients extends Component
                             <textarea></textarea>
                         </div>
                     </div>
+                    
+                </div>
+                <div className={this.state.isPopupClicked ? 'assign-workout-popup sections' : 'hidden'}>
+                    <div className='popup-nav'>
+                        <div className='headers'>Assign Workout</div>
+                        <FontAwesomeIcon onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} className='assign-workout-popup-close-button' icon={faX}/>
+                    </div>
+                    <table className='assign-workout-popup-table'>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Workout Name</th>
+                                <th>Number of Exercises</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            { this.state.workouts?.map((workout) => {
+                                return <tr>
+                                    <td><FontAwesomeIcon className='expand-icon' icon={faChevronDown}/></td>
+                                    <td>{workout.WorkoutName}</td>
+                                    <td>6</td>
+                                    <td><button>Assign</button></td>
+                                </tr>
+                            }) }
+                        </tbody>
+                    </table>
                     
                 </div>
             </div>
