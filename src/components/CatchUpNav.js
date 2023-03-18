@@ -41,7 +41,7 @@ export default class CatchUpNav extends Component
                         {this.state.isMenuClicked ? <FontAwesomeIcon className='burger-menu-icon' icon={faX}/> : <FontAwesomeIcon className='burger-menu-icon' icon={faBars}/>}
                     </div>
                     <div className='client-heading'>
-                        <select id="clients">
+                        <select id="clients" className='client-heading-dropdown'>
                             { this.state.clients?.map((client) => {
                                     return <option value={`${client.ClientID}`}>{client.Name}</option>
                                 })

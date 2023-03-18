@@ -41,9 +41,11 @@ html, body {
   width: 100%;
 }
 
-/* .client-heading {
-  
-} */
+.client-heading-dropdown {
+  border: none;
+  cursor: pointer;
+  font-size: 3em;
+}
 
 .nav-logo {
   display: block;
