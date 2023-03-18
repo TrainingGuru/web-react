@@ -217,6 +217,7 @@
     flex-direction: column;
     justify-content: center; */
     align-items: center;
+    font-size: 2em;
 }
 
 .schedule-meeting-form {
@@ -231,8 +232,13 @@
     width: 40%;
     display: flex;
     justify-content: space-evenly;
+    padding: 1%;
 }
 
 .schedule-meeting-popup-close-button {
     cursor: pointer;
+}
+
+.schedule-meeting-submit-button {
+    font-size: 1.1em;
 }

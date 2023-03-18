@@ -415,7 +415,41 @@
     /* display: flex;
     flex-direction: column;
     justify-content: center; */
-    align-items: center;
+    /* text-align: center; */
+    padding: 1%;
+}
+
+.start-meeting-confirmation-popup-content {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 2em;
+    width: 80%;
+    margin: 2% auto 0;
+    gap: 2rem;
+}
+
+.start-meeting-confirmation-name {
+    font-size: 2em;
+}
+
+.start-meeting-confirmation-text {
+    width: 30%;
+    font-size: 1.75em;
+}
+
+.start-meeting-confirmation-name {
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.start-meeting-confirmation-button {
+    text-align: center;
+}
+
+.confirmation-button {
+    font-size: 2em;
 }
 
 .submit-meeting-popup {
@@ -430,6 +464,17 @@
     flex-direction: column;
     justify-content: center; */
     align-items: center;
+    padding: 1%;
+}
+
+.submit-catchup-notes {
+    margin: 0 auto;
+}
+
+.submit-meeting-confirmation-button {
+    display: flex;
+    justify-content: center;
+    font-size: 2em;
 }
 
 .face-thinking {
@@ -441,6 +486,13 @@
     padding: 0.5%;
     transition-duration: 0.4s;
     cursor: pointer;
+}
+
+.cancel-submit-buttons-container {
+    display: flex;
+    justify-content: space-evenly;
+    width: 30%;
+    margin: auto;
 }
 
 .start-meeting-button {
@@ -466,9 +518,18 @@
 .submit-meeting-button {
     color: green;
     border: 2px solid green;
+
 }
 
 .submit-meeting-button:hover {
     color: white;
     background-color: green;
+}
+
+.submit-meeting-icons {
+    display: flex;
+    justify-content: space-evenly;
+    width: 50%;
+    margin: auto;
+    font-size: 4em;
 }
