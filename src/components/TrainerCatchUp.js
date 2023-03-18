@@ -192,7 +192,7 @@ export default class TrainerCatchUp extends Component
         this.getClientPBs(this.state.currentClientID)
         this.getSchedule();
 
-        this.setTextboxHeight('catchup-notes');
+        // this.setTextboxHeight('catchup-notes');
 
     }
 
@@ -244,9 +244,9 @@ export default class TrainerCatchUp extends Component
             })
     }
 
-    setTextboxHeight(fieldID) {
-        document.getElementById(fieldID).style.height = document.getElementById('catchup-notes-container').scrollHeight+'px';
-    }
+    // setTextboxHeight(fieldID) {
+    //     document.getElementById(fieldID).style.height = document.getElementById(fieldID).scrollHeight+'px';
+    // }
 
     getSchedule() {
         // console.log("-------------------------------------");
