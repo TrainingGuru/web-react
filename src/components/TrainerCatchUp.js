@@ -192,6 +192,8 @@ export default class TrainerCatchUp extends Component
         this.getClientPBs(this.state.currentClientID)
         this.getSchedule();
 
+        this.setTextboxHeight('catchup-notes');
+
     }
 
     getClientGoals(currentClientID) {
@@ -240,6 +242,10 @@ export default class TrainerCatchUp extends Component
                     console.log("Data not Found!")
                 }
             })
+    }
+
+    setTextboxHeight(fieldID) {
+        document.getElementById(fieldID).style.height = document.getElementById('catchup-notes-container').scrollHeight+'px';
     }
 
     getSchedule() {
@@ -485,8 +491,8 @@ export default class TrainerCatchUp extends Component
                     </div>
                     <div className='catchup-notes sections'>
                         <div className='headers'>CatchUp Notes</div>
-                        <div className='catchup-notes-textbox'>
-                            <textarea></textarea>
+                        <div className='catchup-notes-textbox-container' id='catchup-notes-container'>
+                            <textarea className='catchup-notes-textbox' id='catchup-notes'></textarea>
                         </div>
                     </div>
                     <div className='calorie-summary'>
