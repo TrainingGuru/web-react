@@ -38,7 +38,8 @@ export default class TrainerCatchUp extends Component
             goals: [],
             intake: [],
             pbs: [],
-            schedule: {}
+            schedule: {},
+            isPopupClicked: false
         }
     }
 
@@ -517,7 +518,7 @@ export default class TrainerCatchUp extends Component
                     </div>
                     <div className='schedule sections'>
                         {/* <FontAwesomeIcon icon={faLessThan}/> */}
-                        <div className='headers'>Schedule</div>
+                        <div className='headers schedule-header'>Schedule</div>
                         {/* <FontAwesomeIcon icon={faGreaterThan}/> */}
                         <div className='carousel'>
                             <div className='button-left hidden'>
@@ -531,11 +532,11 @@ export default class TrainerCatchUp extends Component
                                                     <div>{day.day}</div>
                                                     <div>{day.date}</div>
                                                     <div>Chest Beginner</div>
-                                                    {/* <div onClick={togglePopup}>notes</div>
-                                                    <div className={isPopupClicked ? 'popup' : 'hidden'}>
+                                                    <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>notes</div>
+                                                    <div className={this.state.isPopupClicked ? 'popup' : 'hidden'}>
                                                         This is the notes popup!
-                                                        <div onClick={togglePopup}>Close</div>
-                                                    </div> */}
+                                                        <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Close</div>
+                                                    </div>
                                                 </div>
                                             })
                                         }
@@ -546,7 +547,11 @@ export default class TrainerCatchUp extends Component
                                                     <div>{day.day}</div>
                                                     <div>{day.date}</div>
                                                     <div>Chest Beginner</div>
-                                                    {/* <div onClick={togglePopup}>notes</div> */}
+                                                    <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>notes</div>
+                                                    <div className={this.state.isPopupClicked ? 'popup' : 'hidden'}>
+                                                        This is the notes popup!
+                                                        <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Close</div>
+                                                    </div>
                                                 </div>
                                             })
                                         }
@@ -557,7 +562,11 @@ export default class TrainerCatchUp extends Component
                                                     <div>{day.day}</div>
                                                     <div>{day.date}</div>
                                                     <div>Chest Beginner</div>
-                                                    {/* <div onClick={togglePopup}>notes</div> */}
+                                                    <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>notes</div>
+                                                    <div className={this.state.isPopupClicked ? 'popup' : 'hidden'}>
+                                                        This is the notes popup!
+                                                        <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Close</div>
+                                                    </div>
                                                 </div>
                                             })
                                         }
