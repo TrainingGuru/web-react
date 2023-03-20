@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/web-react/static/css/main.08f2f7d2.css",
+    "main.js": "/web-react/static/js/main.6601b297.js",
+    "static/js/787.11c99fe1.chunk.js": "/web-react/static/js/787.11c99fe1.chunk.js",
+    "static/media/progress-chart.png": "/web-react/static/media/progress-chart.acfc7af1da9d254fa41c.png",
+    "index.html": "/web-react/index.html",
+    "main.08f2f7d2.css.map": "/web-react/static/css/main.08f2f7d2.css.map",
+    "main.6601b297.js.map": "/web-react/static/js/main.6601b297.js.map",
+    "787.11c99fe1.chunk.js.map": "/web-react/static/js/787.11c99fe1.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.08f2f7d2.css",
+    "static/js/main.6601b297.js"
+  ]
+}
