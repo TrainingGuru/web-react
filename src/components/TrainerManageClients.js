@@ -214,9 +214,8 @@ export default class TrainerManageClients extends Component
                                 <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
                             </div>
                             <div className='assign-workouts-day assign-workout-content'>Thursday</div>
-                            <div className='assign-workout-content assign-workout-name'>
-                                <div className='assign-workout-name-content'>Arms</div>
-                                <div className='assign-workout-name-content'><FontAwesomeIcon className='assign-workout-name-content-edit-icon' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} icon={faPenToSquare}/></div>
+                            <div className='assign-workout-content assign-workout-button'>
+                                <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
                             </div>
                             <div className='assign-workouts-day assign-workout-content'>Friday</div>
                             <div className='assign-workout-content assign-workout-button'>
