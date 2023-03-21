@@ -24,8 +24,21 @@ export default class TrainerManageClients extends Component
             isPopupClicked: false,
             isWorkoutPopupClicked: false,
             workouts: [],
-            workoutDetails: []
+            workoutDetails: [],
+            stepGoal: 0,
+            clientDescription: ""
         }
+    }
+
+    handleClientChange = (event) => {
+        // console.log(parseInt(event.target.value)+5);
+        localStorage.currentID = event.target.value;
+        this.setState({currentClientID: event.target.value});
+        this.setState({goals: this.getClientGoals(event.target.value)});
+        this.setState({intake: this.getClientIntake(event.target.value)});
+        this.setState({stepGoal: this.getStepGoal(event.target.value)});
+        this.setState({clientDescription: this.getClientDescription(event.target.value)});
+
     }
 
     componentDidMount()
@@ -60,15 +73,21 @@ export default class TrainerManageClients extends Component
 
         // -------------------------- select -------------------------
         const clientSelect = document.getElementById("clients");
-        clientSelect.addEventListener('change', function handleChange(event) {
-            this.setState({currentClientID: event.target.value});
-            this.setState({goals: this.getClientGoals(this.state.currentClientID)});
-            this.setState({intake: this.getClientIntake(this.state.currentClientID)});
-        })
+        // clientSelect.addEventListener('change', function handleChange(event) {
+        //     this.setState({currentClientID: event.target.value});
+        //     this.setState({goals: this.getClientGoals(event.target.value)});
+        //     this.setState({intake: this.getClientIntake(event.target.value)});
+        // })
+
+        clientSelect.addEventListener('change', this.handleClientChange);
 
         this.getClientGoals(this.state.currentClientID);
 
         this.getClientIntake(this.state.currentClientID);
+
+        // this.getStepGoal(this.state.currentClientID);
+
+        this.getClientDescription(this.state.currentClientID);
     }
 
     getClientGoals(currentClientID) {
@@ -103,6 +122,38 @@ export default class TrainerManageClients extends Component
         })
     }
 
+    getStepGoal(currentClientID) {
+        // -------------------------- Step Goal ------------------------------
+        axios.get(`https://traininggurubackend.onrender.com/Client/${currentClientID}/StepGoal`)
+        .then(res =>
+        {
+            if(res.data)
+            {
+                console.log("Step Goal Data read!")
+                this.setState({stepGoal: res.data})
+            }
+            else {
+                console.log("Data not Found!")
+            }
+        })
+    }
+
+    getClientDescription(currentClientID) {
+        // -------------------------- Client Description ------------------------------
+        axios.get(`https://traininggurubackend.onrender.com/Client/${currentClientID}`)
+        .then(res =>
+        {
+            if(res.data)
+            {
+                console.log("Client Description Data read!")
+                this.setState({clientDescription: res.data.Notes})
+            }
+            else {
+                console.log("Data not Found!")
+            }
+        })
+    }
+
     getWorkoutDetails(workoutId) {
         // -------------------------- Workout Details ------------------------------
         axios.get(`https://traininggurubackend.onrender.com/Client/Workout/${workoutId}`)
@@ -118,6 +169,7 @@ export default class TrainerManageClients extends Component
             }
         })
     }
+
 
     render()
     {
@@ -199,10 +251,12 @@ export default class TrainerManageClients extends Component
                     </div>
                     <div className='manage-clients-steps sections'>
                         <div className='headers'>Steps Goal</div>
+                        <div>{this.state.stepGoal}</div>
                         <FontAwesomeIcon className='manage-clients-edit-icon' icon={faPenToSquare}/>
                     </div>
                     <div className='client-description sections'>
                         <div className='headers'>Client Description</div>
+                        <div>{this.state.clientDescription}</div>
                         <div className='client-description-content'>
                             <FontAwesomeIcon className='manage-edit-icon' icon={faPenToSquare}/>
                         </div>

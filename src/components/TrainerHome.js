@@ -16,6 +16,7 @@ import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import {faX} from "@fortawesome/free-solid-svg-icons/faX";
 
 import '../css/TrainerHome.css';
+// import { scheduler } from 'timers/promises';
 
 export default class TrainerHome extends Component
 {
@@ -24,7 +25,12 @@ export default class TrainerHome extends Component
         super(props);
         this.state = {
             isPopupClicked: false,
-            clients: []
+            clients: [],
+            meetings: [],
+            clientValue: "",
+            dateValue: "",
+            timeValue: ""
+
         }
     }
 
@@ -46,9 +52,74 @@ export default class TrainerHome extends Component
         //     .then((response) => response.json())
         //     // .then((actualData) => console.log(actualData[0]))
         //     .then((actualData) => this.setState({clients: actualData}));
+
+        // ------------------- Upcoming Meetings -----------------------------------
+        axios.get(`https://traininggurubackend.onrender.com/Trainer/1/UpcomingMeetings`)
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("Meeting Data read!")
+                    this.setState({meetings: res.data})
+                    // console.log(res.data)
+                }
+                else {
+                    console.log("Data not Found!")
+                }
+            })
+
+        
     
     }
 
+    getUpcomingMeetings() {
+        // ------------------- Upcoming Meetings -----------------------------------
+        axios.get(`https://traininggurubackend.onrender.com/Trainer/1/UpcomingMeetings`)
+        .then(res =>
+        {
+            if(res.data)
+            {
+                console.log("Meeting Data read!")
+                this.setState({meetings: res.data})
+                // console.log(res.data)
+            }
+            else {
+                console.log("Data not Found!")
+            }
+        })
+    }
+    
+
+    handleSubmit = () => {
+        this.setState({clientValue: document.getElementById("clients").value});
+        this.setState({dateValue: document.getElementById("schedule-date").value});
+        this.setState({timeValue: document.getElementById("schedule-time").value});
+
+        this.setState({ isPopupClicked: !this.state.isPopupClicked });
+        this.getUpcomingMeetings();
+
+        console.log(document.getElementById("clients").value);
+        console.log(document.getElementById("schedule-date").value);
+        console.log(document.getElementById("schedule-time").value);
+
+        // ------------------- Schedule Meeting -----------------------------------
+        axios.post(`https://traininggurubackend.onrender.com/CatchUp/${this.state.clientValue}`, {
+                "Date": this.state.dateValue,
+                "Time": this.state.timeValue
+            })
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("Meeting Scheduled!")
+                    // this.setState({meetings: res.data})
+                    // console.log(res.data)
+                }
+                else {
+                    console.log("Data not Found!")
+                }
+            })
+    }
     
 
     // const [clientIntakes, setIntakeData] = useState(null);
@@ -82,6 +153,8 @@ export default class TrainerHome extends Component
                         { this.state.clients?.map((client) => {
                             return <div className='clients-content-entry'>
                                 <FontAwesomeIcon className='clients-content-recent-feedback thumbs-up' icon={faThumbsUp}/>
+                                {/* <div className='clients-content-recent-feedback thumbs-up'>{client.CatchUps["Rating"]}</div> */}
+                                {/* { console.log(client.CatchUps) } */}
                                 <div className='clients-content-entry-name'>{client.Name}</div>
                                 <Link to="/CatchUp" className='clients-catch-up-link' onClick={() => localStorage.currentID = client.ClientID}><FontAwesomeIcon className='chart-icon' icon={faChartSimple}/></Link>
                                 <Link to="/Manage" className='clients-manage-link' onClick={() => localStorage.currentID = client.ClientID}><FontAwesomeIcon className='gear-icon' icon={faGear}/></Link>
@@ -111,16 +184,13 @@ export default class TrainerHome extends Component
                     <div className='headers'>Upcoming Meetings</div>
                     <div className='schedule-meeting-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Schedule Meeting</div>
                     <div className='upcoming-meetings-content'>
-                        <div className='upcoming-meeting-entry'>
-                            <div className='upcoming-meeting-name'>Adam Hobbs</div>
-                            <div className='upcoming-meeting-date'>18/03/2023</div>
-                            <div className='upcoming-meeting-time'>13:00</div>
-                        </div>
-                        <div className='upcoming-meeting-entry'>
-                            <div className='upcoming-meeting-name'>James Martin</div>
-                            <div className='upcoming-meeting-date'>18/03/2023</div>
-                            <div className='upcoming-meeting-time'>13:00</div>
-                        </div>
+                        { this.state.meetings?.map((meeting) => {
+                            return <div className='upcoming-meeting-entry'>
+                                <div className='upcoming-meeting-name'>{meeting.Client.Name}</div>
+                                <div className='upcoming-meeting-date'>{meeting.Date}</div>
+                                <div className='upcoming-meeting-time'>{meeting.Time}</div>
+                            </div>
+                        }) }
                     </div>
                 </div>
             </div>
@@ -148,7 +218,7 @@ export default class TrainerHome extends Component
                         <input type="time" id="schedule-time" name="schedule-time"/>
                     </div>
                     
-                    <button className='schedule-meeting-submit-button'>Submit</button>
+                    <button className='schedule-meeting-submit-button' onClick={this.handleSubmit}>Submit</button>
                 </div>
             </div>
 

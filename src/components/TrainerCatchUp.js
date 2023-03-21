@@ -622,7 +622,7 @@ export default class TrainerCatchUp extends Component
                 <div className={this.state.isStartMeetingPopupClicked ? 'start-meeting-confirmation-popup sections' : 'hidden'}>
                     <div className='start-meeting-confirmation-popup-content'>
                         <div className='start-meeting-confirmation-text'>Start Meeting With</div>
-                        <div className='start-meeting-confirmation-name'>Jane McAvoy</div>
+                        <div className='start-meeting-confirmation-name'>{ document.getElementById("clients").value }</div>
                     </div>
                     <div className='start-meeting-confirmation-button'><button className='start-meeting-button meeting-buttons confirmation-button' onClick={() => {
                         this.setState({ isStartMeetingPopupClicked: !this.state.isStartMeetingPopupClicked });

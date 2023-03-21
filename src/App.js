@@ -1,6 +1,6 @@
 import './App.css';
 import React, { Component } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 
 import TrainerHome from './components/TrainerHome';
 import TrainerCatchUp from './components/TrainerCatchUp';
@@ -14,7 +14,7 @@ export default class App extends Component
   render()
   {
     return (
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route exact path="/" element={<TrainerHome />} />
           <Route exact path="/CatchUp" element={<TrainerCatchUp />} />
@@ -23,7 +23,7 @@ export default class App extends Component
           <Route exact path="/Login" element={<TrainerLogin />} />
           <Route exact path="/Register" element={<TrainerRegister />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     )
   }
 }
