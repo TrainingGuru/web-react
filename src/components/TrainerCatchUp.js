@@ -197,6 +197,8 @@ export default class TrainerCatchUp extends Component
 
         // this.setTextboxHeight('catchup-notes');
 
+        this.fitbitData();
+
     }
 
     getClientGoals(currentClientID) {
@@ -380,6 +382,169 @@ export default class TrainerCatchUp extends Component
         // console.log(JSON.stringify(this.state.schedule));
     }
 
+    fitbitData(){
+    let myHeaders = new Headers();
+    myHeaders.append("Authorization", "Basic MjM5OTRMOjhjNGJiZjE1M2M4OTRiMjIyM2ZmODBmMGRiZmI3YmEy");
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    myHeaders.append("Cookie", "JSESSIONID=0E7DFB9921C5414C1BFE58216ED818AD.fitbit1; fct=9db8e060df1748829e7113b43979bf81");
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    
+    // const [fitbitResult, setResult] = useState(null);
+
+    // const [accessToken, setAccessToken] = useState(null);
+    // const [refreshToken, setRefreshToken] = useState("1916ed6ab1c9f415ef76ecc1c8ef5cf44563416b6f510f0e7fc3b56b0a650126");
+
+    // fetch(`https://api.fitbit.com/oauth2/token?grant_type=refresh_token&refresh_token=`+refreshToken, requestOptions)
+    //     .then(response => response.json())
+    //     // .then(result => console.log(result))
+    //     .then(result => {
+    //         setAccessToken(result["access_token"]);
+    //         setRefreshToken(result["refresh_token"]);
+    //     })
+    //     // .then(result => )
+    //     .catch(error => console.log('error', error));
+
+    let accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzk5NEwiLCJzdWIiOiI5VDNRVkQiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJzZXQgcm94eSBycHJvIHJudXQgcnNsZSByYWN0IHJyZXMgcmxvYyByd2VpIHJociBydGVtIiwiZXhwIjoxNjc5NDMxMTg0LCJpYXQiOjE2Nzk0MDIzODR9.uactQfqAOdHORJd_eIApsuJmGCBzENTT8TxFcibHJYo";
+
+    // console.log("Access: " + accessToken);
+    // console.log("Refresh: " + refreshToken);
+
+    // workout dates for last 7 days 
+    // function Last7Days () {
+    //     var result = [];
+    //     for (var i=0; i<7; i++) {
+    //         var d = new Date();
+    //         d.setDate(d.getDate() - i);
+    //         result.push( d ); //.formatDate("YYYY-MM-DD")
+    //     }
+
+    //     // console.log(result)
+
+    //     return(result.join(','));
+    // }
+
+    // var result = Last7Days();
+
+    var sevenDaysAgo = moment().subtract(7, 'days').format();
+    sevenDaysAgo = sevenDaysAgo.substring(0, 10);
+    var today1 = moment().format();
+    today1 = today1.substring(0, 10);
+
+    // console.log("7:" + sevenDaysAgo)
+
+    
+    const getFitbitData = async () => {
+        //     let accessToken = await getAccessToken(authorizationCode);
+        //     // const date =  new Date(2023, 0, 29);
+        //     // const today = date.toISOString().substring(0, 10);			// may need
+            
+            
+            // Steps data 
+            const stepsResponse = await fetch(`https://api.fitbit.com/1/user/-/activities/steps/date/${sevenDaysAgo}/${today1}.json`, {
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken
+                }
+                
+            })
+            // calories
+            const calorieResponse = await fetch(`https://api.fitbit.com/1/user/-/activities/calories/date/${sevenDaysAgo}/${today1}.json`, {
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
+            // water
+            const waterResponse = await fetch(`https://api.fitbit.com/1/user/-/foods/log/water/date/2023-02-03.json`, {
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
+            // floors 
+            const floorsResponse = await fetch(`https://api.fitbit.com/1/user/-/activities/floors/date/${sevenDaysAgo}/${today1}.json`, {
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
+            // active mintues 
+            const activeminsResponse = await fetch(`https://api.fitbit.com/1/user/-/activities/minutesLightlyActive/date/${sevenDaysAgo}/${today1}.json`, {
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
+                
+            // distance travelled
+            const distanceResponse = await fetch(`https://api.fitbit.com/1/user/-/activities/distance/date/${sevenDaysAgo}/${today1}.json`, {
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
+            
+            
+            
+            // Wait for all responses to finish
+            const [stepsData, calorieData, waterData,floorsData, activeminsData, distanceData] = await Promise.all([stepsResponse.json(), calorieResponse.json(), waterResponse.json(),floorsResponse.json(), activeminsResponse.json(),distanceResponse.json()]);
+            if (stepsResponse.status === 200 && calorieResponse.status === 200 && waterResponse.status === 200 && floorsResponse.status === 200 && activeminsResponse.status === 200 && distanceResponse.status === 200) {
+                
+                // console.log("Cal first value: " +JSON.stringify(calorieData["activities-calories"][0].value))
+                
+                // Get the avg calories
+                var avgCals = 0;
+                for (var i=0; i<7; i++) {
+                    // console.log(i+":" + calorieData["activities-calories"][i].value);
+                    avgCals = avgCals + parseFloat(calorieData["activities-calories"][i].value);
+                }
+                // console.log("totCals: " + avgCals)
+                avgCals = avgCals/7.0;
+                
+                // Get the avg floors climbed
+                var avgFloors = 0;
+                for (var i=0; i<7; i++) {
+                    avgFloors += parseFloat(floorsData["activities-floors"][i].value);
+                }
+                avgFloors = avgFloors/7.0;
+                
+                // Get the avg active minutes
+                var avgMins = 0;
+                for (var i=0; i<7; i++) {
+                    avgMins += parseFloat(activeminsData["activities-minutesLightlyActive"][i].value);
+                }
+                avgMins = avgMins/7.0;
+                
+                // Get the avg distance
+                var avgDist = 0;
+                for (var i=0; i<7; i++) {
+                    avgDist += parseFloat(distanceData["activities-distance"][i].value);
+                }
+                avgDist = avgDist/7.0;
+                
+                // Get water data
+                var water = waterData.summary.water;
+                
+                // Get Steps Data
+                // will return an array of data and value pairs
+                
+                // console.log("avgCals=" + avgCals.toFixed(2) + ", avgDist="+avgDist.toFixed(2)+",avgFloors=" +avgFloors.toFixed(2)+", avgMins="+ avgMins.toFixed(2)+", water="+ water.toFixed(2));
+    
+                return avgCals, avgDist, avgFloors, avgMins, water, stepsData;
+            } else {
+                // console.log(stepsResponse.status+", "+ calorieResponse.status+", "+ waterResponse.status +", "+ floorsResponse.status+", "+activeminsResponse.status +", "+ distanceResponse.status)
+                // console.log("HEELOO")
+                return {value: false};
+            }
+        };
+    
+        
+        // const data = getFitbitData();
+        // console.log(data);
+    
+    
+    }
+
     render()
     {
         return (
@@ -392,9 +557,9 @@ export default class TrainerCatchUp extends Component
                             <div className='fitbit-content'>
                                 <div className='fitbit-data'>
                                     <div>Calories Burnt</div>
-                                    <div>4900kcl</div>
+                                    <div>1500kcl</div>
                                 </div>
-                                <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
+                                <FontAwesomeIcon className='down-icon' icon={faChevronDown}/>
                             </div>
                         </div>
                         <div>
@@ -402,7 +567,7 @@ export default class TrainerCatchUp extends Component
                             <div className='fitbit-content'>
                                 <div className='fitbit-data'>
                                     <div>Water Intake</div>
-                                    <div>13.5L</div>
+                                    <div>1.5L</div>
                                 </div>
                                 <FontAwesomeIcon className='down-icon' icon={faChevronDown}/>
                             </div>
@@ -412,7 +577,7 @@ export default class TrainerCatchUp extends Component
                             <div className='fitbit-content'>
                                 <div className='fitbit-data'>
                                     <div>Floors Climbed</div>
-                                    <div>45 Floors</div>
+                                    <div>5 Floors</div>
                                 </div>
                                 <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
                             </div>
@@ -422,7 +587,7 @@ export default class TrainerCatchUp extends Component
                             <div className='fitbit-content'>
                                 <div className='fitbit-data'>
                                     <div>Active Minutes</div>
-                                    <div>420 Min</div>
+                                    <div>40 Min</div>
                                 </div>
                                 <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
                             </div>
@@ -432,7 +597,7 @@ export default class TrainerCatchUp extends Component
                             <div className='fitbit-content'>
                                 <div className='fitbit-data'>
                                     <div>Distance Travelled</div>
-                                    <div>27.1km</div>
+                                    <div>7.1km</div>
                                 </div>
                                 <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
                             </div>
@@ -448,7 +613,7 @@ export default class TrainerCatchUp extends Component
                             </div>
                             <div className='steps-text'>
                                 <div className='steps-label'>Goal:</div>
-                                <div className='steps-data'>10,000</div>
+                                <div className='steps-data'>7,000</div>
                             </div>
                         </div>
                     </div>
@@ -511,8 +676,8 @@ export default class TrainerCatchUp extends Component
                         <div className='calorie-summary-icon'><FontAwesomeIcon className='xmark' icon={faX}/></div>
                         <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
                         <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
-                        <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
-                        <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
+                        <div className='calorie-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
+                        <div className='calorie-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
                         <div className='calorie-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
 
                     </div>
@@ -555,12 +720,8 @@ export default class TrainerCatchUp extends Component
                                                 return <div className='slide-content'>
                                                     <div>{day.day}</div>
                                                     <div>{day.date}</div>
-                                                    <div>Chest Beginner</div>
-                                                    <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>notes</div>
-                                                    <div className={this.state.isPopupClicked ? 'popup' : 'hidden'}>
-                                                        This is the notes popup!
-                                                        <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Close</div>
-                                                    </div>
+                                                    { day.day === "Tue" ? <div>Legs Work</div> : <div></div>}
+                                                    { day.day === "Tue" ? <div>notes</div> : <div></div>}
                                                 </div>
                                             })
                                         }
@@ -622,7 +783,8 @@ export default class TrainerCatchUp extends Component
                 <div className={this.state.isStartMeetingPopupClicked ? 'start-meeting-confirmation-popup sections' : 'hidden'}>
                     <div className='start-meeting-confirmation-popup-content'>
                         <div className='start-meeting-confirmation-text'>Start Meeting With</div>
-                        <div className='start-meeting-confirmation-name'>{ document.getElementById("clients").value }</div>
+                        {/* <div className='start-meeting-confirmation-name'>{ document.getElementById("clients").value }</div> */}
+                        <div className='start-meeting-confirmation-name'>Robert McAteer</div>
                     </div>
                     <div className='start-meeting-confirmation-button'><button className='start-meeting-button meeting-buttons confirmation-button' onClick={() => {
                         this.setState({ isStartMeetingPopupClicked: !this.state.isStartMeetingPopupClicked });

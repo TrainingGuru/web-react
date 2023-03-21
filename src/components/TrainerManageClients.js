@@ -26,7 +26,8 @@ export default class TrainerManageClients extends Component
             workouts: [],
             workoutDetails: [],
             stepGoal: 0,
-            clientDescription: ""
+            clientDescription: "",
+            assigned: false
         }
     }
 
@@ -85,7 +86,7 @@ export default class TrainerManageClients extends Component
 
         this.getClientIntake(this.state.currentClientID);
 
-        // this.getStepGoal(this.state.currentClientID);
+        this.getStepGoal(this.state.currentClientID);
 
         this.getClientDescription(this.state.currentClientID);
     }
@@ -130,7 +131,8 @@ export default class TrainerManageClients extends Component
             if(res.data)
             {
                 console.log("Step Goal Data read!")
-                this.setState({stepGoal: res.data})
+                // console.log(res.data.StepsGoal);
+                this.setState({stepGoal: res.data.StepsGoal})
             }
             else {
                 console.log("Data not Found!")
@@ -188,12 +190,11 @@ export default class TrainerManageClients extends Component
                         </div>
                         <div>
                             <select id="weeks" className='weeks-dropdown'>
-                                <option value={"Mon30Jan"}>w/c Mon 30 Jan</option>
-                                <option value={"Mon06Feb"}>w/c Mon 06 Feb</option>
-                                <option value={"Mon13Feb"}>w/c Mon 13 Feb</option>
-                                <option value={"Mon20Feb"}>w/c Mon 20 Feb</option>
-                                <option value={"Mon27Feb"}>w/c Mon 27 Feb</option>
-                                <option value={"Mon06Mar"}>w/c Mon 06 Mar</option>
+                                <option value={"Mon30Jan"}>w/c Mon 20 Mar</option>
+                                <option value={"Mon06Feb"}>w/c Mon 27 Mar</option>
+                                <option value={"Mon13Feb"}>w/c Mon 03 Apr</option>
+                                <option value={"Mon20Feb"}>w/c Mon 10 Apr</option>
+                                <option value={"Mon27Feb"}>w/c Mon 17 Apr</option>
                             </select>
                         </div>
                         <div className='assign-workouts-content'>
@@ -205,7 +206,7 @@ export default class TrainerManageClients extends Component
                             </div>
                             <div className='assign-workouts-day assign-workout-content'>Tuesday</div>
                             <div className='assign-workout-content assign-workout-name'>
-                                <div className='assign-workout-name-content'>Legs Advanced</div>
+                                <div className='assign-workout-name-content'>Legs Work</div>
                                 <div className='assign-workout-name-content'><FontAwesomeIcon className='assign-workout-name-content-edit-icon' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} icon={faPenToSquare}/></div>
                             </div>
                             <div className='assign-workouts-day assign-workout-content'>Wednesday</div>
@@ -213,8 +214,9 @@ export default class TrainerManageClients extends Component
                                 <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
                             </div>
                             <div className='assign-workouts-day assign-workout-content'>Thursday</div>
-                            <div className='assign-workout-content assign-workout-button'>
-                                <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
+                            <div className='assign-workout-content assign-workout-name'>
+                                <div className='assign-workout-name-content'>Arms</div>
+                                <div className='assign-workout-name-content'><FontAwesomeIcon className='assign-workout-name-content-edit-icon' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} icon={faPenToSquare}/></div>
                             </div>
                             <div className='assign-workouts-day assign-workout-content'>Friday</div>
                             <div className='assign-workout-content assign-workout-button'>
@@ -225,9 +227,10 @@ export default class TrainerManageClients extends Component
                                 <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
                             </div>
                             <div className='assign-workouts-day assign-workout-content'>Sunday</div>
-                            <div className='assign-workout-content assign-workout-button'>
-                                <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
-                            </div>
+                            { this.state.assigned ? <div className='assign-workout-content assign-workout-name'>
+                                <div className='assign-workout-name-content'>Cardio</div>
+                                <div className='assign-workout-name-content'><FontAwesomeIcon className='assign-workout-name-content-edit-icon' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} icon={faPenToSquare}/></div>
+                            </div> : <div className='assign-workout-content assign-workout-button'><button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button></div>}
                         </div>
                     </div>
                     <div className='manage-clients-intake'>
@@ -251,7 +254,8 @@ export default class TrainerManageClients extends Component
                     </div>
                     <div className='manage-clients-steps sections'>
                         <div className='headers'>Steps Goal</div>
-                        <div>{this.state.stepGoal}</div>
+                        {/* <div>{this.state.stepGoal}</div> */}
+                        <div>7,000</div>
                         <FontAwesomeIcon className='manage-clients-edit-icon' icon={faPenToSquare}/>
                     </div>
                     <div className='client-description sections'>
@@ -264,7 +268,11 @@ export default class TrainerManageClients extends Component
                     <div className='catch-up-notes sections'>
                         <div className='headers'>CatchUp Notes</div>
                         <div className='catch-up-notes-textbox'>
-                            <textarea></textarea>
+                            <textarea className='catchup-notes-textbox'>
+                                Edit Steps goal to 10,000,
+                                Add extra cardio session on Sunday,
+                                Leave intake goals for another week and reassess
+                            </textarea>
                         </div>
                     </div>
                     
@@ -289,7 +297,10 @@ export default class TrainerManageClients extends Component
                                     }} icon={faChevronDown}/></div>
                                 <div>{workout.WorkoutName}</div>
                                 <div>6</div>
-                                <div><button>Assign</button></div>
+                                <div><button onClick={() => {
+                                    this.setState({ isPopupClicked: !this.state.isPopupClicked });
+                                    this.setState({ assigned: !this.state.assigned });
+                                }}>Assign</button></div>
                             </div>
                         }) }
                         <div className={this.state.isWorkoutPopupClicked ? 'workout-details-popup' : 'hidden'}>

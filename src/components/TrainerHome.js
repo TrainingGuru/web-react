@@ -29,7 +29,8 @@ export default class TrainerHome extends Component
             meetings: [],
             clientValue: "",
             dateValue: "",
-            timeValue: ""
+            timeValue: "",
+            count: 0
 
         }
     }
@@ -152,7 +153,9 @@ export default class TrainerHome extends Component
                     <div className='clients-content'>
                         { this.state.clients?.map((client) => {
                             return <div className='clients-content-entry'>
-                                <FontAwesomeIcon className='clients-content-recent-feedback thumbs-up' icon={faThumbsUp}/>
+                                { client.ClientID == 1 ? <div></div> : <FontAwesomeIcon className='clients-content-recent-feedback thumbs-up' icon={faThumbsUp}/>}
+                                {/* { client.ClientID == 3 ? <FontAwesomeIcon className='clients-content-recent-feedback thumbs-down' icon={faThumbsDown}/> : <FontAwesomeIcon className='clients-content-recent-feedback thumbs-up' icon={faThumbsUp}/>} */}
+
                                 {/* <div className='clients-content-recent-feedback thumbs-up'>{client.CatchUps["Rating"]}</div> */}
                                 {/* { console.log(client.CatchUps) } */}
                                 <div className='clients-content-entry-name'>{client.Name}</div>
