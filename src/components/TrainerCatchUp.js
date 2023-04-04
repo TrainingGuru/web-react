@@ -720,8 +720,12 @@ export default class TrainerCatchUp extends Component
                                                 return <div className='slide-content'>
                                                     <div>{day.day}</div>
                                                     <div>{day.date}</div>
-                                                    { day.day === "Tue" ? <div>Legs Work</div> : <div></div>}
-                                                    { day.day === "Tue" ? <div>notes</div> : <div></div>}
+                                                    <div>Chest Beginner</div>
+                                                    <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>notes</div>
+                                                    <div className={this.state.isPopupClicked ? 'popup' : 'hidden'}>
+                                                        This is the notes popup!
+                                                        <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Close</div>
+                                                    </div>
                                                 </div>
                                             })
                                         }

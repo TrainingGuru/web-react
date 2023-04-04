@@ -26,8 +26,7 @@ export default class TrainerManageClients extends Component
             workouts: [],
             workoutDetails: [],
             stepGoal: 0,
-            clientDescription: "",
-            assigned: false
+            clientDescription: ""
         }
     }
 
@@ -226,10 +225,9 @@ export default class TrainerManageClients extends Component
                                 <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
                             </div>
                             <div className='assign-workouts-day assign-workout-content'>Sunday</div>
-                            { this.state.assigned ? <div className='assign-workout-content assign-workout-name'>
-                                <div className='assign-workout-name-content'>Cardio</div>
-                                <div className='assign-workout-name-content'><FontAwesomeIcon className='assign-workout-name-content-edit-icon' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} icon={faPenToSquare}/></div>
-                            </div> : <div className='assign-workout-content assign-workout-button'><button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button></div>}
+                            <div className='assign-workout-content assign-workout-button'>
+                                <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
+                            </div>
                         </div>
                     </div>
                     <div className='manage-clients-intake'>
@@ -298,7 +296,6 @@ export default class TrainerManageClients extends Component
                                 <div>6</div>
                                 <div><button onClick={() => {
                                     this.setState({ isPopupClicked: !this.state.isPopupClicked });
-                                    this.setState({ assigned: !this.state.assigned });
                                 }}>Assign</button></div>
                             </div>
                         }) }

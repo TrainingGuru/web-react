@@ -37,6 +37,7 @@ export default class TrainerHome extends Component
 
     componentDidMount()
     {
+        //------------------------- Clients ----------------------------------------------
         axios.get(`https://traininggurubackend.onrender.com/Trainer/1/Clients`)
             .then(res =>
             {
@@ -120,6 +121,8 @@ export default class TrainerHome extends Component
                     console.log("Data not Found!")
                 }
             })
+
+        // reload upcoming meetings
     }
     
 
@@ -153,11 +156,10 @@ export default class TrainerHome extends Component
                     <div className='clients-content'>
                         { this.state.clients?.map((client) => {
                             return <div className='clients-content-entry'>
-                                { client.ClientID == 1 ? <div></div> : <FontAwesomeIcon className='clients-content-recent-feedback thumbs-up' icon={faThumbsUp}/>}
-                                {/* { client.ClientID == 3 ? <FontAwesomeIcon className='clients-content-recent-feedback thumbs-down' icon={faThumbsDown}/> : <FontAwesomeIcon className='clients-content-recent-feedback thumbs-up' icon={faThumbsUp}/>} */}
+                                <FontAwesomeIcon className='clients-content-recent-feedback thumbs-up' icon={faThumbsUp}/>
 
-                                {/* <div className='clients-content-recent-feedback thumbs-up'>{client.CatchUps["Rating"]}</div> */}
-                                {/* { console.log(client.CatchUps) } */}
+                                {/* <div className='clients-content-recent-feedback thumbs-up'>{client.CatchUps[0]}</div> */}
+                                {/* { console.log(client.CatchUps[0]) } */}
                                 <div className='clients-content-entry-name'>{client.Name}</div>
                                 <Link to="/CatchUp" className='clients-catch-up-link' onClick={() => localStorage.currentID = client.ClientID}><FontAwesomeIcon className='chart-icon' icon={faChartSimple}/></Link>
                                 <Link to="/Manage" className='clients-manage-link' onClick={() => localStorage.currentID = client.ClientID}><FontAwesomeIcon className='gear-icon' icon={faGear}/></Link>
