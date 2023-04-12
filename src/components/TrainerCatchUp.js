@@ -38,6 +38,9 @@ export default class TrainerCatchUp extends Component
             goals: [],
             intake: [],
             pbs: [],
+            calHistory: [],
+            catchupHistory: [],
+            weight: [],
             schedule: {},
             isPopupClicked: false,
             meetingStarted: false,
@@ -52,6 +55,10 @@ export default class TrainerCatchUp extends Component
         this.setState({currentClientID: event.target.value});
         this.setState({goals: this.getClientGoals(event.target.value)});
         this.setState({intake: this.getClientIntake(event.target.value)});
+        this.setState({calHistory: this.getClientCalHistory(event.target.value)});
+        this.setState({catchupHistory: this.getClientCatchUpHistory(event.target.value)});
+        this.setState({pbs: this.getClientPBs(event.target.value)});
+        this.setState({weight: this.getClientWeight(event.target.value)});
     }
 
     componentDidMount()
@@ -192,7 +199,10 @@ export default class TrainerCatchUp extends Component
 
         this.getClientGoals(this.state.currentClientID);
         this.getClientIntake(this.state.currentClientID);
-        this.getClientPBs(this.state.currentClientID)
+        this.getClientPBs(this.state.currentClientID);
+        this.getClientCalHistory(this.state.currentClientID);
+        this.getClientWeight(this.state.currentClientID);
+        this.getClientCatchUpHistory(this.state.currentClientID);
         this.getSchedule();
 
         // this.setTextboxHeight('catchup-notes');
@@ -247,6 +257,60 @@ export default class TrainerCatchUp extends Component
                     console.log("Data not Found!")
                 }
             })
+    }
+
+    getClientWeight(currentClientID) {
+        // -------------------------- weight ------------------------------
+        axios.get(`https://traininggurubackend.onrender.com/ClientWeight/${currentClientID}`)
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("Weight Data read!")
+                    this.setState({weight: res.data})
+                }
+                else {
+                    console.log("Data not Found!")
+                }
+            })
+    }
+
+    getClientCalHistory(currentClientID) {
+        // -------------------------- cal History ------------------------------
+        axios.get(`https://traininggurubackend.onrender.com/Nutrition/${currentClientID}/CalHistory`)
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("cal History Data read!")
+                    this.setState({calHistory: res.data})
+                }
+                else {
+                    console.log("Data not Found!")
+                }
+            })
+
+            // let mondaysDate = moment().startOf('isoweek').format();
+            // let mondaysDateString = mondaysDate.substring(0, 10);
+    }
+
+    getClientCatchUpHistory(currentClientID) {
+        // -------------------------- catchup History ------------------------------
+        axios.get(`https://traininggurubackend.onrender.com/CatchUp/${currentClientID}`)
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("catchup History Data read!")
+                    this.setState({catchupHistory: res.data})
+                }
+                else {
+                    console.log("Data not Found!")
+                }
+            })
+
+            // let mondaysDate = moment().startOf('isoweek').format();
+            // let mondaysDateString = mondaysDate.substring(0, 10);
     }
 
     // setTextboxHeight(fieldID) {
@@ -604,7 +668,7 @@ export default class TrainerCatchUp extends Component
                         </div>
                     </div>
                     <div className='steps sections'>
-                        <div className='headers'>Steps</div>
+                        {/* <div className='headers'>Steps</div>
                         <div className='steps-content'>
                             <div className='steps-chart-container'>
                                 <img className='steps-bar-chart'
@@ -615,7 +679,7 @@ export default class TrainerCatchUp extends Component
                                 <div className='steps-label'>Goal:</div>
                                 <div className='steps-data'>7,000</div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className='intake'>
                         <div className='intake-heading'>Intake</div>
@@ -653,15 +717,16 @@ export default class TrainerCatchUp extends Component
 
                     </div>
                     <div className='progress-chart'>
+                        <div className='headers'>Client Weight</div>
                         <img className='progress-chart-image'
                             src={progressChart}
                             alt="Progress Chart"/>
                     </div>
                     <div className='catchup-notes sections'>
-                        <div className='headers'>CatchUp Notes</div>
+                        {/* <div className='headers'>CatchUp Notes</div>
                         <div className='catchup-notes-textbox-container' id='catchup-notes-container'>
                             <textarea className='catchup-notes-textbox' id='catchup-notes'></textarea>
-                        </div>
+                        </div> */}
                     </div>
                     <div className='calorie-summary'>
                         <div className='calorie-summary-day'>M</div>
@@ -672,13 +737,21 @@ export default class TrainerCatchUp extends Component
                         <div className='calorie-summary-day'>S</div>
                         <div className='calorie-summary-day'>S</div>
 
-                        <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
+                        { this.state.calHistory?.map((history) => {
+                            return <div className='calorie-summary-icon'>
+                                        { history.CaloriesHit ? <FontAwesomeIcon className='check' icon={faCheck}/> : <FontAwesomeIcon className='xmark' icon={faX}/> }
+                                    </div>
+                            }) 
+                        }
+
+
+                        {/* <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
                         <div className='calorie-summary-icon'><FontAwesomeIcon className='xmark' icon={faX}/></div>
                         <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
                         <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
                         <div className='calorie-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
                         <div className='calorie-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
-                        <div className='calorie-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
+                        <div className='calorie-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div> */}
 
                     </div>
                     <div className='goals sections'>
