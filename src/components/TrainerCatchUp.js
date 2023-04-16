@@ -624,7 +624,7 @@ export default class TrainerCatchUp extends Component
                                 }) 
                             }
                     </div>
-                    <div className='clients'>
+                    <div className='clients-dropdown'>
                         <select id="clients" className='client-heading-dropdown'>
                             { this.state.clients?.map((client) => {
                                     return <option value={`${client.ClientID}`}>{client.Name}</option>
