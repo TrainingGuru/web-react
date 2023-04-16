@@ -8,7 +8,7 @@
 .catchUp-container {
     display: grid;
     gap: 1rem;
-    grid-template-columns: 0.8fr 0.2fr 1fr 0.8fr 0.2fr 0.8fr 0.2fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
     /* grid-template-rows: 1fr 0.2fr 0.8fr 0.8fr 0.2fr 1fr; */
     width: 95%;
     margin: auto;
@@ -28,11 +28,17 @@
     color: red;
 }
 
+/* --------------------------- Clients Styles ----------------------------------*/
+
+.clients {
+    grid-column: span 2;
+}
+
 /* --------------------------- FitBitIcons Styles ----------------------------------*/
 
 .fitbit-icons {
     height: 100%;
-    grid-column: span 8;
+    grid-column: span 2;
     overflow: hidden;
     display: flex;
     justify-content: space-evenly;
@@ -121,8 +127,8 @@
 /* --------------------------- Intake Styles ----------------------------------*/
 
 .intake {
-    grid-row: span 3;
-    grid-column: span 2;
+    /* grid-row: span 3;
+    grid-column: span 2; */
     height: 100%;
     overflow: hidden;
 }
@@ -150,7 +156,7 @@
 
 /* --------------------------- Feeback Summary Styles ----------------------------------*/
 .feedback-summary {
-    grid-column: span 4;
+    grid-column: span 2;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     height: 80%;
@@ -172,8 +178,7 @@
 /* --------------------------- ProgressChart Styles ----------------------------------*/
 
 .progress-chart {
-    grid-row: span 3;
-    grid-column: span 4;
+    grid-row: span 2;
     width: 70%;
     margin: auto;
 }
@@ -185,7 +190,7 @@
 /* --------------------------- Goals Styles ----------------------------------*/
 
 .goals {
-    grid-row-start: 6;
+    /* grid-row-start: 6; */
     height: 100%;
     overflow: hidden;
 }
@@ -199,7 +204,7 @@
 /* --------------------------- CalSummary Styles ----------------------------------*/
 
 .calorie-summary {
-    grid-column: span 2;
+    /* grid-column: span 2; */
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     height: 80%;
@@ -251,7 +256,7 @@
 /* --------------------------- Schedule Styles ----------------------------------*/
 
 .schedule {
-    grid-column: span 5;
+    grid-column: span 4;
     height: 100%;
     overflow: hidden;
 }
@@ -365,7 +370,7 @@
 /* --------------------------- PersonalBests Styles ----------------------------------*/
 
 .personal-bests {
-    grid-column: span 2;
+    /* grid-column: span 2; */
     height: 100%;
     overflow: hidden;
 }
