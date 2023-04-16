@@ -615,6 +615,44 @@ export default class TrainerCatchUp extends Component
             <div className='catchUp'>
                 <Nav />
                 <div className='catchUp-container'>
+                    <div className='goals sections'>
+                        <div className='headers'>Goals</div>
+                            { this.state.goals?.map((goal) => {
+                                return <div className='goals-entry'>
+                                            {goal.Goal}
+                                        </div>
+                                }) 
+                            }
+                    </div>
+                    <div className='clients'>
+                        <select id="clients" className='client-heading-dropdown'>
+                            { this.state.clients?.map((client) => {
+                                    return <option value={`${client.ClientID}`}>{client.Name}</option>
+                                })
+                            }
+                        </select>
+                    </div>
+                    <div className='intake'>
+                        <div className='intake-heading'>Intake</div>
+                        { <div className='intake-table'>
+                                    <div>Calories</div>
+                                    <div>{this.state.intake?.CaloriesIntake}/{this.state.intake?.TotalCalories}cal</div>
+                                    <div>Protein</div>
+                                    <div>{this.state.intake?.ProteinIntake}/{this.state.intake?.TotalProtein}g</div>
+                                    <div>Fat</div>
+                                    <div>{this.state.intake?.FatsIntake}/{this.state.intake?.TotalFats}g</div>
+                                    <div>Carbs</div>
+                                    <div>{this.state.intake?.CarbohydratesIntake}/{this.state.intake?.TotalCarbohydrates}g</div>
+                                </div>
+                                
+                            }
+                    </div>
+                    <div className='progress-chart'>
+                        <div className='headers'>Client Weight</div>
+                        <img className='progress-chart-image'
+                            src={progressChart}
+                            alt="Progress Chart"/>
+                    </div>
                     <div className='fitbit-icons'>
                         <div>
                             <FontAwesomeIcon className='fitbit-icon calBurnt' icon={faFire}/>
@@ -667,61 +705,6 @@ export default class TrainerCatchUp extends Component
                             </div>
                         </div>
                     </div>
-                    <div className='clients'>
-                        <select id="clients" className='client-heading-dropdown'>
-                            { this.state.clients?.map((client) => {
-                                    return <option value={`${client.ClientID}`}>{client.Name}</option>
-                                })
-                            }
-                        </select>
-                    </div>
-                    <div className='intake'>
-                        <div className='intake-heading'>Intake</div>
-                        { <div className='intake-table'>
-                                    <div>Calories</div>
-                                    <div>{this.state.intake?.CaloriesIntake}/{this.state.intake?.TotalCalories}cal</div>
-                                    <div>Protein</div>
-                                    <div>{this.state.intake?.ProteinIntake}/{this.state.intake?.TotalProtein}g</div>
-                                    <div>Fat</div>
-                                    <div>{this.state.intake?.FatsIntake}/{this.state.intake?.TotalFats}g</div>
-                                    <div>Carbs</div>
-                                    <div>{this.state.intake?.CarbohydratesIntake}/{this.state.intake?.TotalCarbohydrates}g</div>
-                                </div>
-                                
-                            }
-                    </div>
-                    <div className='feedback-summary'>
-                        <div className='feedback-summary-day'>Week:</div>
-                        <div className='feedback-summary-day'>1</div>
-                        <div className='feedback-summary-day'>2</div>
-                        <div className='feedback-summary-day'>3</div>
-                        <div className='feedback-summary-day'>4</div>
-                        <div className='feedback-summary-day'>5</div>
-                        <div className='feedback-summary-day'>6</div>
-                        <div className='feedback-summary-day'>7</div>
-
-                        <div className='feedback-summary-icon'></div>
-                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
-                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
-                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
-                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
-                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
-                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
-                        <div className='feedback-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
-
-                    </div>
-                    <div className='progress-chart'>
-                        <div className='headers'>Client Weight</div>
-                        <img className='progress-chart-image'
-                            src={progressChart}
-                            alt="Progress Chart"/>
-                    </div>
-                    <div className='catchup-notes sections'>
-                        {/* <div className='headers'>CatchUp Notes</div>
-                        <div className='catchup-notes-textbox-container' id='catchup-notes-container'>
-                            <textarea className='catchup-notes-textbox' id='catchup-notes'></textarea>
-                        </div> */}
-                    </div>
                     <div className='calorie-summary'>
                         <div className='calorie-summary-day'>M</div>
                         <div className='calorie-summary-day'>T</div>
@@ -748,14 +731,41 @@ export default class TrainerCatchUp extends Component
                         <div className='calorie-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div> */}
 
                     </div>
-                    <div className='goals sections'>
-                        <div className='headers'>Goals</div>
-                            { this.state.goals?.map((goal) => {
-                                return <div className='goals-entry'>
-                                            {goal.Goal}
+                    <div className='feedback-summary'>
+                        <div className='feedback-summary-day'>Week:</div>
+                        <div className='feedback-summary-day'>1</div>
+                        <div className='feedback-summary-day'>2</div>
+                        <div className='feedback-summary-day'>3</div>
+                        <div className='feedback-summary-day'>4</div>
+                        <div className='feedback-summary-day'>5</div>
+                        <div className='feedback-summary-day'>6</div>
+                        <div className='feedback-summary-day'>7</div>
+
+                        <div className='feedback-summary-icon'></div>
+                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
+                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
+                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
+                        <div className='feedback-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
+
+                    </div>
+                    <div className='personal-bests sections'>
+                        <div className='headers'>Personal Bests</div>
+                        <div className='personal-bests-content'>
+                            {   this.state.pbs?.map((PB) => {
+                                    return <div className='personal-bests-entry'>
+                                        <div className='personal-bests-entry-data'>
+                                            <div className='personal-bests-exercise'>{PB.Exercise.Name}</div>
+                                            <div className='personal-bests-previous'>{PB.LastPB}</div>
+                                            <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
+                                            <div className='personal-bests-new'>{PB.PersonalBest}</div>
                                         </div>
-                                }) 
+                                    </div>
+                                })
                             }
+                        </div>
                     </div>
                     <div className='schedule sections'>
                         {/* <FontAwesomeIcon icon={faLessThan}/> */}
@@ -825,22 +835,7 @@ export default class TrainerCatchUp extends Component
                         </div>
                         
                     </div>
-                    <div className='personal-bests sections'>
-                        <div className='headers'>Personal Bests</div>
-                        <div className='personal-bests-content'>
-                            {   this.state.pbs?.map((PB) => {
-                                    return <div className='personal-bests-entry'>
-                                        <div className='personal-bests-entry-data'>
-                                            <div className='personal-bests-exercise'>{PB.Exercise.Name}</div>
-                                            <div className='personal-bests-previous'>{PB.LastPB}</div>
-                                            <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
-                                            <div className='personal-bests-new'>{PB.PersonalBest}</div>
-                                        </div>
-                                    </div>
-                                })
-                            }
-                        </div>
-                    </div>
+                    
                 </div>
                 <div className='catch-up-meeting-form'>
                     {this.state.meetingStarted ? 
