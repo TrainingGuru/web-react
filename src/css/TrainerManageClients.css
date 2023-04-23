@@ -171,14 +171,31 @@
     margin: auto;
     text-align: center;
 }
-
-.assign-workout-popup-table-header-row, .assign-workout-popup-table-row {
-    border-bottom: 1px solid #ddd;
+.assign-workout-popup-table-header-row {
     display: flex;
     justify-content: space-evenly;
 }
 
-.assign-workout-popup-table-header-row > *, .assign-workout-popup-table-row > * {
+.assign-workout-popup-table-header-row, .assign-workout-popup-table-row, .workouts, .exercises {
+    border-bottom: 1px solid #ddd;
+    /* display: flex;
+    justify-content: space-evenly; */
+}
+.workouts, .exercises, .exercise {
+    width: 100%;
+    display: flex;
+}
+
+.exercise {
+    justify-content: space-evenly;
+}
+
+.exercise-details {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.assign-workout-popup-table-header-row > *, .workouts > *, .exercise > * {
     width: 25%;
 }
 

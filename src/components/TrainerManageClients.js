@@ -24,11 +24,14 @@ export default class TrainerManageClients extends Component
             intake: [],
             isPopupClicked: false,
             isWorkoutPopupClicked: false,
-            workouts: [],
-            workoutDetails: [],
+            savedWorkouts: [],
+            savedWorkoutDetails: [],
             stepGoal: 0,
             clientDescription: "",
-            weeks: []
+            weeks: [],
+            clientWorkouts: [],
+            allClientWorkouts: [],
+            currentWeekNumber: 0
         }
     }
 
@@ -40,6 +43,17 @@ export default class TrainerManageClients extends Component
         this.setState({intake: this.getClientIntake(event.target.value)});
         this.setState({stepGoal: this.getStepGoal(event.target.value)});
         this.setState({clientDescription: this.getClientDescription(event.target.value)});
+
+        this.setState({clientWorkouts: this.getClientWorkouts(event.target.value)});
+        this.setState({allClientWorkouts: this.getAllClientWorkouts(event.target.value)});
+
+        // reset week dropdown to first value
+
+    }
+
+    handleWeekChange = (event) => {
+        
+        // get new workouts
 
     }
 
@@ -59,14 +73,14 @@ export default class TrainerManageClients extends Component
                 }
             })
 
-        // --------------------- Workouts -------------------
+        // --------------------- Saved Workouts -------------------
         axios.get(`https://traininggurubackend.onrender.com/Trainer/1/AllWorkouts`)
         .then(res =>
         {
             if(res.data)
             {
                 console.log("Saved Workouts Data read!")
-                this.setState({workouts: res.data})
+                this.setState({savedWorkouts: res.data})
             }
             else {
                 console.log("Data not Found!")
@@ -75,6 +89,7 @@ export default class TrainerManageClients extends Component
 
         // -------------------------- select -------------------------
         const clientSelect = document.getElementById("clients");
+        const weekSelect = document.getElementById("weeks");
         // clientSelect.addEventListener('change', function handleChange(event) {
         //     this.setState({currentClientID: event.target.value});
         //     this.setState({goals: this.getClientGoals(event.target.value)});
@@ -82,6 +97,7 @@ export default class TrainerManageClients extends Component
         // })
 
         clientSelect.addEventListener('change', this.handleClientChange);
+        weekSelect.addEventListener('change', this.handleWeekChange);
 
         this.getClientGoals(this.state.currentClientID);
 
@@ -90,6 +106,9 @@ export default class TrainerManageClients extends Component
         this.getStepGoal(this.state.currentClientID);
 
         this.getClientDescription(this.state.currentClientID);
+
+        this.getClientWorkouts(this.state.currentClientID);
+        this.getAllClientWorkouts(this.state.currentClientID);
         
         this.getWeeksDropdownList();
 
@@ -131,6 +150,26 @@ export default class TrainerManageClients extends Component
         }
         
         this.setState({weeks: weeksData});
+    }
+
+    getAllClientWorkouts(currentClientID) {
+        // -------------------------- goals ------------------------------
+        axios.get(`https://traininggurubackend.onrender.com/Client/${currentClientID}/AllWorkouts`)
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("All Client Workouts Data read!")
+                    this.setState({allClientWorkouts: res.data})
+                }
+                else {
+                    console.log("Data not Found!")
+                }
+            })
+    }
+
+    getClientWorkouts(currentClientID) {
+
     }
 
     getClientIntake(currentClientID) {
@@ -190,7 +229,7 @@ export default class TrainerManageClients extends Component
             if(res.data)
             {
                 console.log("WorkoutDetails Data read!")
-                this.setState({workoutDetails: res.data})
+                this.setState({savedWorkoutDetails: res.data})
             }
             else {
                 console.log("Data not Found!")
@@ -216,11 +255,11 @@ export default class TrainerManageClients extends Component
                         </div>
                         <div>
                             <select id="weeks" className='weeks-dropdown'>
-                                <option value={"1"}>w/c {this.state.weeks[0]}</option>
-                                <option value={"2"}>w/c {this.state.weeks[1]}</option>
-                                <option value={"3"}>w/c {this.state.weeks[2]}</option>
-                                <option value={"4"}>w/c {this.state.weeks[3]}</option>
-                                <option value={"5"}>w/c {this.state.weeks[4]}</option>
+                                <option value={this.state.weeks[0]}>w/c {this.state.weeks[0]}</option>
+                                <option value={this.state.weeks[1]}>w/c {this.state.weeks[1]}</option>
+                                <option value={this.state.weeks[2]}>w/c {this.state.weeks[2]}</option>
+                                <option value={this.state.weeks[3]}>w/c {this.state.weeks[3]}</option>
+                                <option value={this.state.weeks[4]}>w/c {this.state.weeks[4]}</option>
                             </select>
                         </div>
                         <div className='assign-workouts-content'>
@@ -313,21 +352,36 @@ export default class TrainerManageClients extends Component
                             <div>Number of Exercises</div>
                             <div></div>
                         </div>
-                        { this.state.workouts?.map((workout) => {
+                        { this.state.savedWorkouts?.map((workout) => {
                             return <div className='assign-workout-popup-table-row'>
-                                <div><FontAwesomeIcon className='expand-icon' onClick={() => {
-                                        this.getWorkoutDetails(workout.id);
-                                        this.setState({ isWorkoutPopupClicked: !this.state.isWorkoutPopupClicked });
-                                    }} icon={faChevronDown}/></div>
-                                <div>{workout.WorkoutName}</div>
-                                <div>6</div>
-                                <div><button onClick={() => {
-                                    this.setState({ isPopupClicked: !this.state.isPopupClicked });
-                                }}>Assign</button></div>
+                                <div className='workouts'>
+                                    <div><FontAwesomeIcon className='expand-icon' onClick={() => {
+                                            this.getWorkoutDetails(workout.id);
+                                            this.setState({ isWorkoutPopupClicked: !this.state.isWorkoutPopupClicked });
+                                        }} icon={faChevronDown}/></div>
+                                    <div>{workout.WorkoutName}</div>
+                                    <div>6</div>
+                                    <div><button onClick={() => {
+                                        this.setState({ isPopupClicked: !this.state.isPopupClicked });
+                                    }}>Assign</button></div>
+                                </div>
+                                <div className='exercises'>
+                                    <div className='exercise'>
+                                        <div></div>
+                                        <div>Exercise Name</div>
+                                        <div className='exercise-details'>
+                                            <div>Sets:</div>
+                                            <div>3</div>
+                                            <div>Reps:</div>
+                                            <div>10</div>
+                                        </div>
+                                        <div></div>
+                                    </div>
+                                </div>
                             </div>
                         }) }
                         <div className={this.state.isWorkoutPopupClicked ? 'workout-details-popup' : 'hidden'}>
-                            {this.state.workoutDetails?.map((workoutDetail) => {
+                            {this.state.savedWorkoutDetails?.map((workoutDetail) => {
                                 return <div>
                                     {/* {workoutDetail.Exercises.forEach(exercise => {
                                         return <div>
