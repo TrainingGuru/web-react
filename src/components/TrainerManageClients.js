@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Nav from './Nav';
 
 import axios from 'axios';
+import moment from 'moment';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
@@ -26,7 +27,8 @@ export default class TrainerManageClients extends Component
             workouts: [],
             workoutDetails: [],
             stepGoal: 0,
-            clientDescription: ""
+            clientDescription: "",
+            weeks: []
         }
     }
 
@@ -88,6 +90,9 @@ export default class TrainerManageClients extends Component
         this.getStepGoal(this.state.currentClientID);
 
         this.getClientDescription(this.state.currentClientID);
+        
+        this.getWeeksDropdownList();
+
     }
 
     getClientGoals(currentClientID) {
@@ -104,6 +109,28 @@ export default class TrainerManageClients extends Component
                     console.log("Data not Found!")
                 }
             })
+    }
+
+    getWeeksDropdownList() {
+        // populating an array to fill the dropdown list for 5 weeks starting from current week because any previous can't be edited but viewed in schedule on catchup screen
+        var weeksData = [];
+        // moment().startOf('isoweek').format('llll')
+        var date = "";
+        date = moment().startOf('isoweek').format('llll');
+        // console.log(date);
+        weeksData[0] = date.substring(0,11);
+
+        for(var i = 1; i < 5; i++) {
+            date = moment().startOf('isoweek').add(i*7, 'days').format('llll');
+            if(date.substring(10,11).includes(",")){
+                weeksData[i] = date.substring(0,10);
+            } else {
+                weeksData[i] = date.substring(0,11);
+            }
+            
+        }
+        
+        this.setState({weeks: weeksData});
     }
 
     getClientIntake(currentClientID) {
@@ -189,11 +216,11 @@ export default class TrainerManageClients extends Component
                         </div>
                         <div>
                             <select id="weeks" className='weeks-dropdown'>
-                                <option value={"Mon30Jan"}>w/c Mon 20 Mar</option>
-                                <option value={"Mon06Feb"}>w/c Mon 27 Mar</option>
-                                <option value={"Mon13Feb"}>w/c Mon 03 Apr</option>
-                                <option value={"Mon20Feb"}>w/c Mon 10 Apr</option>
-                                <option value={"Mon27Feb"}>w/c Mon 17 Apr</option>
+                                <option value={"1"}>w/c {this.state.weeks[0]}</option>
+                                <option value={"2"}>w/c {this.state.weeks[1]}</option>
+                                <option value={"3"}>w/c {this.state.weeks[2]}</option>
+                                <option value={"4"}>w/c {this.state.weeks[3]}</option>
+                                <option value={"5"}>w/c {this.state.weeks[4]}</option>
                             </select>
                         </div>
                         <div className='assign-workouts-content'>
