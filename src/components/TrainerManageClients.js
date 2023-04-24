@@ -34,6 +34,7 @@ export default class TrainerManageClients extends Component
             // allClientWorkouts: [],
             workoutWeeks: [],
             currentWeekNumber: 5,
+            assignDayNumber: 0,
             daysOfTheWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
         }
     }
@@ -229,6 +230,51 @@ export default class TrainerManageClients extends Component
 
     }
 
+    assignWorkout(workoutID) {
+        var date = moment().startOf('isoweek').format('L');
+        // get value of weeks dropdown
+        var weekNumber = document.getElementById("weeks").value;
+        // send day as parameter 
+        // assignDayNumber is the index of day in array 0 = monday
+
+        // work out the start of the weeks date
+        var startOfWeekDate = moment().startOf('isoweek').format('L');
+        if(weekNumber == this.state.currentWeekNumber) {
+            startOfWeekDate = moment().startOf('isoweek').add(this.state.assignDayNumber, 'days').format('L');
+        } else {
+            var diff = weekNumber - this.state.currentWeekNumber;
+            startOfWeekDate = moment().startOf('isoweek').add(diff*7+this.state.assignDayNumber, 'days').format('L');
+        }
+        
+        // DD/MM/YYYY
+
+        var finalDate = startOfWeekDate.substring(6,10) + "-" + startOfWeekDate.substring(0,2) + "-" + startOfWeekDate.substring(3,5);
+        console.log(finalDate);
+
+        // recall get workouts after assign
+
+        // ------------------- Assign Workout -----------------------------------
+        axios.post(`https://traininggurubackend.onrender.com/Client/${this.state.currentClientID}/AssignWorkout`, {
+                "TrainerWorkoutID": workoutID,
+                "Date": finalDate,
+                "Week": weekNumber+""
+            })
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("Workout Assigned!")
+                    // this.setState({meetings: res.data})
+                    // console.log(res.data)
+                }
+                else {
+                    console.log("Data not Found!")
+                }
+            })
+
+            this.setState({clientWorkouts: this.getWorkoutsForWeek(this.state.currentClientID, weekNumber)});
+    }
+
     getClientIntake(currentClientID) {
         // -------------------------- intake ------------------------------
         axios.get(`https://traininggurubackend.onrender.com/Client/${currentClientID}/NutritionValue`)
@@ -325,29 +371,37 @@ export default class TrainerManageClients extends Component
                         <div className='assign-workouts-content'>
                             { this.state.daysOfTheWeek?.map((day) => {
                                     var found = false;
+                                    var dayNumber = 0;
                                     return <div className='assign-workouts-content-row'>
                                         <div className='assign-workouts-day assign-workout-content'>{day}</div>
                                         { this.state.clientWorkouts?.map((clientWorkout) => {
                                                 var d = new Date(clientWorkout.Date);
-                                                var dayNumber = d.getDay();
+                                                dayNumber = d.getDay();
                                                 if(dayNumber == 0) {
                                                     dayNumber=6;
                                                 } else {
                                                     dayNumber -= 1;
                                                 }
                                                 var workoutDay = this.state.daysOfTheWeek[dayNumber];
-                                                console.log(clientWorkout.Date + " " + workoutDay);
+                                                // console.log(clientWorkout.Date + " " + workoutDay);
                                                 if(day.localeCompare(workoutDay)==0){
                                                     found = true;
                                                     return <div className='assign-workout-content assign-workout-name'>
                                                         <div className='assign-workout-name-content'>{clientWorkout.TrainerWorkout.WorkoutName}</div>
-                                                        <div className='assign-workout-name-content'><FontAwesomeIcon className='assign-workout-name-content-edit-icon' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} icon={faPenToSquare}/></div>
+                                                        <div className='assign-workout-name-content'><FontAwesomeIcon className='assign-workout-name-content-edit-icon' onClick={() => {
+                                                                this.setState({ isPopupClicked: !this.state.isPopupClicked });
+                                                                this.setState({ assignDayNumber: this.state.daysOfTheWeek.indexOf(day) });
+
+                                                            }} icon={faPenToSquare}/></div>
                                                     </div>
                                                 }
                                             })
                                         }
                                         {found ? "" : <div className='assign-workout-content assign-workout-button'>
-                                            <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
+                                            <button className='assign-button' onClick={() => {
+                                                    this.setState({ isPopupClicked: !this.state.isPopupClicked });
+                                                    this.setState({ assignDayNumber: this.state.daysOfTheWeek.indexOf(day) });
+                                                }}>Assign</button>
                                         </div>
                                         }
                                         
@@ -423,10 +477,11 @@ export default class TrainerManageClients extends Component
                                     <div>{workout.WorkoutName}</div>
                                     <div>6</div>
                                     <div><button onClick={() => {
+                                        this.assignWorkout(workout.id)
                                         this.setState({ isPopupClicked: !this.state.isPopupClicked });
                                     }}>Assign</button></div>
                                 </div>
-                                <div className='exercises'>
+                                <div className={this.state.isWorkoutPopupClicked ? 'exercises' : 'hidden'}>
                                     <div className='exercise'>
                                         <div></div>
                                         <div>Exercise Name</div>
