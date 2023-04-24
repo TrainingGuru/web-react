@@ -31,6 +31,8 @@ export default class TrainerManageClients extends Component
             clientDescription: "",
             weeks: [],
             clientWorkouts: [],
+            workoutName: "",
+            currentWorkoutId: 0,
             // allClientWorkouts: [],
             workoutWeeks: [],
             currentWeekNumber: 5,
@@ -472,6 +474,8 @@ export default class TrainerManageClients extends Component
                                 <div className='workouts'>
                                     <div><FontAwesomeIcon className='expand-icon' onClick={() => {
                                             this.getWorkoutDetails(workout.id);
+                                            this.setState({currentWorkoutId: workout.id})
+                                            this.setState({ workoutName: workout.WorkoutName });
                                             this.setState({ isWorkoutPopupClicked: !this.state.isWorkoutPopupClicked });
                                         }} icon={faChevronDown}/></div>
                                     <div>{workout.WorkoutName}</div>
@@ -481,7 +485,7 @@ export default class TrainerManageClients extends Component
                                         this.setState({ isPopupClicked: !this.state.isPopupClicked });
                                     }}>Assign</button></div>
                                 </div>
-                                <div className={this.state.isWorkoutPopupClicked ? 'exercises' : 'hidden'}>
+                                {/* <div className={this.state.isWorkoutPopupClicked ? 'exercises' : 'hidden'}>
                                     <div className='exercise'>
                                         <div></div>
                                         <div>Exercise Name</div>
@@ -493,23 +497,36 @@ export default class TrainerManageClients extends Component
                                         </div>
                                         <div></div>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         }) }
-                        <div className={this.state.isWorkoutPopupClicked ? 'workout-details-popup' : 'hidden'}>
-                            {this.state.savedWorkoutDetails?.map((workoutDetail) => {
-                                return <div>
-                                    {/* {workoutDetail.Exercises.forEach(exercise => {
-                                        return <div>
-                                            <div>{exercise.Name}</div>
-                                            <div>{exercise.Type}</div>
-                                        </div>
-                                    })} */}
-                                </div>
-                            })}
-                        </div>
                     </div>
-                    
+                </div>
+                <div className={this.state.isWorkoutPopupClicked ? 'workout-details-popup sections' : 'hidden'}>
+                    <div className='popup-nav'>
+                        <div className='headers'>{this.state.workoutName}</div>
+                        <FontAwesomeIcon onClick={() => this.setState({ isWorkoutPopupClicked: !this.state.isWorkoutPopupClicked })} className='workout-details-popup-close-button' icon={faX}/>
+                    </div>
+                    <div className='workout-details-popup-table-header-row'>
+                        <div>Exercise Name</div>
+                        <div>Exercise Type</div>
+                        <div>Sets</div>
+                        <div>Reps</div>
+                    </div>
+                    {this.state.savedWorkoutDetails?.map((workoutDetail) => {
+                        // this.setState({currentWorkoutId: workoutDetail.TrainerWorkoutID})
+                        return <div className='workout-details-popup-table-row'>
+                            <div>{workoutDetail.Exercises[0].Name}</div>
+                            <div>{workoutDetail.Exercises[0].Type}</div>
+                            <div>{workoutDetail.Sets}</div>
+                            <div>{workoutDetail.Reps}</div>
+                        </div>
+                    })}
+                    <div className='workout-details-assign-button'><button onClick={() => {
+                        this.assignWorkout(this.state.currentWorkoutId)
+                        this.setState({ isWorkoutPopupClicked: !this.state.isWorkoutPopupClicked });
+                        this.setState({ isPopupClicked: !this.state.isPopupClicked });
+                    }}>Assign</button></div>
                 </div>
             </div>
         )

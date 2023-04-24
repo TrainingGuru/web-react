@@ -223,3 +223,52 @@
 .expand-icon {
     cursor: pointer;
 }
+
+.workout-details-popup {
+    position: absolute;
+    margin: 10%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center; */
+    align-items: center;
+}
+
+.workout-details-popup-close-button {
+    cursor: pointer;
+    margin: auto;
+    /* font-weight: 500;
+    font-size: 14px; */
+    /* line-height: 18px; */
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.workout-details-popup-table-header-row, .workout-details-popup-table-row {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.workout-details-popup-table-header-row {
+    border-bottom: 1px solid #ddd;
+    /* display: flex;
+    justify-content: space-evenly; */
+}
+
+.workout-details-popup-table-header-row > *, .workout-details-popup-table-row > * {
+    width: 25%;
+    text-align: center;
+}
+
+.workout-details-assign-button {
+    width: 10%;
+    margin: 1% auto;
+}
