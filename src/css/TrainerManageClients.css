@@ -43,17 +43,24 @@
 }
 
 .assign-workouts-content {
-    display: grid;
-    gap: 1rem;
+    /* display: grid; */
+    /* gap: 1rem; */
     font-size: 2em;
     height: 80%;
-    grid-template-columns: repeat(2, 1fr);
+    /* grid-template-columns: repeat(2, 1fr); */
     width: 75%;
     margin: 2.5% auto;
     color: rgb(0, 0, 0);
     font-family: 'Poppins', sans-serif;
     letter-spacing: 0px;
     text-transform: none;
+}
+
+.assign-workouts-content-row {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 2.5% auto;
 }
 
 .assign-workouts-day {

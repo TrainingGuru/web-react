@@ -11,6 +11,7 @@ import {faX} from "@fortawesome/free-solid-svg-icons/faX";
 import {faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 import '../css/TrainerManageClients.css';
+import { wait } from '@testing-library/user-event/dist/utils';
 
 export default class TrainerManageClients extends Component
 {
@@ -30,8 +31,10 @@ export default class TrainerManageClients extends Component
             clientDescription: "",
             weeks: [],
             clientWorkouts: [],
-            allClientWorkouts: [],
-            currentWeekNumber: 0
+            // allClientWorkouts: [],
+            workoutWeeks: [],
+            currentWeekNumber: 5,
+            daysOfTheWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
         }
     }
 
@@ -44,16 +47,24 @@ export default class TrainerManageClients extends Component
         this.setState({stepGoal: this.getStepGoal(event.target.value)});
         this.setState({clientDescription: this.getClientDescription(event.target.value)});
 
-        this.setState({clientWorkouts: this.getClientWorkouts(event.target.value)});
-        this.setState({allClientWorkouts: this.getAllClientWorkouts(event.target.value)});
+        // this.setState({allClientWorkouts: this.getAllClientWorkouts(event.target.value)});
 
+        // this.setState({workoutWeeks: this.getWorkoutWeeks(event.target.value)});
+
+        // this.setState({currentWeekNumber: this.getCurrentWeekNumber(this.state.currentClientID)});
+        
+        
         // reset week dropdown to first value
+
+        // might be a problem
+        this.setState({clientWorkouts: this.getWorkoutsForWeek(event.target.value, this.state.currentWeekNumber)});
+
 
     }
 
     handleWeekChange = (event) => {
-        
         // get new workouts
+        this.setState({clientWorkouts: this.getWorkoutsForWeek(this.state.currentClientID, event.target.value)});
 
     }
 
@@ -87,6 +98,10 @@ export default class TrainerManageClients extends Component
             }
         })
 
+        // need to get current week number here before doing anything else
+
+        
+
         // -------------------------- select -------------------------
         const clientSelect = document.getElementById("clients");
         const weekSelect = document.getElementById("weeks");
@@ -98,7 +113,10 @@ export default class TrainerManageClients extends Component
 
         clientSelect.addEventListener('change', this.handleClientChange);
         weekSelect.addEventListener('change', this.handleWeekChange);
-
+        
+        // this.getWorkoutWeeks(this.state.currentClientID);
+        this.getCurrentWeekNumber(this.state.currentClientID);
+        
         this.getClientGoals(this.state.currentClientID);
 
         this.getClientIntake(this.state.currentClientID);
@@ -107,8 +125,10 @@ export default class TrainerManageClients extends Component
 
         this.getClientDescription(this.state.currentClientID);
 
-        this.getClientWorkouts(this.state.currentClientID);
-        this.getAllClientWorkouts(this.state.currentClientID);
+        // this.getClientWorkouts(this.state.currentClientID);
+        // this.getAllClientWorkouts(this.state.currentClientID);
+        this.getWorkoutsForWeek(this.state.currentClientID, this.state.currentWeekNumber);
+
         
         this.getWeeksDropdownList();
 
@@ -152,20 +172,57 @@ export default class TrainerManageClients extends Component
         this.setState({weeks: weeksData});
     }
 
-    getAllClientWorkouts(currentClientID) {
-        // -------------------------- goals ------------------------------
-        axios.get(`https://traininggurubackend.onrender.com/Client/${currentClientID}/AllWorkouts`)
+    // getAllClientWorkouts(currentClientID) {
+    //     // -------------------------- All Client Workouts ------------------------------
+    //     axios.get(`https://traininggurubackend.onrender.com/Client/${currentClientID}/AllWorkouts`)
+    //         .then(res =>
+    //         {
+    //             if(res.data)
+    //             {
+    //                 console.log("All Client Workouts Data read!")
+    //                 this.setState({allClientWorkouts: res.data})
+    //             }
+    //             else {
+    //                 console.log("Data not Found!")
+    //             }
+    //         })
+
+    // }
+
+    getWorkoutWeeks(currentClientID) {
+        // -------------------------- Workout Weeks ------------------------------
+        axios.get(`https://traininggurubackend.onrender.com/Client/${currentClientID}/WorkoutWeeks`)
             .then(res =>
             {
                 if(res.data)
                 {
-                    console.log("All Client Workouts Data read!")
-                    this.setState({allClientWorkouts: res.data})
+                    console.log("Workout Weeks Data read!")
+                    this.setState({workoutWeeks: res.data})
                 }
                 else {
                     console.log("Data not Found!")
                 }
             })
+    }
+
+    getWorkoutsForWeek(currentClientID, weekNumber) {
+        // -------------------------- Workouts for certain Week ------------------------------
+        axios.get(`https://traininggurubackend.onrender.com/Client/${currentClientID}/Workouts/${weekNumber}`)
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("Certain Weeks Workout Data read!")
+                    this.setState({clientWorkouts: res.data})
+                }
+                else {
+                    console.log("Data not Found!")
+                }
+            })
+    }
+
+    getCurrentWeekNumber(currentClientID) {
+        
     }
 
     getClientWorkouts(currentClientID) {
@@ -255,45 +312,49 @@ export default class TrainerManageClients extends Component
                         </div>
                         <div>
                             <select id="weeks" className='weeks-dropdown'>
-                                <option value={this.state.weeks[0]}>w/c {this.state.weeks[0]}</option>
-                                <option value={this.state.weeks[1]}>w/c {this.state.weeks[1]}</option>
-                                <option value={this.state.weeks[2]}>w/c {this.state.weeks[2]}</option>
-                                <option value={this.state.weeks[3]}>w/c {this.state.weeks[3]}</option>
-                                <option value={this.state.weeks[4]}>w/c {this.state.weeks[4]}</option>
+                                <option value={this.state.currentWeekNumber}>w/c {this.state.weeks[0]}</option>
+                                <option value={this.state.currentWeekNumber+1}>w/c {this.state.weeks[1]}</option>
+                                <option value={this.state.currentWeekNumber+2}>w/c {this.state.weeks[2]}</option>
+                                <option value={this.state.currentWeekNumber+3}>w/c {this.state.weeks[3]}</option>
+                                <option value={this.state.currentWeekNumber+4}>w/c {this.state.weeks[4]}</option>
                             </select>
                         </div>
+                        
+
+
                         <div className='assign-workouts-content'>
-                            <div className='assign-workouts-day assign-workout-content'>Monday</div>
-                            <div className='assign-workout-content assign-workout-button'>
-                                {/* if no workout assigned display assign button or else display workout name with edit icon beside it */}
-                                {/* toggle class name */}
-                                <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
-                            </div>
-                            <div className='assign-workouts-day assign-workout-content'>Tuesday</div>
-                            <div className='assign-workout-content assign-workout-name'>
-                                <div className='assign-workout-name-content'>Legs Work</div>
-                                <div className='assign-workout-name-content'><FontAwesomeIcon className='assign-workout-name-content-edit-icon' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} icon={faPenToSquare}/></div>
-                            </div>
-                            <div className='assign-workouts-day assign-workout-content'>Wednesday</div>
-                            <div className='assign-workout-content assign-workout-button'>
-                                <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
-                            </div>
-                            <div className='assign-workouts-day assign-workout-content'>Thursday</div>
-                            <div className='assign-workout-content assign-workout-button'>
-                                <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
-                            </div>
-                            <div className='assign-workouts-day assign-workout-content'>Friday</div>
-                            <div className='assign-workout-content assign-workout-button'>
-                                <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
-                            </div>
-                            <div className='assign-workouts-day assign-workout-content'>Saturday</div>
-                            <div className='assign-workout-content assign-workout-button'>
-                                <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
-                            </div>
-                            <div className='assign-workouts-day assign-workout-content'>Sunday</div>
-                            <div className='assign-workout-content assign-workout-button'>
-                                <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
-                            </div>
+                            { this.state.daysOfTheWeek?.map((day) => {
+                                    var found = false;
+                                    return <div className='assign-workouts-content-row'>
+                                        <div className='assign-workouts-day assign-workout-content'>{day}</div>
+                                        { this.state.clientWorkouts?.map((clientWorkout) => {
+                                                var d = new Date(clientWorkout.Date);
+                                                var dayNumber = d.getDay();
+                                                if(dayNumber == 0) {
+                                                    dayNumber=6;
+                                                } else {
+                                                    dayNumber -= 1;
+                                                }
+                                                var workoutDay = this.state.daysOfTheWeek[dayNumber];
+                                                console.log(clientWorkout.Date + " " + workoutDay);
+                                                if(day.localeCompare(workoutDay)==0){
+                                                    found = true;
+                                                    return <div className='assign-workout-content assign-workout-name'>
+                                                        <div className='assign-workout-name-content'>{clientWorkout.TrainerWorkout.WorkoutName}</div>
+                                                        <div className='assign-workout-name-content'><FontAwesomeIcon className='assign-workout-name-content-edit-icon' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} icon={faPenToSquare}/></div>
+                                                    </div>
+                                                }
+                                            })
+                                        }
+                                        {found ? "" : <div className='assign-workout-content assign-workout-button'>
+                                            <button className='assign-button' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Assign</button>
+                                        </div>
+                                        }
+                                        
+                                    </div>
+                                })
+                            }
+                            
                         </div>
                     </div>
                     <div className='manage-clients-intake'>
