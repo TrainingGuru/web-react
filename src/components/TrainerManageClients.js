@@ -25,6 +25,7 @@ export default class TrainerManageClients extends Component
             intake: [],
             isPopupClicked: false,
             isWorkoutPopupClicked: false,
+            editStepGoalClicked: false,
             savedWorkouts: [],
             savedWorkoutDetails: [],
             stepGoal: 0,
@@ -69,6 +70,11 @@ export default class TrainerManageClients extends Component
         // get new workouts
         this.setState({clientWorkouts: this.getWorkoutsForWeek(this.state.currentClientID, event.target.value)});
 
+    }
+
+    handleStepGoalChange = (event) => {
+        this.setState({stepGoal: event.target.value});
+        this.updateStepGoal(this.state.currentClientID, event.target.value);
     }
 
     componentDidMount()
@@ -116,6 +122,9 @@ export default class TrainerManageClients extends Component
 
         clientSelect.addEventListener('change', this.handleClientChange);
         weekSelect.addEventListener('change', this.handleWeekChange);
+
+        // const stepGoalInput = document.getElementById("edit-step-goal");
+        // stepGoalInput.addEventListener('change', this.handleStepGoalChange);
         
         // this.getWorkoutWeeks(this.state.currentClientID);
         this.getCurrentWeekNumber(this.state.currentClientID);
@@ -173,6 +182,26 @@ export default class TrainerManageClients extends Component
         }
         
         this.setState({weeks: weeksData});
+    }
+
+    updateStepGoal(currentClientID, newStepGoal) {
+        console.log("In update method")
+        // ------------------- Update Step Goal -----------------------------------
+        axios.put(`https://traininggurubackend.onrender.com/Nutrition/${currentClientID}/Steps`, {
+                "StepsGoal": newStepGoal
+            })
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("Step Goal Updated!")
+                    // this.setState({meetings: res.data})
+                    // console.log(res.data)
+                }
+                else {
+                    console.log("Step Goal Updated!")
+                }
+            })
     }
 
     // getAllClientWorkouts(currentClientID) {
@@ -434,9 +463,16 @@ export default class TrainerManageClients extends Component
                     </div>
                     <div className='manage-clients-steps sections'>
                         <div className='headers'>Steps Goal</div>
-                        {/* <div>{this.state.stepGoal}</div> */}
-                        <div>7,000</div>
-                        <FontAwesomeIcon className='manage-clients-edit-icon' icon={faPenToSquare}/>
+                        { this.state.editStepGoalClicked ? 
+                        <input type='text' defaultValue={this.state.stepGoal} onChange={this.handleStepGoalChange} id='edit-step-goal'/>
+                        :
+                        <div>{this.state.stepGoal}</div>
+                        }
+                        
+                        {/* <div>7,000</div> */}
+                        <FontAwesomeIcon onClick={() => {
+                            this.setState({ editStepGoalClicked: !this.state.editStepGoalClicked })
+                        }} className='manage-clients-edit-icon' icon={faPenToSquare}/>
                     </div>
                     <div className='client-description sections'>
                         <div className='headers'>Client Description</div>
