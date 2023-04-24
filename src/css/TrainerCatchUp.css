@@ -9,11 +9,11 @@
     display: grid;
     gap: 1rem;
     grid-template-columns: repeat(4, 1fr);
-    /* grid-template-rows: 1fr 0.2fr 0.8fr 0.8fr 0.2fr 1fr; */
+    grid-template-rows: repeat(4, 1fr);
     width: 95%;
     margin: auto;
     overflow: hidden;
-    /* height: 50%; */
+    height: 80%;
 }
 
 /* .edit-icon {
