@@ -26,12 +26,22 @@ export default class TrainerManageClients extends Component
             isPopupClicked: false,
             isWorkoutPopupClicked: false,
             editStepGoalClicked: false,
+            editDescriptionClicked: false,
+            editCaloriesClicked: false,
+            editProteinClicked: false,
+            editFatClicked: false,
+            editCarbsClicked: false,
+            caloriesGoal: 0,
+            proteinGoal: 0,
+            fatGoal: 0,
+            carbsGoal: 0,
             savedWorkouts: [],
             savedWorkoutDetails: [],
             stepGoal: 0,
             clientDescription: "",
             weeks: [],
             clientWorkouts: [],
+            catchUpNotes: [],
             workoutName: "",
             currentWorkoutId: 0,
             // allClientWorkouts: [],
@@ -50,6 +60,8 @@ export default class TrainerManageClients extends Component
         this.setState({intake: this.getClientIntake(event.target.value)});
         this.setState({stepGoal: this.getStepGoal(event.target.value)});
         this.setState({clientDescription: this.getClientDescription(event.target.value)});
+
+        this.setState({catchUpNotes: this.getCatchUpNotes(event.target.value)});
 
         // this.setState({allClientWorkouts: this.getAllClientWorkouts(event.target.value)});
 
@@ -76,6 +88,30 @@ export default class TrainerManageClients extends Component
         this.setState({stepGoal: event.target.value});
         this.updateStepGoal(this.state.currentClientID, event.target.value);
     }
+
+    // handleDescriptionChange = (event) => {
+    //     this.setState({clientDescription: event.target.value});
+    //     this.updateDescription(this.state.currentClientID, event.target.value);
+    // }
+
+    handleCaloriesChange = (event) => {
+        this.setState({caloriesGoal: event.target.value});
+        this.updateCaloriesGoal(this.state.currentClientID, event.target.value);
+    }
+    handleProteinChange = (event) => {
+        this.setState({proteinGoal: event.target.value});
+        this.updateProteinGoal(this.state.currentClientID, event.target.value);
+    }
+    handleFatGoalChange = (event) => {
+        this.setState({fatGoal: event.target.value});
+        this.updateFatGoal(this.state.currentClientID, event.target.value);
+    }
+    handleCarbsGoalChange = (event) => {
+        this.setState({carbsGoal: event.target.value});
+        this.updateCarbsGoal(this.state.currentClientID, event.target.value);
+    }
+
+
 
     componentDidMount()
     {
@@ -144,6 +180,7 @@ export default class TrainerManageClients extends Component
         
         this.getWeeksDropdownList();
 
+        this.getCatchUpNotes(this.state.currentClientID);
     }
 
     getClientGoals(currentClientID) {
@@ -204,6 +241,86 @@ export default class TrainerManageClients extends Component
             })
     }
 
+    updateDescription(currentClientID, newDescription) {
+        
+    }
+
+    updateCaloriesGoal(currentClientID, newCaloriesGoal) {
+        // ------------------- Update CAlories Goal -----------------------------------
+        axios.put(`https://traininggurubackend.onrender.com/Nutrition/${currentClientID}/CaloriesTotal`, {
+                "TotalCalories": newCaloriesGoal
+            })
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("Calories Goal Updated!")
+                    // this.setState({meetings: res.data})
+                    // console.log(res.data)
+                }
+                else {
+                    console.log("Calories Goal Updated!")
+                }
+            })
+    }
+
+    updateProteinGoal(currentClientID, newProteinGoal) {
+        // ------------------- Update Protein Goal -----------------------------------
+        axios.put(`https://traininggurubackend.onrender.com/Nutrition/${currentClientID}/ProteinTotal`, {
+                "TotalProtein": newProteinGoal
+            })
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("Protein Goal Updated!")
+                    // this.setState({meetings: res.data})
+                    // console.log(res.data)
+                }
+                else {
+                    console.log("Protein Goal Updated!")
+                }
+            })
+    }
+
+    updateFatGoal(currentClientID, newFatGoal) {
+        // ------------------- Update FAt Goal -----------------------------------
+        axios.put(`https://traininggurubackend.onrender.com/Nutrition/${currentClientID}/FatTotal`, {
+                "TotalFats": newFatGoal
+            })
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("FAt Goal Updated!")
+                    // this.setState({meetings: res.data})
+                    // console.log(res.data)
+                }
+                else {
+                    console.log("FAt Goal Updated!")
+                }
+            })
+    }
+
+    updateCarbsGoal(currentClientID, newCarbsGoal) {
+        // ------------------- Update FAt Goal -----------------------------------
+        axios.put(`https://traininggurubackend.onrender.com/Nutrition/${currentClientID}/CarbsTotal`, {
+                "TotalCarbohydrates": newCarbsGoal
+            })
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("CArbs Goal Updated!")
+                    // this.setState({meetings: res.data})
+                    // console.log(res.data)
+                }
+                else {
+                    console.log("CArbs Goal Updated!")
+                }
+            })
+    }
+
     // getAllClientWorkouts(currentClientID) {
     //     // -------------------------- All Client Workouts ------------------------------
     //     axios.get(`https://traininggurubackend.onrender.com/Client/${currentClientID}/AllWorkouts`)
@@ -230,6 +347,22 @@ export default class TrainerManageClients extends Component
                 {
                     console.log("Workout Weeks Data read!")
                     this.setState({workoutWeeks: res.data})
+                }
+                else {
+                    console.log("Data not Found!")
+                }
+            })
+    }
+
+    getCatchUpNotes(currentClientID) {
+        // -------------------------- CAtch Up notes ------------------------------
+        axios.get(`https://traininggurubackend.onrender.com/CatchUp/${currentClientID}/Notes`)
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("Catchup notes Data read!")
+                    this.setState({catchUpNotes: res.data})
                 }
                 else {
                     console.log("Data not Found!")
@@ -315,11 +448,17 @@ export default class TrainerManageClients extends Component
             {
                 console.log("Intake Data read!")
                 this.setState({intake: res.data})
+                this.setState({caloriesGoal: res.data.TotalCalories})
+                this.setState({proteinGoal: res.data.TotalProtein})
+                this.setState({fatGoal: res.data.TotalFats})
+                this.setState({carbsGoal: res.data.TotalCarbohydrates})
             }
             else {
                 console.log("Data not Found!")
             }
         })
+
+
     }
 
     getStepGoal(currentClientID) {
@@ -446,17 +585,45 @@ export default class TrainerManageClients extends Component
                         <div className='manage-clients-intake-heading'>Intake</div>
                         { <div className='manage-clients-intake-table'>
                                     <div>Calories</div>
-                                    <div>{this.state.intake?.CaloriesIntake}/{this.state.intake?.TotalCalories}cal</div>
-                                    <FontAwesomeIcon className='manage-clients-edit-icon' icon={faPenToSquare}/>
+                                    <div className='intake-goals'>{this.state.intake?.CaloriesIntake}/{ this.state.editCaloriesClicked ? 
+                                    <input type='number' defaultValue={this.state.caloriesGoal} onChange={this.handleCaloriesChange} id='edit-calorie-goal'/>
+                                    :
+                                    <div>{this.state.caloriesGoal}</div>
+                                    }cal</div>
+                                    <FontAwesomeIcon onClick={() => {
+                                        this.setState({ editCaloriesClicked: !this.state.editCaloriesClicked })
+                                    }} className='manage-clients-edit-icon' icon={faPenToSquare}/>
+                                    
                                     <div>Protein</div>
-                                    <div>{this.state.intake?.ProteinIntake}/{this.state.intake?.TotalProtein}g</div>
-                                    <FontAwesomeIcon className='manage-clients-edit-icon' icon={faPenToSquare}/>
+                                    <div className='intake-goals'>{this.state.intake?.ProteinIntake}/{ this.state.editProteinClicked ? 
+                                    <input type='number' defaultValue={this.state.proteinGoal} onChange={this.handleProteinChange} id='edit-protein-goal'/>
+                                    :
+                                    <div>{this.state.proteinGoal}</div>
+                                    }g</div>
+                                    <FontAwesomeIcon onClick={() => {
+                                        this.setState({ editProteinClicked: !this.state.editProteinClicked })
+                                    }} className='manage-clients-edit-icon' icon={faPenToSquare}/>
+                                    
                                     <div>Fat</div>
-                                    <div>{this.state.intake?.FatsIntake}/{this.state.intake?.TotalFats}g</div>
-                                    <FontAwesomeIcon className='manage-clients-edit-icon' icon={faPenToSquare}/>
+                                    <div className='intake-goals'>{this.state.intake?.FatsIntake}/{ this.state.editFatClicked ? 
+                                    <input type='number' defaultValue={this.state.fatGoal} onChange={this.handleFatGoalChange} id='edit-fat-goal'/>
+                                    :
+                                    <div>{this.state.fatGoal}</div>
+                                    }g</div>
+                                    <FontAwesomeIcon onClick={() => {
+                                        this.setState({ editFatClicked: !this.state.editFatClicked })
+                                    }} className='manage-clients-edit-icon' icon={faPenToSquare}/>
+                                    
                                     <div>Carbs</div>
-                                    <div>{this.state.intake?.CarbohydratesIntake}/{this.state.intake?.TotalCarbohydrates}g</div>
-                                    <FontAwesomeIcon className='manage-clients-edit-icon' icon={faPenToSquare}/>
+                                    <div className='intake-goals'>{this.state.intake?.CarbohydratesIntake}/{ this.state.editCarbsClicked ? 
+                                    <input type='number' defaultValue={this.state.carbsGoal} onChange={this.handleCarbsGoalChange} id='edit-carb-goal'/>
+                                    :
+                                    <div>{this.state.carbsGoal}</div>
+                                    }g</div>
+                                    <FontAwesomeIcon onClick={() => {
+                                        this.setState({ editCarbsClicked: !this.state.editCarbsClicked })
+                                    }} className='manage-clients-edit-icon' icon={faPenToSquare}/>
+                                    
                                 </div>
                                 
                             }
@@ -478,17 +645,24 @@ export default class TrainerManageClients extends Component
                         <div className='headers'>Client Description</div>
                         <div>{this.state.clientDescription}</div>
                         <div className='client-description-content'>
-                            <FontAwesomeIcon className='manage-edit-icon' icon={faPenToSquare}/>
+                            <FontAwesomeIcon className='manage-clients-edit-icon' icon={faPenToSquare}/>
                         </div>
                     </div>
                     <div className='catch-up-notes sections'>
                         <div className='headers'>CatchUp Notes</div>
-                        <div className='catch-up-notes-textbox'>
-                            <textarea className='catchup-notes-textbox'>
+                        <div className='catch-up-notes-content'>
+                            {/* <textarea className='catchup-notes-textbox'>
                                 Edit Steps goal to 10,000,
                                 Add extra cardio session on Sunday,
                                 Leave intake goals for another week and reassess
-                            </textarea>
+                            </textarea> */}
+                            { this.state.catchUpNotes?.map((catchUpNote) => {
+                                    return <div className='catch-up-notes-entry'>
+                                        <div>{catchUpNote.Date}</div>
+                                        <div>{catchUpNote.Notes}</div>
+                                    </div>
+                                })
+                            }
                         </div>
                     </div>
                     

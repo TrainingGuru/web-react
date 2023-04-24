@@ -118,9 +118,9 @@
     margin-left: 2%;
 }
 
-/* .manage-clients-edit-icon {
-
-} */
+.manage-clients-edit-icon {
+    cursor: pointer;
+}
 
 /* --------------------------- Steps Styles ----------------------------------*/
 
@@ -147,6 +147,17 @@
 .manage-clients-catch-up-notes-textbox {
     width: 100%;
     height: 75%;
+}
+
+.catch-up-notes-content {
+    width: 80%;
+    margin: auto;
+}
+
+.catch-up-notes-entry {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 0.5fr 1.5fr;
 }
 
 /* --------------------------- popup styles ------------------------------------------- */
@@ -271,4 +282,9 @@
 .workout-details-assign-button {
     width: 10%;
     margin: 1% auto;
+}
+
+/* ------------------------- intake goals ----------------------- */
+.intake-goals {
+    display: flex;
 }
