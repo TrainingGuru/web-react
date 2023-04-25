@@ -52,6 +52,7 @@ export default class TrainerCatchUp extends Component
             clientWorkoutsNextWeek: [],
             clientWorkoutNotes: [],
             workoutName: "",
+            clientName: "",
             currentWeekNumber: 5,
             daysOfTheWeek: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
         }
@@ -244,6 +245,22 @@ export default class TrainerCatchUp extends Component
                 {
                     console.log("Goals Data read!")
                     this.setState({goals: res.data})
+                }
+                else {
+                    console.log("Data not Found!")
+                }
+            })
+    }
+
+    getClientName(currentClientID) {
+        // -------------------------- client name ------------------------------
+        axios.get(`https://traininggurubackend.onrender.com/Client/${currentClientID}/Name`)
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("Goals Data read!")
+                    this.setState({clientName: res.data.Name})
                 }
                 else {
                     console.log("Data not Found!")
@@ -1047,13 +1064,16 @@ export default class TrainerCatchUp extends Component
                             <button className='submit-meeting-button meeting-buttons' onClick={() => this.setState({ isSubmitMeetingPopupClicked: !this.state.isSubmitMeetingPopupClicked })}>Submit</button>
                         </div> 
                         : 
-                        <button className='start-meeting-button meeting-buttons' onClick={() => this.setState({ isStartMeetingPopupClicked: !this.state.isStartMeetingPopupClicked })}>Start Meeting</button>}
+                        <button className='start-meeting-button meeting-buttons' onClick={() => {
+                            this.setState({ isStartMeetingPopupClicked: !this.state.isStartMeetingPopupClicked })
+                            this.getClientName(this.state.currentClientID)
+                        }}>Start Meeting</button>}
                 </div>
                 <div className={this.state.isStartMeetingPopupClicked ? 'start-meeting-confirmation-popup sections' : 'hidden'}>
                     <div className='start-meeting-confirmation-popup-content'>
                         <div className='start-meeting-confirmation-text'>Start Meeting With</div>
                         {/* <div className='start-meeting-confirmation-name'>{ document.getElementById("clients").value }</div> */}
-                        <div className='start-meeting-confirmation-name'>Robert McAteer</div>
+                        <div className='start-meeting-confirmation-name'>{this.state.clientName}</div>
                     </div>
                     <div className='start-meeting-confirmation-button'><button className='start-meeting-button meeting-buttons confirmation-button' onClick={() => {
                         this.setState({ isStartMeetingPopupClicked: !this.state.isStartMeetingPopupClicked });
