@@ -571,3 +571,12 @@
     margin: auto;
     font-size: 4em;
 }
+
+input[type="radio"] {
+    appearance: none;
+}
+
+input[type="radio"]:checked + label {
+    background-color: lightgrey;
+    box-shadow: 0 15px 45px rgba(245, 245, 245, 0.2);
+}

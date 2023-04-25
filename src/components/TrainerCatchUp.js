@@ -6,7 +6,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import {faChevronUp, faChevronDown, faLock } from "@fortawesome/free-solid-svg-icons";
 
 import {faFire} from "@fortawesome/free-solid-svg-icons/faFire";
 import {faDroplet} from "@fortawesome/free-solid-svg-icons/faDroplet";
@@ -766,7 +766,11 @@ export default class TrainerCatchUp extends Component
                             }
                     </div>
                     <div className='clients-dropdown'>
-                        <select id="clients" className='client-heading-dropdown'>
+                        <div className={this.state.meetingStarted ? "client-name-meeting-started" : "hidden"}>
+                            <div>{this.state.clientName}</div>
+                            <FontAwesomeIcon className='lock' icon={faLock}/>
+                        </div>
+                        <select id="clients"  className={this.state.meetingStarted ? "hidden" : 'client-heading-dropdown'}>
                             { this.state.clients?.map((client) => {
                                     return <option value={`${client.ClientID}`}>{client.Name}</option>
                                 })
@@ -1066,7 +1070,7 @@ export default class TrainerCatchUp extends Component
                         : 
                         <button className='start-meeting-button meeting-buttons' onClick={() => {
                             this.setState({ isStartMeetingPopupClicked: !this.state.isStartMeetingPopupClicked })
-                            this.getClientName(this.state.currentClientID)
+                            this.setState({ clientName: this.getClientName(this.state.currentClientID) })
                         }}>Start Meeting</button>}
                 </div>
                 <div className={this.state.isStartMeetingPopupClicked ? 'start-meeting-confirmation-popup sections' : 'hidden'}>
@@ -1083,9 +1087,18 @@ export default class TrainerCatchUp extends Component
                 </div>
                 <div className={this.state.isSubmitMeetingPopupClicked ? 'submit-meeting-popup sections' : 'hidden'}>
                     <div className='submit-meeting-icons'>
-                        <div className='submit-meeting-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
-                        <div className='submit-meeting-icon'><FontAwesomeIcon className='face-thinking' icon={faThumbsDown}/></div>
-                        <div className='submit-meeting-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
+                        {/* <div className='submit-meeting-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+                        <div className='submit-meeting-icon'><FontAwesomeIcon className='face-thinking' icon={faThumbsUp}/></div>
+                        <div className='submit-meeting-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div> */}
+                        <input type='radio' name='feedback' id="thumbs-up"/>
+                        <label for="thumbs-up"><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></label>
+
+                        <input type='radio' name='feedback' id="thumbs-middle"/>
+                        <label for="thumbs-middle"><FontAwesomeIcon className='face-thinking' icon={faThumbsUp}/></label>
+
+                        <input type='radio' name='feedback' id="thumbs-down"/>
+                        <label for="thumbs-down"><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></label>
+
                     </div>
                     <div className='submit-catchup-notes catchup-notes-textbox-container' id='catchup-notes-container'>
                         <textarea className='catchup-notes-textbox' id='catchup-notes'></textarea>
