@@ -47,6 +47,8 @@ export default class TrainerCatchUp extends Component
             isStartMeetingPopupClicked: false,
             isSubmitMeetingPopupClicked: false,
             clientWorkouts: [],
+            clientWorkoutsPrevWeek: [],
+            clientWorkoutsNextWeek: [],
             currentWeekNumber: 5,
             daysOfTheWeek: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
         }
@@ -64,6 +66,8 @@ export default class TrainerCatchUp extends Component
         this.setState({weight: this.getClientWeight(event.target.value)});
 
         this.setState({clientWorkouts: this.getWorkoutsForWeek(event.target.value, this.state.currentWeekNumber)});
+        this.setState({clientWorkoutsPrevWeek: this.getWorkoutsForPrevWeek(event.target.value, this.state.currentWeekNumber-1)});
+        this.setState({clientWorkoutsNextWeek: this.getWorkoutsForNextWeek(event.target.value, this.state.currentWeekNumber+1)});
     }
 
     componentDidMount()
@@ -211,6 +215,10 @@ export default class TrainerCatchUp extends Component
         this.getSchedule();
 
         this.getWorkoutsForWeek(this.state.currentClientID, this.state.currentWeekNumber);
+        this.getWorkoutsForPrevWeek(this.state.currentClientID, this.state.currentWeekNumber-1);
+        this.getWorkoutsForNextWeek(this.state.currentClientID, this.state.currentWeekNumber+1);
+
+        
 
         // this.setTextboxHeight('catchup-notes');
 
@@ -241,8 +249,43 @@ export default class TrainerCatchUp extends Component
             {
                 if(res.data)
                 {
-                    console.log("Certain Weeks Workout Data read!")
+                    console.log("Current Weeks Workout Data read!")
                     this.setState({clientWorkouts: res.data})
+                    
+                }
+                else {
+                    console.log("Data not Found!")
+                }
+            })
+    }
+
+    getWorkoutsForPrevWeek(currentClientID, weekNumber) {
+        // -------------------------- Workouts for certain Week ------------------------------
+        axios.get(`https://traininggurubackend.onrender.com/Client/${currentClientID}/Workouts/${weekNumber}`)
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("Previous Weeks Workout Data read!")
+                    this.setState({clientWorkoutsPrevWeek: res.data})
+                    
+                }
+                else {
+                    console.log("Data not Found!")
+                }
+            })
+    }
+
+    getWorkoutsForNextWeek(currentClientID, weekNumber) {
+        // -------------------------- Workouts for certain Week ------------------------------
+        axios.get(`https://traininggurubackend.onrender.com/Client/${currentClientID}/Workouts/${weekNumber}`)
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("Next Weeks Workout Data read!")
+                    this.setState({clientWorkoutsNextWeek: res.data})
+                    
                 }
                 else {
                     console.log("Data not Found!")
@@ -802,15 +845,36 @@ export default class TrainerCatchUp extends Component
                                 <ul className='track'>
                                     <li className='slide current-slide'>
                                         {   this.state.schedule.days?.slice(0,7).map((day) => {
+                                                var found = false;
+                                                var dayNumber = 0;
                                                 return <div className='slide-content'>
                                                     <div>{day.day}</div>
                                                     <div>{day.date}</div>
-                                                    <div>Chest Beginner</div>
+                                                    { this.state.clientWorkoutsPrevWeek?.map((clientWorkout) => {
+                                                        var d = new Date(clientWorkout.Date);
+                                                        dayNumber = d.getDay();
+                                                        if(dayNumber == 0) {
+                                                            dayNumber=6;
+                                                        } else {
+                                                            dayNumber -= 1;
+                                                        }
+                                                        var workoutDay = this.state.daysOfTheWeek[dayNumber];
+                                                        // console.log(clientWorkout.Date + " " + workoutDay);
+                                                        if(day.day.localeCompare(workoutDay)==0){
+                                                            found = true;
+                                                            return <div><div>{clientWorkout.TrainerWorkout.WorkoutName}</div>
+                                                            <div className='see-notes' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>See notes</div></div>
+                                                        }
+                                                        })
+                                                    }
+                                                    
+
+                                                    {/* <div>Chest Beginner</div>
                                                     <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>notes</div>
                                                     <div className={this.state.isPopupClicked ? 'popup' : 'hidden'}>
                                                         This is the notes popup!
                                                         <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Close</div>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                             })
                                         }
@@ -835,7 +899,7 @@ export default class TrainerCatchUp extends Component
                                                         if(day.day.localeCompare(workoutDay)==0){
                                                             found = true;
                                                             return <div><div>{clientWorkout.TrainerWorkout.WorkoutName}</div>
-                                                            <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>notes</div></div>
+                                                            <div className='see-notes' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>See notes</div></div>
                                                         }
                                                         })
                                                     }
@@ -853,15 +917,36 @@ export default class TrainerCatchUp extends Component
                                     </li>
                                     <li className='slide'>
                                         {   this.state.schedule.days?.slice(14,21).map((day) => {
+                                                var found = false;
+                                                var dayNumber = 0;
                                                 return <div className='slide-content'>
                                                     <div>{day.day}</div>
                                                     <div>{day.date}</div>
-                                                    <div>Chest Beginner</div>
+                                                    { this.state.clientWorkoutsNextWeek?.map((clientWorkout) => {
+                                                        var d = new Date(clientWorkout.Date);
+                                                        dayNumber = d.getDay();
+                                                        if(dayNumber == 0) {
+                                                            dayNumber=6;
+                                                        } else {
+                                                            dayNumber -= 1;
+                                                        }
+                                                        var workoutDay = this.state.daysOfTheWeek[dayNumber];
+                                                        // console.log(clientWorkout.Date + " " + workoutDay);
+                                                        if(day.day.localeCompare(workoutDay)==0){
+                                                            found = true;
+                                                            return <div><div>{clientWorkout.TrainerWorkout.WorkoutName}</div>
+                                                            <div className='see-notes' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>See notes</div></div>
+                                                        }
+                                                        })
+                                                    }
+                                                    
+
+                                                    {/* <div>Chest Beginner</div>
                                                     <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>notes</div>
                                                     <div className={this.state.isPopupClicked ? 'popup' : 'hidden'}>
                                                         This is the notes popup!
                                                         <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Close</div>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                             })
                                         }
