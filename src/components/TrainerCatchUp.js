@@ -39,6 +39,7 @@ export default class TrainerCatchUp extends Component
             intake: [],
             pbs: [],
             calHistory: [],
+            calHistory7Days: [],
             catchupHistory: [],
             weight: [],
             schedule: {},
@@ -62,7 +63,10 @@ export default class TrainerCatchUp extends Component
         this.setState({currentClientID: event.target.value});
         this.setState({goals: this.getClientGoals(event.target.value)});
         this.setState({intake: this.getClientIntake(event.target.value)});
+        
         this.setState({calHistory: this.getClientCalHistory(event.target.value)});
+        // this.setState({calHistory7Days: this.getCalorieSummary7Days()});
+
         this.setState({catchupHistory: this.getClientCatchUpHistory(event.target.value)});
         this.setState({pbs: this.getClientPBs(event.target.value)});
         this.setState({weight: this.getClientWeight(event.target.value)});
@@ -211,7 +215,10 @@ export default class TrainerCatchUp extends Component
         this.getClientGoals(this.state.currentClientID);
         this.getClientIntake(this.state.currentClientID);
         this.getClientPBs(this.state.currentClientID);
+        
         this.getClientCalHistory(this.state.currentClientID);
+        // this.getCalorieSummary7Days();
+
         this.getClientWeight(this.state.currentClientID);
         this.getClientCatchUpHistory(this.state.currentClientID);
         this.getSchedule();
@@ -351,7 +358,10 @@ export default class TrainerCatchUp extends Component
                 if(res.data)
                 {
                     console.log("cal History Data read!")
-                    this.setState({calHistory: res.data})
+
+                    this.setState({calHistory: res.data});
+
+                    this.getCalorieSummary7Days();
                 }
                 else {
                     console.log("Data not Found!")
@@ -401,6 +411,30 @@ export default class TrainerCatchUp extends Component
                     console.log("Data not Found!")
                 }
             })
+    }
+
+    getCalorieSummary7Days() {
+        var calorieSummaryString = '['
+        var dayNumber = 0;
+        for(let i = 5; i>=0; i--) {
+            var d = new Date(this.state.calHistory[i]?.Date);
+            dayNumber = d.getDay();
+            if(dayNumber == 0) {
+                dayNumber=6;
+            } else {
+                dayNumber -= 1;
+            }
+            var dayString = this.state.daysOfTheWeek[dayNumber]?.substring(0,1);
+
+            calorieSummaryString += '{ "Day": ' + dayString + ', "CaloriesHit": ' + this.state.calHistory[i]?.CaloriesHit;
+        }
+
+        dayNumber++;
+        calorieSummaryString += '{ "Day": ' + this.state.daysOfTheWeek[dayNumber]?.substring(0,1) + ', "CaloriesHit": ' + true;
+
+        calorieSummaryString += ']';
+        
+        this.setState({ calHistory7Days: JSON.parse(calorieSummaryString) })
     }
 
     // setTextboxHeight(fieldID) {
@@ -804,10 +838,14 @@ export default class TrainerCatchUp extends Component
                         <div className='calorie-summary-day'>S</div>
                         <div className='calorie-summary-day'>S</div>
 
-                        { this.state.calHistory?.map((history) => {
-                            return <div className='calorie-summary-icon'>
+                        { this.state.calHistory7Days?.map((history) => {
+
+                            return <div>
+                                    <div className='calorie-summary-day'>{history.Day}</div>
+                                    <div className='calorie-summary-icon'>
                                         { history.CaloriesHit ? <FontAwesomeIcon className='check' icon={faCheck}/> : <FontAwesomeIcon className='xmark' icon={faX}/> }
                                     </div>
+                                </div>
                             }) 
                         }
 
