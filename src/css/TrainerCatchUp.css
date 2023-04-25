@@ -371,6 +371,35 @@
     cursor: pointer;
 }
 
+.workout-notes-popup {
+    position: absolute;
+    margin: 5%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center; */
+    /* text-align: center; */
+    padding: 1%;
+}
+
+.workout-notes-popup-close-button {
+    cursor: pointer;
+    margin: auto;
+    /* font-weight: 500;
+    font-size: 14px; */
+    /* line-height: 18px; */
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 /* --------------------------- PersonalBests Styles ----------------------------------*/
 
 .personal-bests {

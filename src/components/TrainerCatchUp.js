@@ -49,6 +49,8 @@ export default class TrainerCatchUp extends Component
             clientWorkouts: [],
             clientWorkoutsPrevWeek: [],
             clientWorkoutsNextWeek: [],
+            clientWorkoutNotes: [],
+            workoutName: "",
             currentWeekNumber: 5,
             daysOfTheWeek: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
         }
@@ -203,7 +205,7 @@ export default class TrainerCatchUp extends Component
         const clientSelect = document.getElementById("clients");
         // console.log(clientSelect);
         clientSelect.value = "2";
-        console.log(clientSelect.value);
+        // console.log(clientSelect.value);
         clientSelect.addEventListener('change', this.handleClientChange);
 
         this.getClientGoals(this.state.currentClientID);
@@ -377,6 +379,28 @@ export default class TrainerCatchUp extends Component
 
             // let mondaysDate = moment().startOf('isoweek').format();
             // let mondaysDateString = mondaysDate.substring(0, 10);
+    }
+
+    getClientNotesForOneWorkout(clientWorkoutID) {
+        // -------------------------- catchup History ------------------------------
+        axios.get(`https://traininggurubackend.onrender.com/Client/WorkoutNote/${clientWorkoutID}`)
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("workout notes Data read!")
+                    console.log(res.data)
+                    if(res.data.Notes === null) {
+                        this.setState({clientWorkoutNotes: JSON.parse('{ "Notes" : "No Notes to Display" }') })    
+                    } else {
+                        this.setState({clientWorkoutNotes: res.data})
+                    }
+                    
+                }
+                else {
+                    console.log("Data not Found!")
+                }
+            })
     }
 
     // setTextboxHeight(fieldID) {
@@ -863,7 +887,11 @@ export default class TrainerCatchUp extends Component
                                                         if(day.day.localeCompare(workoutDay)==0){
                                                             found = true;
                                                             return <div><div>{clientWorkout.TrainerWorkout.WorkoutName}</div>
-                                                            <div className='see-notes' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>See notes</div></div>
+                                                            <div className='see-notes' onClick={() => {
+                                                                this.setState({ isPopupClicked: !this.state.isPopupClicked });
+                                                                this.setState({ clientWorkoutNotes: this.getClientNotesForOneWorkout(clientWorkout.ClientWorkoutID) });
+                                                                this.setState({ workoutName: clientWorkout.TrainerWorkout.WorkoutName });
+                                                            }}>See notes</div></div>
                                                         }
                                                         })
                                                     }
@@ -899,7 +927,11 @@ export default class TrainerCatchUp extends Component
                                                         if(day.day.localeCompare(workoutDay)==0){
                                                             found = true;
                                                             return <div><div>{clientWorkout.TrainerWorkout.WorkoutName}</div>
-                                                            <div className='see-notes' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>See notes</div></div>
+                                                            <div className='see-notes' onClick={() => {
+                                                                this.setState({ isPopupClicked: !this.state.isPopupClicked });
+                                                                this.setState({ clientWorkoutNotes: this.getClientNotesForOneWorkout(clientWorkout.ClientWorkoutID) });
+                                                                this.setState({ workoutName: clientWorkout.TrainerWorkout.WorkoutName });
+                                                            }}>See notes</div></div>
                                                         }
                                                         })
                                                     }
@@ -935,7 +967,11 @@ export default class TrainerCatchUp extends Component
                                                         if(day.day.localeCompare(workoutDay)==0){
                                                             found = true;
                                                             return <div><div>{clientWorkout.TrainerWorkout.WorkoutName}</div>
-                                                            <div className='see-notes' onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>See notes</div></div>
+                                                            <div className='see-notes' onClick={() => {
+                                                                this.setState({ isPopupClicked: !this.state.isPopupClicked });
+                                                                this.setState({ clientWorkoutNotes: this.getClientNotesForOneWorkout(clientWorkout.ClientWorkoutID) });
+                                                                this.setState({ workoutName: clientWorkout.TrainerWorkout.WorkoutName });
+                                                            }}>See notes</div></div>
                                                         }
                                                         })
                                                     }
@@ -1003,6 +1039,13 @@ export default class TrainerCatchUp extends Component
                             /* Submit details */
                         }}>Submit</button>
                     </div>
+                </div>
+                <div className={this.state.isPopupClicked ? 'workout-notes-popup sections' : 'hidden' }>
+                    <div className='popup-nav'>
+                        <div className='headers'>{this.state.workoutName}</div>
+                        <FontAwesomeIcon onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} className='workout-notes-popup-close-button' icon={faX}/>
+                    </div>
+                    <div>{this.state.clientWorkoutNotes?.Notes}</div>
                 </div>
             </div>
         )
