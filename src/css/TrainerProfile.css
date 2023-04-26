@@ -1,5 +1,8 @@
 /* --------------------------- ManageClients Styles ----------------------------------*/
 
+/* --------------------------- Fonts ----------------------------------*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Rubik:wght@400;700&family=Russo+One&display=swap');
+
 .trainer-profile {
     height: 100%;
     /* overflow: hidden; */
