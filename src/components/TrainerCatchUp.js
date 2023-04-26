@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Nav from './Nav';
+import { Link } from 'react-router-dom';
 
 import axios from 'axios';
 import moment from 'moment';
@@ -13,6 +14,7 @@ import {faDroplet} from "@fortawesome/free-solid-svg-icons/faDroplet";
 import {faStairs} from "@fortawesome/free-solid-svg-icons/faStairs";
 import {faBolt} from "@fortawesome/free-solid-svg-icons/faBolt";
 import {faRoad} from "@fortawesome/free-solid-svg-icons/faRoad";
+import {faGear} from "@fortawesome/free-solid-svg-icons/faGear";
 
 import {faCheck} from "@fortawesome/free-solid-svg-icons/faCheck";
 import {faX} from "@fortawesome/free-solid-svg-icons/faX";
@@ -776,6 +778,7 @@ export default class TrainerCatchUp extends Component
                                 })
                             }
                         </select>
+                        <Link to="/Manage" className='clients-manage-link'><FontAwesomeIcon className='gear-icon' icon={faGear}/></Link>
                     </div>
                     <div className='intake'>
                         <div className='intake-heading'>Intake</div>
