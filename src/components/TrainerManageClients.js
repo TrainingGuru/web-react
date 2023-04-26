@@ -430,13 +430,14 @@ export default class TrainerManageClients extends Component
                     console.log("Workout Assigned!")
                     // this.setState({meetings: res.data})
                     // console.log(res.data)
+                    this.getWorkoutsForWeek(this.state.currentClientID, weekNumber);
                 }
                 else {
                     console.log("Data not Found!")
                 }
             })
 
-            this.setState({clientWorkouts: this.getWorkoutsForWeek(this.state.currentClientID, weekNumber)});
+            
     }
 
     getClientIntake(currentClientID) {
