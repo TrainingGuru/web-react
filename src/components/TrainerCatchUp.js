@@ -13,7 +13,7 @@ import {faFire} from "@fortawesome/free-solid-svg-icons/faFire";
 import {faDroplet} from "@fortawesome/free-solid-svg-icons/faDroplet";
 import {faStairs} from "@fortawesome/free-solid-svg-icons/faStairs";
 import {faBolt} from "@fortawesome/free-solid-svg-icons/faBolt";
-import {faRoad} from "@fortawesome/free-solid-svg-icons/faRoad";
+import {faShoePrints} from "@fortawesome/free-solid-svg-icons/faShoePrints";
 import {faGear} from "@fortawesome/free-solid-svg-icons/faGear";
 
 import {faCheck} from "@fortawesome/free-solid-svg-icons/faCheck";
@@ -812,7 +812,7 @@ export default class TrainerCatchUp extends Component
                                 <FontAwesomeIcon className='down-icon' icon={faChevronDown}/>
                             </div>
                         </div>
-                        <div>
+                        {/* <div>
                             <FontAwesomeIcon className='fitbit-icon waterIntake' icon={faDroplet}/>
                             <div className='fitbit-content'>
                                 <div className='fitbit-data'>
@@ -821,7 +821,7 @@ export default class TrainerCatchUp extends Component
                                 </div>
                                 <FontAwesomeIcon className='down-icon' icon={faChevronDown}/>
                             </div>
-                        </div>
+                        </div> */}
                         <div>
                             <FontAwesomeIcon className='fitbit-icon floorsClimbed' icon={faStairs}/>
                             <div className='fitbit-content'>
@@ -843,11 +843,11 @@ export default class TrainerCatchUp extends Component
                             </div>
                         </div>
                         <div>
-                            <FontAwesomeIcon className='fitbit-icon distTravelled' icon={faRoad}/>
+                            <FontAwesomeIcon className='fitbit-icon steps-icon' icon={faShoePrints}/>
                             <div className='fitbit-content'>
                                 <div className='fitbit-data'>
-                                    <div>Distance Travelled</div>
-                                    <div>7.1km</div>
+                                    <div>Steps</div>
+                                    <div>2.1km</div>
                                 </div>
                                 <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
                             </div>

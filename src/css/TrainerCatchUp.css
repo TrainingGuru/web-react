@@ -41,8 +41,14 @@
     grid-column: span 2;
     overflow: hidden;
     display: flex;
-    justify-content: space-evenly;
+    /* flex-shrink: 1;
+    flex-wrap: 1; */
+    /* justify-content: space-evenly; */
     text-align: center;
+}
+
+.fitbit-icons > * {
+    width: 25%;
 }
 
 .fitbit-icon {
@@ -66,13 +72,15 @@
     color: rgb(174, 234, 95);
 }
 
-.distTravelled {
+.steps-icon {
     color: rgb(201, 99, 248);
 }
 
 .fitbit-content {
     display: flex;
-    /* gap: 1rem; */
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
 }
 
 .fitbit-data {
