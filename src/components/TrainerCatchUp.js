@@ -380,7 +380,7 @@ export default class TrainerCatchUp extends Component
 
                     this.setState({calHistory: res.data});
 
-                    this.getCalorieSummary7Days();
+                    this.getCalorieSummary7Days(res.data);
                 }
                 else {
                     console.log("Data not Found!")
@@ -432,28 +432,31 @@ export default class TrainerCatchUp extends Component
             })
     }
 
-    getCalorieSummary7Days() {
+    getCalorieSummary7Days(calHistory) {
         var calorieSummaryString = '['
         var dayNumber = 0;
         for(let i = 5; i>=0; i--) {
-            var d = new Date(this.state.calHistory[i]?.Date);
+            var d = new Date(calHistory[i]?.Date);
+            // console.log(d)
             dayNumber = d.getDay();
             if(dayNumber == 0) {
-                dayNumber=6;
+                dayNumber = 6;
             } else {
                 dayNumber -= 1;
             }
+            // console.log(dayNumber)
             var dayString = this.state.daysOfTheWeek[dayNumber]?.substring(0,1);
-
-            calorieSummaryString += '{ "Day": ' + dayString + ', "CaloriesHit": ' + this.state.calHistory[i]?.CaloriesHit;
+            // console.log(dayString);
+            calorieSummaryString += '{ "Day": "' + dayString + '", "CaloriesHit": ' + calHistory[i]?.CaloriesHit + '},';
         }
 
         dayNumber++;
-        calorieSummaryString += '{ "Day": ' + this.state.daysOfTheWeek[dayNumber]?.substring(0,1) + ', "CaloriesHit": ' + true;
+        calorieSummaryString += '{ "Day": "' + this.state.daysOfTheWeek[dayNumber]?.substring(0,1) + '", "CaloriesHit": "dash"}';
 
         calorieSummaryString += ']';
         
         this.setState({ calHistory7Days: JSON.parse(calorieSummaryString) })
+        console.log(this.state.calHistory7Days);
     }
 
     // setTextboxHeight(fieldID) {
@@ -854,32 +857,32 @@ export default class TrainerCatchUp extends Component
                         </div>
                     </div>
                     <div className='calorie-summary'>
-                        <div className='calorie-summary-day'>M</div>
+                        {/* <div className='calorie-summary-day'>M</div>
                         <div className='calorie-summary-day'>T</div>
                         <div className='calorie-summary-day'>W</div>
                         <div className='calorie-summary-day'>T</div>
                         <div className='calorie-summary-day'>F</div>
                         <div className='calorie-summary-day'>S</div>
-                        <div className='calorie-summary-day'>S</div>
+                        <div className='calorie-summary-day'>S</div> */}
 
-                        {/* { this.state.calHistory7Days?.map((history) => {
+                        { this.state.calHistory7Days?.map((history) => {
 
                             return <div>
                                     <div className='calorie-summary-day'>{history.Day}</div>
                                     <div className='calorie-summary-icon'>
-                                        { history.CaloriesHit ? <FontAwesomeIcon className='check' icon={faCheck}/> : <FontAwesomeIcon className='xmark' icon={faX}/> }
+                                        { history.CaloriesHit ? <FontAwesomeIcon className='check' icon={faCheck}/> : !history.CaloriesHit ? <FontAwesomeIcon className='xmark' icon={faX}/> : history.CaloriesHit.localeCompare("dash") === 0 ? <FontAwesomeIcon className='dash' icon={faMinus}/> : <div></div> }
                                     </div>
                                 </div>
                             }) 
-                        } */}
+                        }
 
-                        { this.state.calHistory?.map((history) => {
+                        {/* { this.state.calHistory?.map((history) => {
 
                             return <div className='calorie-summary-icon'>
                                         { history.CaloriesHit ? <FontAwesomeIcon className='check' icon={faCheck}/> : <FontAwesomeIcon className='xmark' icon={faX}/> }
                                     </div>
                             }) 
-                        }
+                        } */}
 
 
                         {/* <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
