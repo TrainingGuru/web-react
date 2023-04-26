@@ -104,8 +104,10 @@ export default class TrainerHome extends Component
         console.log(document.getElementById("schedule-date").value);
         console.log(document.getElementById("schedule-time").value);
 
+        var clientID = this.state.clientValue;
+
         // ------------------- Schedule Meeting -----------------------------------
-        axios.post(`https://traininggurubackend.onrender.com/CatchUp/${this.state.clientValue}`, {
+        axios.post(`https://traininggurubackend.onrender.com/CatchUp/${clientID}`, {
                 "Date": this.state.dateValue,
                 "Time": this.state.timeValue
             })
@@ -116,6 +118,7 @@ export default class TrainerHome extends Component
                     console.log("Meeting Scheduled!")
                     // this.setState({meetings: res.data})
                     // console.log(res.data)
+                    this.getUpcomingMeetings();
                 }
                 else {
                     console.log("Data not Found!")
@@ -156,8 +159,17 @@ export default class TrainerHome extends Component
                     <div className='clients-content'>
                         { this.state.clients?.map((client) => {
                             return <div className='clients-content-entry'>
-                                <FontAwesomeIcon className='clients-content-recent-feedback thumbs-up' icon={faThumbsUp}/>
-
+                                { client.CatchUps[0]?.Rating == 2 ? 
+                                    <FontAwesomeIcon className='clients-content-recent-feedback thumbs-up' icon={faThumbsUp}/>
+                                    :
+                                    client.CatchUps[0]?.Rating == 1 ? 
+                                        <FontAwesomeIcon className='clients-content-recent-feedback thumbs-middle' icon={faThumbsUp}/>
+                                    :
+                                    client.CatchUps[0]?.Rating == 0 ? 
+                                        <FontAwesomeIcon className='clients-content-recent-feedback thumbs-down' icon={faThumbsDown}/>
+                                    :
+                                        <div></div>
+                                }
                                 {/* <div className='clients-content-recent-feedback thumbs-up'>{client.CatchUps[0]}</div> */}
                                 {/* { console.log(client.CatchUps[0]) } */}
                                 <div className='clients-content-entry-name'>{client.Name}</div>

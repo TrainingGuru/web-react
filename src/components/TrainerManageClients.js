@@ -413,7 +413,7 @@ export default class TrainerManageClients extends Component
         // DD/MM/YYYY
 
         var finalDate = startOfWeekDate.substring(6,10) + "-" + startOfWeekDate.substring(0,2) + "-" + startOfWeekDate.substring(3,5);
-        console.log(finalDate);
+        // console.log(finalDate);
 
         // recall get workouts after assign
 

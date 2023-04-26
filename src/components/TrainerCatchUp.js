@@ -1105,7 +1105,7 @@ export default class TrainerCatchUp extends Component
                         <label for="thumbs-up"><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></label>
 
                         <input type='radio' name='feedback' id="thumbs-middle"/>
-                        <label for="thumbs-middle"><FontAwesomeIcon className='face-thinking' icon={faThumbsUp}/></label>
+                        <label for="thumbs-middle"><FontAwesomeIcon className='thumbs-middle' icon={faThumbsUp}/></label>
 
                         <input type='radio' name='feedback' id="thumbs-down"/>
                         <label for="thumbs-down"><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></label>
