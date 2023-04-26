@@ -519,7 +519,7 @@ export default class TrainerManageClients extends Component
                 <div className='manage-clients-container'>
                     <div className='assign-workouts'>
                         <div className='assign-workouts-name'>
-                            <select id="clients" className='clients-dropdown'>
+                            <select id="clients" value={this.state.currentClientID} className='clients-dropdown'>
                                 { this.state.clients?.map((client) => {
                                         return <option value={`${client.ClientID}`}>{client.Name}</option>
                                     })

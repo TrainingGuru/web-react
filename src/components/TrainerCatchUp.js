@@ -209,7 +209,7 @@ export default class TrainerCatchUp extends Component
         // -------------------------- select -------------------------
         const clientSelect = document.getElementById("clients");
         // console.log(clientSelect);
-        clientSelect.value = "2";
+        // clientSelect.value = this.state.currentClientID;
         // console.log(clientSelect.value);
         clientSelect.addEventListener('change', this.handleClientChange);
 
@@ -770,7 +770,7 @@ export default class TrainerCatchUp extends Component
                             <div>{this.state.clientName}</div>
                             <FontAwesomeIcon className='lock' icon={faLock}/>
                         </div>
-                        <select id="clients"  className={this.state.meetingStarted ? "hidden" : 'client-heading-dropdown'}>
+                        <select id="clients" value={this.state.currentClientID} className={this.state.meetingStarted ? "hidden" : 'client-heading-dropdown'}>
                             { this.state.clients?.map((client) => {
                                     return <option value={`${client.ClientID}`}>{client.Name}</option>
                                 })
@@ -859,7 +859,7 @@ export default class TrainerCatchUp extends Component
                         <div className='calorie-summary-day'>S</div>
                         <div className='calorie-summary-day'>S</div>
 
-                        { this.state.calHistory7Days?.map((history) => {
+                        {/* { this.state.calHistory7Days?.map((history) => {
 
                             return <div>
                                     <div className='calorie-summary-day'>{history.Day}</div>
@@ -867,6 +867,14 @@ export default class TrainerCatchUp extends Component
                                         { history.CaloriesHit ? <FontAwesomeIcon className='check' icon={faCheck}/> : <FontAwesomeIcon className='xmark' icon={faX}/> }
                                     </div>
                                 </div>
+                            }) 
+                        } */}
+
+                        { this.state.calHistory?.map((history) => {
+
+                            return <div className='calorie-summary-icon'>
+                                        { history.CaloriesHit ? <FontAwesomeIcon className='check' icon={faCheck}/> : <FontAwesomeIcon className='xmark' icon={faX}/> }
+                                    </div>
                             }) 
                         }
 
