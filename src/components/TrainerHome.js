@@ -359,7 +359,7 @@ export default class TrainerHome extends Component
             </div>
             <div className={this.state.isPopupClicked ? 'schedule-meeting-popup sections' : 'hidden'}>
                 <div className='popup-nav'>
-                    <div className='headers'>Schedule Meeting</div>
+                    <div className='headers popup-header'>Schedule Meeting</div>
                     <FontAwesomeIcon onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} className='schedule-meeting-popup-close-button' icon={faX}/>
                 </div>
                 <div className='schedule-meeting-form'>
