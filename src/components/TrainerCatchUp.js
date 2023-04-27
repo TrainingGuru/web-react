@@ -773,15 +773,17 @@ export default class TrainerCatchUp extends Component
                     <div className='clients-dropdown'>
                         <div className={this.state.meetingStarted ? "client-name-meeting-started" : "hidden"}>
                             <div className='clients-locked-name'>{this.state.clientName}</div>
-                            <FontAwesomeIcon className='lock' icon={faLock}/>
                         </div>
                         <select id="clients" value={this.state.currentClientID} className={this.state.meetingStarted ? "hidden" : 'client-heading-dropdown'}>
                             { this.state.clients?.map((client) => {
-                                    return <option className='clients-dropdown-name' value={`${client.ClientID}`}>{client.Name}</option>
-                                })
-                            }
+                                return <option className='clients-dropdown-name' value={`${client.ClientID}`}>{client.Name}</option>
+                            })
+                        }
                         </select>
+                        {this.state.meetingStarted ? <FontAwesomeIcon className='lock' icon={faLock}/> 
+                        :
                         <Link to="/Manage" className='clients-manage-link'><FontAwesomeIcon className='gear-icon' icon={faGear}/></Link>
+                        }
                     </div>
                     <div className='intake catchup-sections'>
                         <div className='headers'>Todays Intake</div>
@@ -891,7 +893,7 @@ export default class TrainerCatchUp extends Component
 
                     </div>
                     <div className='feedback-summary catchup-sections'>
-                        <div className='headers'>Weekly Checkin Rankings</div>
+                        <div className='headers checkin-header'>Weekly Checkin Rankings</div>
                         <div className='feedback-summary-table'>
                             
                             <div className='feedback-summary-day'>1</div>
@@ -965,7 +967,7 @@ export default class TrainerCatchUp extends Component
                                                                 this.setState({ clientWorkoutNotes: this.getClientNotesForOneWorkout(clientWorkout.ClientWorkoutID) });
                                                                 this.setState({ workoutName: clientWorkout.TrainerWorkout.WorkoutName });
                                                             }}>See notes</div></div>
-                                                        }
+                                                        } 
                                                         })
                                                     }
                                                     

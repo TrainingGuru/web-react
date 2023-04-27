@@ -15,7 +15,7 @@
     width: 95%;
     margin: auto;
     overflow: hidden;
-    height: 80%;
+    height: 82.5%;
 }
 
 /* .edit-icon {
@@ -34,11 +34,14 @@
 
 .clients-dropdown {
     grid-column: span 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
 .client-heading-dropdown, .clients-locked-name {
     font-family: 'Russo One', sans-serif;
-    font-size: 88px;
+    font-size: 80px;
 
 }
 
@@ -49,7 +52,7 @@
 /* --------------------------- FitBitIcons Styles ----------------------------------*/
 
 .fitbit-icons {
-    height: 100%;
+    height: fit-content;
     grid-column: span 2;
     overflow: hidden;
     display: flex;
@@ -61,6 +64,7 @@
 
 .fitbit-icons > * {
     width: 25%;
+    height: fit-content;
 }
 
 .fitbit-icon {
@@ -156,6 +160,7 @@
     /* grid-row: span 3;
     grid-column: span 2; */
     height: 100%;
+    min-height: 20vh;
     overflow: hidden;
 }
 
@@ -191,22 +196,27 @@
     
 }
 
+.checkin-header {
+    margin: 1% auto 1%;
+}
+
 .feedback-summary-table {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    height: 80%;
+    /* height: 80%; */
     font-family: 'Poppins', sans-serif;
-    font-size: 20px;
+    font-size: 30px;
+    margin-bottom: 1%;
 }
 
 .feedback-summary-day {
-    padding: 20% 20% 0 20%;
+    /* padding: 20% 20% 0 20%; */
     height: fit-content;
     text-align: center;
 }
 
 .feedback-summary-icon {
-    padding: 0 20% 20% 20%;
+    /* padding: 0 20% 20% 20%; */
     text-align: center;
 }
 
@@ -221,7 +231,10 @@
 }
 
 .progress-chart-image {
-    width: 100%;
+    /* width: 100%; */
+    height: 265px;
+    width: 425px;
+    margin: 0 2.5%;
 }
 
 /* --------------------------- Goals Styles ----------------------------------*/
@@ -242,6 +255,9 @@
 }
 
 /* --------------------------- CalSummary Styles ----------------------------------*/
+.calorie-summary {
+    height: fit-content;
+} 
 
 .calorie-summary-table {
     /* grid-column: span 2; */
@@ -300,18 +316,19 @@
 
 .schedule {
     grid-column: span 4;
-    height: 100%;
+    /* height: 100%; */
     overflow: hidden;
+    min-height: 23vh;
 }
 
 .schedule-header {
     margin-top: 1%;
-    margin-bottom: 1%;
+    margin-bottom: 0.25%;
 }
 
 .carousel {
     position: relative;
-    height: 50%;
+    height: 60%;
     width: 80%;
     margin: 0 auto;
 }
@@ -466,6 +483,7 @@
 
 .personal-bests {
     /* grid-column: span 2; */
+    /* min-height: 20vh; */
     height: 100%;
     overflow: hidden;
 }
@@ -476,7 +494,7 @@
 }
 
 .personal-bests-entry {
-    margin: 7.5%;
+    margin: 2.5%;
 }
 
 .personal-bests-entry-data {
@@ -501,7 +519,7 @@
 
 .catch-up-meeting-form {
     width: 80%;
-    margin: 1% auto;
+    margin: 0.25% auto;
     text-align: center;
 }
 
@@ -518,14 +536,16 @@
     justify-content: center; */
     /* text-align: center; */
     padding: 1%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
 }
 
 .start-meeting-confirmation-popup-content {
     display: flex;
     justify-content: space-evenly;
-    font-size: 2em;
+    font-size: 1.5em;
     width: 80%;
-    margin: 2% auto 0;
+    margin: 5% auto 0;
     gap: 2rem;
 }
 
@@ -547,6 +567,9 @@
 
 .start-meeting-confirmation-button {
     text-align: center;
+    margin-top: 2%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
 }
 
 .confirmation-button {
@@ -584,9 +607,11 @@
 
 .meeting-buttons {
     background-color: white;
-    padding: 0.5%;
+    /* padding: 0.5%; */
     transition-duration: 0.4s;
     cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
 }
 
 .cancel-submit-buttons-container {
