@@ -35,19 +35,24 @@
 .clients-dropdown {
     border: none;
     cursor: pointer;
-    font-size: 1.5em;
+    font-family: 'Poppins', sans-serif;
+    font-size: 70px;
+}
+.clients-dropdown option {
+    font-size: 30px;
 }
 
 .weeks-dropdown {
     cursor: pointer;
-    font-size: 1.1em;
     margin: 1% auto;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
 }
 
 .assign-workouts-content {
     /* display: grid; */
     /* gap: 1rem; */
-    font-size: 2em;
+    font-size: 35px;
     height: 80%;
     /* grid-template-columns: repeat(2, 1fr); */
     width: 75%;
@@ -68,6 +73,7 @@
 .assign-workouts-day {
     /* text-align: center; */
     flex-direction: column;
+    font-weight: 500;
 }
 
 .assign-workout-content {
@@ -83,6 +89,8 @@
 
 .assign-button {
     cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
 }
 
 .assign-workout-name {
@@ -109,42 +117,92 @@
 
 .manage-clients-intake-heading {
     text-align: center;
-    font-size: 2em;
     border-bottom: 1px solid black;
+    font-family: 'Poppins', sans-serif;
+    font-size: 50px;
 }
 
 .manage-clients-intake-table {
     display: grid;
-    gap: 1.5rem;
+    gap: 0.5rem;
     grid-template-columns: 1.25fr 1.25fr 0.5fr;
-    margin-left: 2%;
+    margin: 1% 10% 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+}
+
+.manage-clients-intake-table input {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    width: 100px;
+    margin: 0;
+    padding: 0;
 }
 
 .manage-clients-edit-icon {
     cursor: pointer;
 }
 
+.intake-category {
+    font-weight: 700;
+}
+
 /* --------------------------- Steps Styles ----------------------------------*/
+.steps-heading {
+    height: fit-content;
+    width: fit-content;
+    align-items: center;
+    margin: 2% 0%;
+    padding: 1% 2%;
+}
 
-/* .manage-clients-steps {
+.manage-clients-steps {
+    display: flex;
+    justify-content: space-evenly;
+    height: fit-content;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+}
 
-} */
+.manage-clients-steps input, .step-goal {
+    font-size: 20px;
+    width: 150px;
+}
+
+.step-goal {
+    padding: 1%;
+}
 
 /* --------------------------- ManageClientDescription Styles ----------------------------------*/
 
-/* .client-description {
-
+.client-description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .client-description-content {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    margin-bottom: 1%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
-} */
+.description-edit-icon {
+    margin-bottom: 2%;
+}
 
 /* --------------------------- CatchUpNote Styles ----------------------------------*/
 
-/* .manage-clients-catch-up-notes {
-
-} */
+.catch-up-notes {
+    min-height: 20vh;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+}
 
 .manage-clients-catch-up-notes-textbox {
     width: 100%;

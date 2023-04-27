@@ -585,42 +585,42 @@ export default class TrainerManageClients extends Component
                     <div className='manage-clients-intake'>
                         <div className='manage-clients-intake-heading'>Intake</div>
                         { <div className='manage-clients-intake-table'>
-                                    <div>Calories</div>
-                                    <div className='intake-goals'>{this.state.intake?.CaloriesIntake}/{ this.state.editCaloriesClicked ? 
+                                    <div className='intake-category'>Calories</div>
+                                    <div className='intake-goals'>{this.state.intake?.CaloriesIntake} / { this.state.editCaloriesClicked ? 
                                     <input type='number' defaultValue={this.state.caloriesGoal} onChange={this.handleCaloriesChange} id='edit-calorie-goal'/>
                                     :
-                                    <div>{this.state.caloriesGoal}</div>
-                                    }cal</div>
+                                    <div> {this.state.caloriesGoal}</div>
+                                    } cal</div>
                                     <FontAwesomeIcon onClick={() => {
                                         this.setState({ editCaloriesClicked: !this.state.editCaloriesClicked })
                                     }} className='manage-clients-edit-icon' icon={faPenToSquare}/>
                                     
-                                    <div>Protein</div>
-                                    <div className='intake-goals'>{this.state.intake?.ProteinIntake}/{ this.state.editProteinClicked ? 
+                                    <div className='intake-category'>Protein</div>
+                                    <div className='intake-goals'>{this.state.intake?.ProteinIntake} / { this.state.editProteinClicked ? 
                                     <input type='number' defaultValue={this.state.proteinGoal} onChange={this.handleProteinChange} id='edit-protein-goal'/>
                                     :
-                                    <div>{this.state.proteinGoal}</div>
-                                    }g</div>
+                                    <div> {this.state.proteinGoal}</div>
+                                    } g</div>
                                     <FontAwesomeIcon onClick={() => {
                                         this.setState({ editProteinClicked: !this.state.editProteinClicked })
                                     }} className='manage-clients-edit-icon' icon={faPenToSquare}/>
                                     
-                                    <div>Fat</div>
-                                    <div className='intake-goals'>{this.state.intake?.FatsIntake}/{ this.state.editFatClicked ? 
+                                    <div className='intake-category'>Fat</div>
+                                    <div className='intake-goals'>{this.state.intake?.FatsIntake} / { this.state.editFatClicked ? 
                                     <input type='number' defaultValue={this.state.fatGoal} onChange={this.handleFatGoalChange} id='edit-fat-goal'/>
                                     :
-                                    <div>{this.state.fatGoal}</div>
-                                    }g</div>
+                                    <div> {this.state.fatGoal}</div>
+                                    } g</div>
                                     <FontAwesomeIcon onClick={() => {
                                         this.setState({ editFatClicked: !this.state.editFatClicked })
                                     }} className='manage-clients-edit-icon' icon={faPenToSquare}/>
                                     
-                                    <div>Carbs</div>
-                                    <div className='intake-goals'>{this.state.intake?.CarbohydratesIntake}/{ this.state.editCarbsClicked ? 
+                                    <div className='intake-category'>Carbs</div>
+                                    <div className='intake-goals'>{this.state.intake?.CarbohydratesIntake} / { this.state.editCarbsClicked ? 
                                     <input type='number' defaultValue={this.state.carbsGoal} onChange={this.handleCarbsGoalChange} id='edit-carb-goal'/>
                                     :
-                                    <div>{this.state.carbsGoal}</div>
-                                    }g</div>
+                                    <div> {this.state.carbsGoal}</div>
+                                    } g</div>
                                     <FontAwesomeIcon onClick={() => {
                                         this.setState({ editCarbsClicked: !this.state.editCarbsClicked })
                                     }} className='manage-clients-edit-icon' icon={faPenToSquare}/>
@@ -630,11 +630,11 @@ export default class TrainerManageClients extends Component
                             }
                     </div>
                     <div className='manage-clients-steps sections'>
-                        <div className='headers'>Steps Goal</div>
+                        <div className='headers steps-heading'>Steps Goal</div>
                         { this.state.editStepGoalClicked ? 
                         <input type='text' defaultValue={this.state.stepGoal} onChange={this.handleStepGoalChange} id='edit-step-goal'/>
                         :
-                        <div>{this.state.stepGoal}</div>
+                        <div className='step-goal'>{this.state.stepGoal}</div>
                         }
                         
                         {/* <div>7,000</div> */}
@@ -644,10 +644,11 @@ export default class TrainerManageClients extends Component
                     </div>
                     <div className='client-description sections'>
                         <div className='headers'>Client Description</div>
-                        <div>{this.state.clientDescription}</div>
+                        
                         <div className='client-description-content'>
-                            <FontAwesomeIcon className='manage-clients-edit-icon' icon={faPenToSquare}/>
+                            <div>{this.state.clientDescription}</div>
                         </div>
+                        <FontAwesomeIcon className='manage-clients-edit-icon description-edit-icon' icon={faPenToSquare}/>
                     </div>
                     <div className='catch-up-notes sections'>
                         <div className='headers'>CatchUp Notes</div>
