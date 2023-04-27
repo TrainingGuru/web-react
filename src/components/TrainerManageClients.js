@@ -582,8 +582,8 @@ export default class TrainerManageClients extends Component
                             
                         </div>
                     </div>
-                    <div className='manage-clients-intake'>
-                        <div className='manage-clients-intake-heading'>Intake</div>
+                    <div className='manage-clients-intake sections'>
+                        <div className='headers'>Daily Intake</div>
                         { <div className='manage-clients-intake-table'>
                                     <div className='intake-category'>Calories</div>
                                     <div className='intake-goals'>{this.state.intake?.CaloriesIntake} / { this.state.editCaloriesClicked ? 

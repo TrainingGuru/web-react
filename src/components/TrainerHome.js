@@ -290,13 +290,19 @@ export default class TrainerHome extends Component
 
                             </div>
                         }) }
+                        <div className='clients-content-entry'>
+                            <div></div>
+                            <div className='clients-content-entry-name'>Jane McAvoy</div>
+                            <Link to="/CatchUp" className='clients-catch-up-link' onClick={() => localStorage.currentID = 5}><FontAwesomeIcon className='chart-icon' icon={faChartSimple}/></Link>
+                            <Link to="/Manage" className='clients-manage-link' onClick={() => localStorage.currentID = 5}><FontAwesomeIcon className='gear-icon' icon={faGear}/></Link>
+                        </div>
                     </div>
                     <div className='clients-menu'>
                         <FontAwesomeIcon className='clients-add-icon' icon={faPlus}/>
                         <FontAwesomeIcon className='clients-edit-icon' icon={faPenToSquare}/>
                     </div>
                 </div>
-                <div className='calendar-container'>
+                <div className='calendar-container sections'>
                     <div className='wrapper'>
                         <header>
                             <p className='current-date'>September 2022</p>
