@@ -761,7 +761,7 @@ export default class TrainerCatchUp extends Component
             <div className='catchUp'>
                 <Nav />
                 <div className='catchUp-container'>
-                    <div className='goals sections'>
+                    <div className='goals catchup-sections'>
                         <div className='headers'>Goals</div>
                             { this.state.goals?.map((goal) => {
                                 return <div className='goals-entry'>
@@ -772,33 +772,33 @@ export default class TrainerCatchUp extends Component
                     </div>
                     <div className='clients-dropdown'>
                         <div className={this.state.meetingStarted ? "client-name-meeting-started" : "hidden"}>
-                            <div>{this.state.clientName}</div>
+                            <div className='clients-locked-name'>{this.state.clientName}</div>
                             <FontAwesomeIcon className='lock' icon={faLock}/>
                         </div>
                         <select id="clients" value={this.state.currentClientID} className={this.state.meetingStarted ? "hidden" : 'client-heading-dropdown'}>
                             { this.state.clients?.map((client) => {
-                                    return <option value={`${client.ClientID}`}>{client.Name}</option>
+                                    return <option className='clients-dropdown-name' value={`${client.ClientID}`}>{client.Name}</option>
                                 })
                             }
                         </select>
                         <Link to="/Manage" className='clients-manage-link'><FontAwesomeIcon className='gear-icon' icon={faGear}/></Link>
                     </div>
-                    <div className='intake'>
-                        <div className='intake-heading'>Intake</div>
+                    <div className='intake catchup-sections'>
+                        <div className='headers'>Todays Intake</div>
                         { <div className='intake-table'>
-                                    <div>Calories</div>
-                                    <div>{this.state.intake?.CaloriesIntake}/{this.state.intake?.TotalCalories}cal</div>
-                                    <div>Protein</div>
-                                    <div>{this.state.intake?.ProteinIntake}/{this.state.intake?.TotalProtein}g</div>
-                                    <div>Fat</div>
-                                    <div>{this.state.intake?.FatsIntake}/{this.state.intake?.TotalFats}g</div>
-                                    <div>Carbs</div>
-                                    <div>{this.state.intake?.CarbohydratesIntake}/{this.state.intake?.TotalCarbohydrates}g</div>
+                                    <div className='intake-table-heading'>Calories</div>
+                                    <div className='intake-table-data'>{this.state.intake?.CaloriesIntake}/{this.state.intake?.TotalCalories}cal</div>
+                                    <div className='intake-table-heading'>Protein</div>
+                                    <div className='intake-table-data'>{this.state.intake?.ProteinIntake}/{this.state.intake?.TotalProtein}g</div>
+                                    <div className='intake-table-heading'>Fat</div>
+                                    <div className='intake-table-data'>{this.state.intake?.FatsIntake}/{this.state.intake?.TotalFats}g</div>
+                                    <div className='intake-table-heading'>Carbs</div>
+                                    <div className='intake-table-data'>{this.state.intake?.CarbohydratesIntake}/{this.state.intake?.TotalCarbohydrates}g</div>
                                 </div>
                                 
                             }
                     </div>
-                    <div className='progress-chart'>
+                    <div className='progress-chart catchup-sections'>
                         <div className='headers'>Client Weight</div>
                         <img className='progress-chart-image'
                             src={progressChart}
@@ -809,7 +809,7 @@ export default class TrainerCatchUp extends Component
                             <FontAwesomeIcon className='fitbit-icon calBurnt' icon={faFire}/>
                             <div className='fitbit-content'>
                                 <div className='fitbit-data'>
-                                    <div>Calories Burnt</div>
+                                    <div className='fitbit-data-heading'>Calories Burnt</div>
                                     <div>1500kcl</div>
                                 </div>
                                 <FontAwesomeIcon className='down-icon' icon={faChevronDown}/>
@@ -829,7 +829,7 @@ export default class TrainerCatchUp extends Component
                             <FontAwesomeIcon className='fitbit-icon floorsClimbed' icon={faStairs}/>
                             <div className='fitbit-content'>
                                 <div className='fitbit-data'>
-                                    <div>Floors Climbed</div>
+                                    <div className='fitbit-data-heading'>Floors Climbed</div>
                                     <div>5 Floors</div>
                                 </div>
                                 <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
@@ -839,7 +839,7 @@ export default class TrainerCatchUp extends Component
                             <FontAwesomeIcon className='fitbit-icon activeMins' icon={faBolt}/>
                             <div className='fitbit-content'>
                                 <div className='fitbit-data'>
-                                    <div>Active Minutes</div>
+                                    <div className='fitbit-data-heading'>Active Minutes</div>
                                     <div>40 Min</div>
                                 </div>
                                 <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
@@ -849,32 +849,28 @@ export default class TrainerCatchUp extends Component
                             <FontAwesomeIcon className='fitbit-icon steps-icon' icon={faShoePrints}/>
                             <div className='fitbit-content'>
                                 <div className='fitbit-data'>
-                                    <div>Steps</div>
+                                    <div className='fitbit-data-heading'>Steps</div>
                                     <div>2.1km</div>
                                 </div>
                                 <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
                             </div>
                         </div>
                     </div>
-                    <div className='calorie-summary'>
-                        {/* <div className='calorie-summary-day'>M</div>
-                        <div className='calorie-summary-day'>T</div>
-                        <div className='calorie-summary-day'>W</div>
-                        <div className='calorie-summary-day'>T</div>
-                        <div className='calorie-summary-day'>F</div>
-                        <div className='calorie-summary-day'>S</div>
-                        <div className='calorie-summary-day'>S</div> */}
+                    <div className='calorie-summary catchup-sections'>
+                        <div className='headers'>Current Week Intake</div>
+                        <div className='calorie-summary-table'>
+                            { this.state.calHistory7Days?.map((history) => {
 
-                        { this.state.calHistory7Days?.map((history) => {
-
-                            return <div>
-                                    <div className='calorie-summary-day'>{history.Day}</div>
-                                    <div className='calorie-summary-icon'>
-                                        { history.CaloriesHit ? <FontAwesomeIcon className='check' icon={faCheck}/> : !history.CaloriesHit ? <FontAwesomeIcon className='xmark' icon={faX}/> : history.CaloriesHit.localeCompare("dash") === 0 ? <FontAwesomeIcon className='dash' icon={faMinus}/> : <div></div> }
+                                return <div>
+                                        <div className='calorie-summary-day'>{history.Day}</div>
+                                        <div className='calorie-summary-icon'>
+                                            { history.CaloriesHit ? <FontAwesomeIcon className='check' icon={faCheck}/> : !history.CaloriesHit ? <FontAwesomeIcon className='xmark' icon={faX}/> : history.CaloriesHit.localeCompare("dash") === 0 ? <FontAwesomeIcon className='dash' icon={faMinus}/> : <div></div> }
+                                        </div>
                                     </div>
-                                </div>
-                            }) 
-                        }
+                                }) 
+                            }
+                        </div>
+                        
 
                         {/* { this.state.calHistory?.map((history) => {
 
@@ -894,27 +890,31 @@ export default class TrainerCatchUp extends Component
                         <div className='calorie-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div> */}
 
                     </div>
-                    <div className='feedback-summary'>
-                        <div className='feedback-summary-day'>Week:</div>
-                        <div className='feedback-summary-day'>1</div>
-                        <div className='feedback-summary-day'>2</div>
-                        <div className='feedback-summary-day'>3</div>
-                        <div className='feedback-summary-day'>4</div>
-                        <div className='feedback-summary-day'>5</div>
-                        <div className='feedback-summary-day'>6</div>
-                        <div className='feedback-summary-day'>7</div>
+                    <div className='feedback-summary catchup-sections'>
+                        <div className='headers'>Weekly Checkin Rankings</div>
+                        <div className='feedback-summary-table'>
+                            
+                            <div className='feedback-summary-day'>1</div>
+                            <div className='feedback-summary-day'>2</div>
+                            <div className='feedback-summary-day'>3</div>
+                            <div className='feedback-summary-day'>4</div>
+                            <div className='feedback-summary-day'>5</div>
+                            <div className='feedback-summary-day'>6</div>
+                            <div className='feedback-summary-day'>7</div>
 
-                        <div className='feedback-summary-icon'></div>
-                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
-                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
-                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
-                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
-                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
-                        <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
-                        <div className='feedback-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
+                            
+                            <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+                            <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
+                            <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+                            <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+                            <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
+                            <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
+                            <div className='feedback-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
 
+                        </div>
+                        
                     </div>
-                    <div className='personal-bests sections'>
+                    <div className='personal-bests catchup-sections'>
                         <div className='headers'>Personal Bests</div>
                         <div className='personal-bests-content'>
                             {   this.state.pbs?.map((PB) => {
@@ -930,7 +930,7 @@ export default class TrainerCatchUp extends Component
                             }
                         </div>
                     </div>
-                    <div className='schedule sections'>
+                    <div className='schedule catchup-sections'>
                         {/* <FontAwesomeIcon icon={faLessThan}/> */}
                         <div className='headers schedule-header'>Schedule</div>
                         {/* <FontAwesomeIcon icon={faGreaterThan}/> */}
@@ -945,8 +945,8 @@ export default class TrainerCatchUp extends Component
                                                 var found = false;
                                                 var dayNumber = 0;
                                                 return <div className='slide-content'>
-                                                    <div>{day.day}</div>
-                                                    <div>{day.date}</div>
+                                                    <div className='slide-content-day'>{day.day}</div>
+                                                    <div className='slide-content-date'>{day.date}</div>
                                                     { this.state.clientWorkoutsPrevWeek?.map((clientWorkout) => {
                                                         var d = new Date(clientWorkout.Date);
                                                         dayNumber = d.getDay();
@@ -959,7 +959,7 @@ export default class TrainerCatchUp extends Component
                                                         // console.log(clientWorkout.Date + " " + workoutDay);
                                                         if(day.day.localeCompare(workoutDay)==0){
                                                             found = true;
-                                                            return <div><div>{clientWorkout.TrainerWorkout.WorkoutName}</div>
+                                                            return <div><div className='slide-content-workout'>{clientWorkout.TrainerWorkout.WorkoutName}</div>
                                                             <div className='see-notes' onClick={() => {
                                                                 this.setState({ isPopupClicked: !this.state.isPopupClicked });
                                                                 this.setState({ clientWorkoutNotes: this.getClientNotesForOneWorkout(clientWorkout.ClientWorkoutID) });
@@ -985,8 +985,8 @@ export default class TrainerCatchUp extends Component
                                                 var found = false;
                                                 var dayNumber = 0;
                                                 return <div className='slide-content'>
-                                                    <div>{day.day}</div>
-                                                    <div>{day.date}</div>
+                                                    <div className='slide-content-day'>{day.day}</div>
+                                                    <div className='slide-content-date'>{day.date}</div>
                                                     { this.state.clientWorkouts?.map((clientWorkout) => {
                                                         var d = new Date(clientWorkout.Date);
                                                         dayNumber = d.getDay();
@@ -999,7 +999,7 @@ export default class TrainerCatchUp extends Component
                                                         // console.log(clientWorkout.Date + " " + workoutDay);
                                                         if(day.day.localeCompare(workoutDay)==0){
                                                             found = true;
-                                                            return <div><div>{clientWorkout.TrainerWorkout.WorkoutName}</div>
+                                                            return <div><div className='slide-content-workout'>{clientWorkout.TrainerWorkout.WorkoutName}</div>
                                                             <div className='see-notes' onClick={() => {
                                                                 this.setState({ isPopupClicked: !this.state.isPopupClicked });
                                                                 this.setState({ clientWorkoutNotes: this.getClientNotesForOneWorkout(clientWorkout.ClientWorkoutID) });
@@ -1025,8 +1025,8 @@ export default class TrainerCatchUp extends Component
                                                 var found = false;
                                                 var dayNumber = 0;
                                                 return <div className='slide-content'>
-                                                    <div>{day.day}</div>
-                                                    <div>{day.date}</div>
+                                                    <div className='slide-content-day'>{day.day}</div>
+                                                    <div className='slide-content-date'>{day.date}</div>
                                                     { this.state.clientWorkoutsNextWeek?.map((clientWorkout) => {
                                                         var d = new Date(clientWorkout.Date);
                                                         dayNumber = d.getDay();
@@ -1039,7 +1039,7 @@ export default class TrainerCatchUp extends Component
                                                         // console.log(clientWorkout.Date + " " + workoutDay);
                                                         if(day.day.localeCompare(workoutDay)==0){
                                                             found = true;
-                                                            return <div><div>{clientWorkout.TrainerWorkout.WorkoutName}</div>
+                                                            return <div><div className='slide-content-workout'>{clientWorkout.TrainerWorkout.WorkoutName}</div>
                                                             <div className='see-notes' onClick={() => {
                                                                 this.setState({ isPopupClicked: !this.state.isPopupClicked });
                                                                 this.setState({ clientWorkoutNotes: this.getClientNotesForOneWorkout(clientWorkout.ClientWorkoutID) });

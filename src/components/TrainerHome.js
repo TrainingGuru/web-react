@@ -15,6 +15,10 @@ import {faPlus} from "@fortawesome/free-solid-svg-icons/faPlus";
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import {faX} from "@fortawesome/free-solid-svg-icons/faX";
 
+import { faLessThan } from '@fortawesome/free-solid-svg-icons';
+import { faGreaterThan } from '@fortawesome/free-solid-svg-icons';
+
+
 import '../css/TrainerHome.css';
 // import { scheduler } from 'timers/promises';
 
@@ -27,9 +31,10 @@ export default class TrainerHome extends Component
             isPopupClicked: false,
             clients: [],
             meetings: [],
-            clientValue: "",
+            clientValue: 0,
             dateValue: "",
             timeValue: "",
+            selectedDate: "",
             count: 0
 
         }
@@ -37,6 +42,8 @@ export default class TrainerHome extends Component
 
     componentDidMount()
     {
+
+        
         //------------------------- Clients ----------------------------------------------
         axios.get(`https://traininggurubackend.onrender.com/Trainer/1/Clients`)
             .then(res =>
@@ -64,14 +71,121 @@ export default class TrainerHome extends Component
                     console.log("Meeting Data read!")
                     this.setState({meetings: res.data})
                     // console.log(res.data)
+                    this.getCalendar(res.data);
                 }
                 else {
                     console.log("Data not Found!")
                 }
             })
 
+        const clientSelect = document.getElementById("clients");
+        clientSelect.addEventListener('change', this.handleClientChange);
+
         
     
+    }
+
+    getCalendar(meetings) {
+        const currentDate = document.querySelector(".current-date"),
+        daysTag = document.querySelector(".days"),
+        prevNextIcon = document.querySelectorAll(".icons span"),
+        eventCurrentDay = document.querySelector(".event-current-day");
+
+        let date = new Date(),
+        currYear = date.getFullYear(),
+        currMonth = date.getMonth();
+
+        const months = ["January", "February", "March", "April", "May", "June", "July", 
+                        "August", "September", "October", "November", "December"];
+
+        const renderCalendar = () => {
+            let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(),
+            lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(),
+            lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(),
+            lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate(),
+            currentDay = 1;
+
+            let liTag = "";
+
+            for (let i = firstDayofMonth; i > 0; i--) {
+                liTag += `<li class="inactive">${lastDateofLastMonth - i + 1}</li>`
+            }
+
+            for (let i = 1; i <= lastDateofMonth; i++) {
+                let isToday = i === date.getDate() && currMonth === new Date().getMonth()
+                            && currYear === new Date().getFullYear() ? "active" : "";
+                if(isToday) {
+                    currentDay = i;
+                }
+                liTag += `<li id="${i}" class="${isToday}">${i}`
+                
+                // console.log(new Date("2023-04-28").getFullYear() === currYear && new Date("2023-04-28").getDate() === i && new Date("2023-04-28").getMonth() === currMonth)
+                
+                meetings.some((meeting) => 
+                    new Date(meeting.Date).getFullYear() === currYear && new Date(meeting.Date).getDate() === i && new Date(meeting.Date).getMonth() === currMonth
+                ) && (
+                    liTag += `<div class="dot"></div>`
+                )
+
+                liTag += `</li>`;
+
+                // console.log(liTag)
+            }
+
+            for (let i = lastDayofMonth; i < 6; i++) {
+                liTag += `<li class="inactive">${i - lastDayofMonth + 1}</li>`
+            }
+            
+
+            // console.log(currMonth)
+            currentDate.innerText = `${months[currMonth]} ${currYear}`
+            daysTag.innerHTML = liTag;
+            eventCurrentDay.innerText = `${months[currMonth]} ${currentDay}, ${currYear}`
+
+            let daysLi = document.querySelectorAll(".days li");
+
+            daysLi.forEach(day => {
+                day.addEventListener("click", () => {
+                    eventCurrentDay.innerText = `${months[currMonth]} ${day.id}, ${currYear}`
+                    // console.log(day.id + ' ' + months[currMonth] + ' ' + currYear);
+                    let dateString = `${currYear}-${currMonth+1}-${day.id}`;
+                    // console.log(new Date(dateString));
+                    // console.log(new Date("2023-04-28").getTime());
+                    // console.log(new Date(dateString).getTime());
+                    this.setState({ selectedDate:  dateString});
+                    day.classList.toggle("selected-day");
+                    // console.log(new Date("2023-04-28").getFullYear() === new Date(dateString).getFullYear() && new Date("2023-04-28").getDate() === new Date(dateString).getDate() && new Date("2023-04-28").getMonth() === new Date(dateString).getMonth())
+                    
+                })
+            })
+
+            
+        }
+        renderCalendar();
+
+        prevNextIcon.forEach(icon => {
+            icon.addEventListener("click", () => {
+                currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
+                
+                // console.log(currMonth)
+
+                if(currMonth < 0 || currMonth > 11) {
+                    // console.log("hello")
+                    date = new Date(currYear, currMonth);
+                    currYear = date.getFullYear();
+                    currMonth = date.getMonth();
+                    // console.log(currMonth)
+                } else {
+                    date = new Date();
+                }
+                
+                renderCalendar();
+            })
+        })
+    }
+
+    handleClientChange = (event) => {
+        this.setState({clientValue: event.target.value});
     }
 
     getUpcomingMeetings() {
@@ -93,7 +207,7 @@ export default class TrainerHome extends Component
     
 
     handleSubmit = () => {
-        this.setState({clientValue: document.getElementById("clients").value});
+        // this.setState({clientValue: document.getElementById("clients").value});
         this.setState({dateValue: document.getElementById("schedule-date").value});
         this.setState({timeValue: document.getElementById("schedule-time").value});
 
@@ -104,12 +218,10 @@ export default class TrainerHome extends Component
         console.log(document.getElementById("schedule-date").value);
         console.log(document.getElementById("schedule-time").value);
 
-        var clientID = this.state.clientValue;
-
         // ------------------- Schedule Meeting -----------------------------------
-        axios.post(`https://traininggurubackend.onrender.com/CatchUp/${clientID}`, {
-                "Date": this.state.dateValue,
-                "Time": this.state.timeValue
+        axios.post(`https://traininggurubackend.onrender.com/CatchUp/${this.state.clientValue}`, {
+                "Date": document.getElementById("schedule-date").value,
+                "Time": document.getElementById("schedule-time").value
             })
             .then(res =>
             {
@@ -156,7 +268,7 @@ export default class TrainerHome extends Component
             <div className='trainer-home-container'>
                 <div className='clients sections'>
                     <div className='headers'>Clients</div>
-                    <div className='clients-content'>
+                    <div className='clients-content poppins'>
                         { this.state.clients?.map((client) => {
                             return <div className='clients-content-entry'>
                                 { client.CatchUps[0]?.Rating == 2 ? 
@@ -184,16 +296,50 @@ export default class TrainerHome extends Component
                         <FontAwesomeIcon className='clients-edit-icon' icon={faPenToSquare}/>
                     </div>
                 </div>
-                <div className='activeToday'>
-                    <div className='activeToday-text'>
-                        <div className='activeToday-text-label'>Active Today:</div>
-                        <div className='activeToday-text-data'>85%</div>
+                <div className='calendar-container'>
+                    <div className='wrapper'>
+                        <header>
+                            <p className='current-date'>September 2022</p>
+                            <div className='icons'>
+                                <span id="prev"><FontAwesomeIcon icon={faLessThan}/></span>
+                                <span id="next"><FontAwesomeIcon icon={faGreaterThan}/></span>
+                            </div>
+                        </header>
+                        <div className='calendar'>
+                            <ul className='weeks'>
+                                <li>Sun</li>
+                                <li>Mon</li>
+                                <li>Tue</li>
+                                <li>Wed</li>
+                                <li>Thu</li>
+                                <li>Fri</li>
+                                <li>Sat</li>
+                            </ul>
+                            <ul className='days'>
+                                
+                            </ul>
+                        </div>
                     </div>
-                    
-                    <div className='activeToday-imgContainer'>
-                        <img className='activeToday-pieChart'
-                            src={pieChart}
-                            alt="Pie Chart"/>
+                    <div className='events-info'>
+                        <header>
+                            <p>Schedule for <span className='event-current-day'></span>:</p>
+                        </header>
+                        {/* { console.log(new Date("2023-04-28").getFullYear() === new Date(this.state.selectedDate).getFullYear() && new Date("2023-04-28").getDate() === new Date(this.state.selectedDate).getDate() && new Date("2023-04-28").getMonth() === new Date(this.state.selectedDate).getMonth()) } */}
+                        { this.state.meetings.filter((meeting) => 
+                            new Date(meeting.Date).getFullYear() === new Date(this.state.selectedDate).getFullYear() && new Date(meeting.Date).getDate() === new Date(this.state.selectedDate).getDate() && new Date(meeting.Date).getMonth() === new Date(this.state.selectedDate).getMonth()
+                        ).length > 0 ?
+
+                            this.state.meetings.filter((meeting) => 
+                                new Date(meeting.Date).getFullYear() === new Date(this.state.selectedDate).getFullYear() && new Date(meeting.Date).getDate() === new Date(this.state.selectedDate).getDate() && new Date(meeting.Date).getMonth() === new Date(this.state.selectedDate).getMonth()
+                            ).map((meeting) => {
+                                return <div>
+                                    <p>Meeting with {meeting.Client.Name}</p>
+                                    <p>{String(meeting.Time).substring(0,5)}</p>
+                                </div>
+                            }) 
+                        :
+                        <p>No meetings for today.</p>
+                        }
                     </div>
                 </div>
                 
@@ -205,7 +351,7 @@ export default class TrainerHome extends Component
                             return <div className='upcoming-meeting-entry'>
                                 <div className='upcoming-meeting-name'>{meeting.Client.Name}</div>
                                 <div className='upcoming-meeting-date'>{meeting.Date}</div>
-                                <div className='upcoming-meeting-time'>{meeting.Time}</div>
+                                <div className='upcoming-meeting-time'>{String(meeting.Time).substring(0,5)}</div>
                             </div>
                         }) }
                     </div>

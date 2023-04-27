@@ -192,9 +192,16 @@ header .icons span:hover {
     transform: translate(-50%, -50%);
 }
 
+.selected-day::before {
+    background: #f2f2f2;
+    /* border-radius: 50%; */
+}
+
 /* --------------------------- Events Styles ----------------------------------*/
 .events-info {
     background: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
 }
 
 /* --------------------------- ActiveToday Styles ----------------------------------*/
@@ -272,7 +279,8 @@ header .icons span:hover {
 .upcoming-meeting-entry {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
 }
 
 /* ------------------ Popup Styles ---------------------------- */

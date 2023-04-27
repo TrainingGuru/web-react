@@ -36,6 +36,16 @@
     grid-column: span 2;
 }
 
+.client-heading-dropdown, .clients-locked-name {
+    font-family: 'Russo One', sans-serif;
+    font-size: 88px;
+
+}
+
+.clients-dropdown-name {
+    font-size: 44px;
+}
+
 /* --------------------------- FitBitIcons Styles ----------------------------------*/
 
 .fitbit-icons {
@@ -88,6 +98,12 @@
 .fitbit-data {
     display: flex;
     flex-direction: column;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+}
+
+.fitbit-data-heading {
+    font-weight: 700;
 }
 
 /* --------------------------- Steps Styles ----------------------------------*/
@@ -143,21 +159,26 @@
     overflow: hidden;
 }
 
-.intake-heading {
+/* .intake-heading {
     text-align: center;
     font-size: 4em;
     font-weight: 600;
     border-bottom: 1px solid black;
     margin-bottom: 2%;
-}
+} */
 
 .intake-table {
     display: grid;
-    gap: 2.5rem;
+    /* gap: 2.5rem; */
     grid-template-columns: 1fr 1fr;
-    width: 80%;
+    width: 70%;
     margin: auto;
-    font-size: 2em;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+}
+
+.intake-table-heading {
+    font-weight: 700;
 }
 
 /* .intake-table-edit-icon {
@@ -167,10 +188,15 @@
 /* --------------------------- Feeback Summary Styles ----------------------------------*/
 .feedback-summary {
     grid-column: span 2;
+    
+}
+
+.feedback-summary-table {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     height: 80%;
-    font-size: 2em;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
 }
 
 .feedback-summary-day {
@@ -189,8 +215,9 @@
 
 .progress-chart {
     grid-row: span 2;
-    width: 70%;
+    width: 100%;
     margin: auto;
+    padding: 0;
 }
 
 .progress-chart-image {
@@ -202,10 +229,13 @@
 .goals {
     /* grid-row-start: 6; */
     height: 100%;
+    width: 100%;
     overflow: hidden;
 }
 
 .goals-entry {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
     text-align: center;
     margin: 5%;
     font-size: 20px;
@@ -213,11 +243,11 @@
 
 /* --------------------------- CalSummary Styles ----------------------------------*/
 
-.calorie-summary {
+.calorie-summary-table {
     /* grid-column: span 2; */
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    height: 80%;
+    /* height: 80%; */
     font-size: 2em;
     /* padding: 5%; */
 }
@@ -226,11 +256,14 @@
     padding: 20% 20% 0 20%;
     height: fit-content;
     text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
 }
 
 .calorie-summary-icon {
     padding: 0 20% 20% 20%;
     text-align: center;
+    font-size: 20px;
 }
 
 .check {
@@ -337,6 +370,25 @@
     justify-content: space-evenly;
 }   
 
+.slide-content-day {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+}
+.slide-content-date {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+}
+.slide-content-workout {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+}
+.see-notes {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+}
+
 .popup {
     position: absolute;
     top: 0;
@@ -418,9 +470,10 @@
     overflow: hidden;
 }
 
-/* .personal-bests-content {
-
-} */
+.personal-bests-content {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+}
 
 .personal-bests-entry {
     margin: 7.5%;
