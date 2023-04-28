@@ -21,12 +21,13 @@ export default class Nav extends Component
                     <div className='burger-menu' onClick={() => this.setState({ isMenuClicked: !this.state.isMenuClicked })}>
                         {this.state.isMenuClicked ? <FontAwesomeIcon className='burger-menu-icon' icon={faX}/> : <FontAwesomeIcon className='burger-menu-icon' icon={faBars}/>}
                     </div>
-                    <div className='nav-logo'>
-                        <img className='nav-logo-image'
-                            src={"https://assets.api.uizard.io/api/cdn/stream/9789bb7f-8141-48f9-87dd-f2ebdadcbec6.png"}
-                            alt="logo"/>
-                    </div>
-                    
+                    <Link to="/" className='nav-logo'>
+                        <div>
+                            <img className='nav-logo-image'
+                                src={"https://assets.api.uizard.io/api/cdn/stream/9789bb7f-8141-48f9-87dd-f2ebdadcbec6.png"}
+                                alt="logo"/>
+                        </div>
+                    </Link>
                 </nav>
 
                 <div className={this.state.isMenuClicked? 'nav-menu visible' : 'nav-menu hidden'}>
