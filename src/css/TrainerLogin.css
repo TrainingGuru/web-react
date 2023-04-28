@@ -95,6 +95,12 @@
     text-transform: uppercase;
     letter-spacing: 2px;
 }
+.login-button a {
+    text-decoration: none;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
 
 .login-footer {
     text-align: center;

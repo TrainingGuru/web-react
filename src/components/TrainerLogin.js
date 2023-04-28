@@ -40,7 +40,7 @@ export default class TrainerLogin extends Component
                                 </div>
                                 <a className='login-a' href="#">Forgot my password</a>
                             </div>
-                            <button className='login-button' type="submit">Sign In</button>
+                            <button className='login-button' type="submit"><Link to="/">Sign In</Link></button>
                         </form>
                         <div className='login-footer'>
                             Don't have an account? <Link to="/Register">Create an account</Link>
