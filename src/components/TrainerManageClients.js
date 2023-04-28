@@ -44,6 +44,7 @@ export default class TrainerManageClients extends Component
             catchUpNotes: [],
             workoutName: "",
             currentWorkoutId: 0,
+            editClientDescriptionClicked: false,
             // allClientWorkouts: [],
             workoutWeeks: [],
             currentWeekNumber: 5,
@@ -89,10 +90,10 @@ export default class TrainerManageClients extends Component
         this.updateStepGoal(this.state.currentClientID, event.target.value);
     }
 
-    // handleDescriptionChange = (event) => {
-    //     this.setState({clientDescription: event.target.value});
-    //     this.updateDescription(this.state.currentClientID, event.target.value);
-    // }
+    handleDescriptionChange = (event) => {
+        this.setState({clientDescription: event.target.value});
+        this.updateDescription(this.state.currentClientID, event.target.value);
+    }
 
     handleCaloriesChange = (event) => {
         this.setState({caloriesGoal: event.target.value});
@@ -242,7 +243,22 @@ export default class TrainerManageClients extends Component
     }
 
     updateDescription(currentClientID, newDescription) {
-        
+        // ------------------- Update Description -----------------------------------
+        axios.put(`https://traininggurubackend.onrender.com/Client/${currentClientID}/Description`, {
+                "Description": newDescription
+            })
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("Description Updated!")
+                    // this.setState({meetings: res.data})
+                    // console.log(res.data)
+                }
+                else {
+                    console.log("Description Updated!")
+                }
+            })
     }
 
     updateCaloriesGoal(currentClientID, newCaloriesGoal) {
@@ -559,7 +575,7 @@ export default class TrainerManageClients extends Component
                                                     found = true;
                                                     return <div className='assign-workout-content assign-workout-name'>
                                                         <div className='assign-workout-name-content'>{clientWorkout.TrainerWorkout.WorkoutName}</div>
-                                                        <div className='assign-workout-name-content'><FontAwesomeIcon className='assign-workout-name-content-edit-icon' onClick={() => {
+                                                        <div><FontAwesomeIcon className='assign-workout-name-content-edit-icon' onClick={() => {
                                                                 this.setState({ isPopupClicked: !this.state.isPopupClicked });
                                                                 this.setState({ assignDayNumber: this.state.daysOfTheWeek.indexOf(day) });
 
@@ -644,11 +660,18 @@ export default class TrainerManageClients extends Component
                     </div>
                     <div className='client-description sections'>
                         <div className='headers'>Client Description</div>
+                        { this.state.editClientDescriptionClicked ? 
+                        <input type='text' rows="5" defaultValue={this.state.clientDescription} onChange={this.handleDescriptionChange} id='edit-client-description'/>
+                        :
+                        <div className='client-description-content'>{this.state.clientDescription}</div>
+                        }
                         
-                        <div className='client-description-content'>
-                            <div>{this.state.clientDescription}</div>
-                        </div>
-                        <FontAwesomeIcon className='manage-clients-edit-icon description-edit-icon' icon={faPenToSquare}/>
+                        {/* <div>7,000</div> */}
+                        <FontAwesomeIcon onClick={() => {
+                            this.setState({ editClientDescriptionClicked: !this.state.editClientDescriptionClicked })
+                        }} className='manage-clients-edit-icon edit-description-icon' icon={faPenToSquare}/>
+
+                        
                     </div>
                     <div className='catch-up-notes sections'>
                         <div className='headers'>CatchUp Notes</div>

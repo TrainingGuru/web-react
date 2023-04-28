@@ -80,7 +80,7 @@
 
 .assign-workout-content {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .assign-workout-button {
@@ -97,13 +97,12 @@
 
 .assign-workout-name {
     font-size: 0.75em;
-    gap: 1rem;
+    /* gap: 1rem; */
 }
 
 .assign-workout-name-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    width: 100%;
+    text-align: center;
 }
 
 .assign-workout-name-content-edit-icon {
@@ -183,9 +182,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    padding-bottom: 2%;
 }
 
-.client-description-content {
+.client-description-content, #edit-client-description {
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
     margin-bottom: 1%;
@@ -194,8 +194,13 @@
     justify-content: space-between;
 }
 
-.description-edit-icon {
-    margin-bottom: 2%;
+#edit-client-description {
+    width: 75%;
+    height: 90%;
+}
+
+.edit-description-icon {
+    font-size: 1.25rem;
 }
 
 /* --------------------------- CatchUpNote Styles ----------------------------------*/
