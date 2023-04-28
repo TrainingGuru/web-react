@@ -586,7 +586,7 @@ export default class TrainerManageClients extends Component
                         <div className='headers'>Daily Intake</div>
                         { <div className='manage-clients-intake-table'>
                                     <div className='intake-category'>Calories</div>
-                                    <div className='intake-goals'>{this.state.intake?.CaloriesIntake} / { this.state.editCaloriesClicked ? 
+                                    <div className='intake-goals'>{ this.state.editCaloriesClicked ? 
                                     <input type='number' defaultValue={this.state.caloriesGoal} onChange={this.handleCaloriesChange} id='edit-calorie-goal'/>
                                     :
                                     <div> {this.state.caloriesGoal}</div>
@@ -596,7 +596,7 @@ export default class TrainerManageClients extends Component
                                     }} className='manage-clients-edit-icon' icon={faPenToSquare}/>
                                     
                                     <div className='intake-category'>Protein</div>
-                                    <div className='intake-goals'>{this.state.intake?.ProteinIntake} / { this.state.editProteinClicked ? 
+                                    <div className='intake-goals'>{ this.state.editProteinClicked ? 
                                     <input type='number' defaultValue={this.state.proteinGoal} onChange={this.handleProteinChange} id='edit-protein-goal'/>
                                     :
                                     <div> {this.state.proteinGoal}</div>
@@ -606,7 +606,7 @@ export default class TrainerManageClients extends Component
                                     }} className='manage-clients-edit-icon' icon={faPenToSquare}/>
                                     
                                     <div className='intake-category'>Fat</div>
-                                    <div className='intake-goals'>{this.state.intake?.FatsIntake} / { this.state.editFatClicked ? 
+                                    <div className='intake-goals'>{ this.state.editFatClicked ? 
                                     <input type='number' defaultValue={this.state.fatGoal} onChange={this.handleFatGoalChange} id='edit-fat-goal'/>
                                     :
                                     <div> {this.state.fatGoal}</div>
@@ -616,7 +616,7 @@ export default class TrainerManageClients extends Component
                                     }} className='manage-clients-edit-icon' icon={faPenToSquare}/>
                                     
                                     <div className='intake-category'>Carbs</div>
-                                    <div className='intake-goals'>{this.state.intake?.CarbohydratesIntake} / { this.state.editCarbsClicked ? 
+                                    <div className='intake-goals'>{ this.state.editCarbsClicked ? 
                                     <input type='number' defaultValue={this.state.carbsGoal} onChange={this.handleCarbsGoalChange} id='edit-carb-goal'/>
                                     :
                                     <div> {this.state.carbsGoal}</div>

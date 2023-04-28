@@ -15,7 +15,7 @@ import {faPlus} from "@fortawesome/free-solid-svg-icons/faPlus";
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import {faX} from "@fortawesome/free-solid-svg-icons/faX";
 
-import { faLessThan } from '@fortawesome/free-solid-svg-icons';
+import { faLessThan, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faGreaterThan } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -35,7 +35,8 @@ export default class TrainerHome extends Component
             dateValue: "",
             timeValue: "",
             selectedDate: "",
-            count: 0
+            count: 0,
+            isAddClientPopupClicked: false
 
         }
     }
@@ -239,6 +240,43 @@ export default class TrainerHome extends Component
 
         // reload upcoming meetings
     }
+
+    handleMeetingDelete = () => {
+
+    }
+
+    handleAddClientSubmit = () => {
+        // this.setState({clientValue: document.getElementById("clients").value});
+        // this.setState({nameValue: document.getElementById("new-client-name").value});
+        // this.setState({emailValue: document.getElementById("new-client-email").value});
+
+        this.setState({ isAddClientPopupClicked: !this.state.isAddClientPopupClicked });
+        
+
+
+        // ------------------- add new client -----------------------------------
+        axios.post(`https://traininggurubackend.onrender.com/Client/Register`, {
+                "TrainerID": 1,
+                "Name": document.getElementById("new-client-name").value,
+                "Email": document.getElementById("new-client-email").value,
+                "Password": ""
+            })
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("New Client Added!")
+                    // this.setState({meetings: res.data})
+                    // console.log(res.data)
+                    // this.getUpcomingMeetings();
+                }
+                else {
+                    console.log("Data not Found!")
+                }
+            })
+
+        // reload upcoming meetings
+    }
     
 
     // const [clientIntakes, setIntakeData] = useState(null);
@@ -290,16 +328,16 @@ export default class TrainerHome extends Component
 
                             </div>
                         }) }
-                        <div className='clients-content-entry'>
+                        {/* <div className='clients-content-entry'>
                             <div></div>
                             <div className='clients-content-entry-name'>Jane McAvoy</div>
                             <Link to="/CatchUp" className='clients-catch-up-link' onClick={() => localStorage.currentID = 5}><FontAwesomeIcon className='chart-icon' icon={faChartSimple}/></Link>
                             <Link to="/Manage" className='clients-manage-link' onClick={() => localStorage.currentID = 5}><FontAwesomeIcon className='gear-icon' icon={faGear}/></Link>
-                        </div>
+                        </div> */}
                     </div>
                     <div className='clients-menu'>
-                        <FontAwesomeIcon className='clients-add-icon' icon={faPlus}/>
-                        <FontAwesomeIcon className='clients-edit-icon' icon={faPenToSquare}/>
+                        <div onClick={() => this.setState({ isAddClientPopupClicked: !this.state.isAddClientPopupClicked })}><FontAwesomeIcon className='clients-add-icon' icon={faPlus}/></div>
+                        <div><FontAwesomeIcon className='clients-edit-icon' icon={faPenToSquare}/></div>
                     </div>
                 </div>
                 <div className='calendar-container sections'>
@@ -358,6 +396,7 @@ export default class TrainerHome extends Component
                                 <div className='upcoming-meeting-name'>{meeting.Client.Name}</div>
                                 <div className='upcoming-meeting-date'>{meeting.Date}</div>
                                 <div className='upcoming-meeting-time'>{String(meeting.Time).substring(0,5)}</div>
+                                <div className='upcoming-meeting-delete'><FontAwesomeIcon onClick={this.handleMeetingDelete} icon={faTrash}/></div>
                             </div>
                         }) }
                     </div>
@@ -390,6 +429,25 @@ export default class TrainerHome extends Component
                     <button className='schedule-meeting-submit-button' onClick={this.handleSubmit}>Submit</button>
                 </div>
             </div>
+            <div className={this.state.isAddClientPopupClicked ? 'add-client-popup sections' : 'hidden'}>
+                <div className='popup-nav'>
+                    <div className='headers popup-header'>Add Client</div>
+                    <FontAwesomeIcon onClick={() => this.setState({ isAddClientPopupClicked: !this.state.isAddClientPopupClicked })} className='add-client-popup-close-button' icon={faX}/>
+                </div>
+                <div className='add-client-form'>
+                    <div className='add-client-form-item'>
+                        <div className='add-client-form-item-label'>Client Name:</div>
+                        <input type='text' id='new-client-name' name='new-client-name'/>
+                    </div>
+                    <div className='add-client-form-item'>
+                        <div className='add-client-form-item-label'>Email:</div>
+                        <input type="email" id="new-client-email" name="new-client-email"/>
+                    </div>
+                    
+                    <button className='add-client-submit-button' onClick={this.handleAddClientSubmit}>Submit</button>
+                </div>
+            </div>
+            
 
         </div>
         )

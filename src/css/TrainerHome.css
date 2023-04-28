@@ -5,7 +5,7 @@
 
 .trainer-home-container {
   display: grid;
-  gap: 1.5rem;
+  gap: 1rem;
   width: 95%;
   margin: auto;
   height: 80%;
@@ -35,7 +35,7 @@
 
 .clients {
     height: 100%;
-    overflow: scroll;
+    /* overflow-y: scroll; */
     color: rgb(0, 0, 0);
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
@@ -44,6 +44,7 @@
     line-height: 30px;
     text-align: center;
     text-transform: none;
+    position: relative;
 }
 
 .clients-content {
@@ -88,6 +89,9 @@
     display: flex;
     justify-content: end;
     gap: 2rem;
+    position: absolute;
+    bottom: 2.5%;
+    right: 2.5%;
 }
 
 .clients-add-icon, .clients-edit-icon {
@@ -100,7 +104,7 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    /* min-height: 100vh; */
+    min-height: 45vh;
     /* background: #9B59B6; */
 }
 .wrapper {
@@ -206,6 +210,10 @@ header .icons span:hover {
     font-size: 18px;
 }
 
+.events-info header p {
+    border-bottom: 1px solid #878787;
+}
+
 /* --------------------------- ActiveToday Styles ----------------------------------*/
 
 .activeToday {
@@ -254,6 +262,7 @@ header .icons span:hover {
 .upcoming-meetings {
     /* grid-column: 2; */
     height: 100%;
+    min-height: 37vh;
     overflow: scroll;
     overflow-x: hidden;
     text-align: center;
@@ -280,7 +289,7 @@ header .icons span:hover {
 
 .upcoming-meeting-entry {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr) 0.25fr;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
 }
@@ -313,7 +322,7 @@ header .icons span:hover {
     padding: 0.5rem;
 } */
 
-.schedule-meeting-popup-close-button {
+.schedule-meeting-popup-close-button, .add-client-popup-close-button {
     margin: auto;
     /* font-weight: 500;
     font-size: 14px; */
@@ -326,7 +335,7 @@ header .icons span:hover {
     justify-content: center;
 }
 
-.schedule-meeting-popup {
+.schedule-meeting-popup, .add-client-popup {
     position: absolute;
     margin: 7.5%;
     top: 0;
@@ -341,7 +350,7 @@ header .icons span:hover {
     font-size: 2em;
 }
 
-.schedule-meeting-form {
+.schedule-meeting-form, .add-client-form {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -350,22 +359,22 @@ header .icons span:hover {
     font-family: 'Poppins', sans-serif;
 }
 
-.schedule-meeting-form-item {
+.schedule-meeting-form-item, .add-client-form-item {
     width: 40%;
     display: flex;
     justify-content: space-between;
     padding: 1%;
 }
 
-.schedule-meeting-popup-close-button {
+.schedule-meeting-popup-close-button, .add-client-popup-close-button {
     cursor: pointer;
 }
 
-.schedule-meeting-submit-button {
+.schedule-meeting-submit-button, .add-client-submit-button {
     font-size: 1.1em;
 }
 
-.schedule-meeting-form input, .schedule-meeting-form select {
+.schedule-meeting-form input, .schedule-meeting-form select, .add-client-form input {
     width: 250px;
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
