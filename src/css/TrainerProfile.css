@@ -43,6 +43,13 @@
     color: black;
 }
 
+.profile-logout-icon, .profile-edit-icon {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+
 
 /* --------------------------- Profile styles ------------------------------------------- */
 

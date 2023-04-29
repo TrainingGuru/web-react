@@ -74,11 +74,11 @@ export default class TrainerProfile extends Component
                             </div>
                             <div className='profile-icons'>  
                                 <div className='profile-edit-icon'>
-                                    Edit
+                                    <div>Edit</div>
                                     <FontAwesomeIcon icon={faPenToSquare}/>
                                 </div>
                                 <Link to="/Login" className='profile-logout-icon'>
-                                    Logout
+                                    <div>Logout</div>
                                     <FontAwesomeIcon icon={faRightFromBracket}/>
                                 </Link>
                             </div>
