@@ -20,12 +20,25 @@ export default class TrainerProfile extends Component
         super(props);
         this.state = {
             isPopupClicked: false,
-            workouts: []
+            workouts: [],
+            trainerDetails: []
         };
     }
 
     componentDidMount() {
         // --------------------- Trainer Details -------------------
+        axios.get(`https://traininggurubackend.onrender.com/Trainer/1`)
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("Trainer Details Data read!")
+                    this.setState({trainerDetails: res.data})
+                }
+                else {
+                    console.log("Data not Found!")
+                }
+            })
 
         // --------------------- Saved Workouts -------------------
         axios.get(`https://traininggurubackend.onrender.com/Trainer/1/AllWorkouts`)
@@ -55,10 +68,9 @@ export default class TrainerProfile extends Component
                                     src={"https://assets.api.uizard.io/api/cdn/stream/9789bb7f-8141-48f9-87dd-f2ebdadcbec6.png"}
                                     alt="logo"/>
                             </div>
-                            <div className='profile-name sections'>Adam Hobbs</div>
+                            <div className='profile-name sections'>{this.state.trainerDetails.Name}</div>
                             <div className='profile-description sections'>
-                                <div>I am a 1 to 1 personal trainer working out of DkIT Sport in Dundalk, County Louth. I am a certified Level 3 Personal Trainer and have a Level 7 Qualification in Nutrition.</div>
-                                <div>I am currently open to taking on clients on a 1 to 1 or Online Basis.</div>
+                                <div>{this.state.trainerDetails.Description}</div>
                             </div>
                             <div className='profile-icons'>  
                                 <div className='profile-edit-icon'>
