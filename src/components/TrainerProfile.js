@@ -55,9 +55,9 @@ export default class TrainerProfile extends Component
                                     src={"https://assets.api.uizard.io/api/cdn/stream/9789bb7f-8141-48f9-87dd-f2ebdadcbec6.png"}
                                     alt="logo"/>
                             </div>
-                            <div className='profile-name'><b>Name:</b> Adam Hobbs</div>
+                            <div className='profile-name sections'>Adam Hobbs</div>
                             <div className='profile-description sections'>
-                                <div>1 to 1 personal trainer working out of DkIT Sport in Dundalk, County Louth. I am a certified Level 3 Personal Trainer and have a Level 7 Qualification in Nutrition.</div>
+                                <div>I am a 1 to 1 personal trainer working out of DkIT Sport in Dundalk, County Louth. I am a certified Level 3 Personal Trainer and have a Level 7 Qualification in Nutrition.</div>
                                 <div>I am currently open to taking on clients on a 1 to 1 or Online Basis.</div>
                             </div>
                             <div className='profile-icons'>  
@@ -83,11 +83,11 @@ export default class TrainerProfile extends Component
                                 }) }
                             </div>
                             
+                            <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} className='saved-workouts-edit-icon'>
+                                <div>Edit</div>
+                                <FontAwesomeIcon icon={faPenToSquare}/>
+                            </div>
 
-                        </div>
-                        <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} className='profile-edit-icon'>
-                            Edit
-                            <FontAwesomeIcon icon={faPenToSquare}/>
                         </div>
                     </div>
 

@@ -255,13 +255,17 @@
     width: 80%;
     margin: auto;
     text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
 }
 .assign-workout-popup-table-header-row {
     display: flex;
     justify-content: space-evenly;
+    font-weight: 700;
+    border-bottom: 1px solid #000;
 }
 
-.assign-workout-popup-table-header-row, .assign-workout-popup-table-row, .workouts, .exercises {
+.assign-workout-popup-table-row, .workouts, .exercises {
     border-bottom: 1px solid #ddd;
     /* display: flex;
     justify-content: space-evenly; */
@@ -314,6 +318,8 @@
     flex-direction: column;
     justify-content: center; */
     align-items: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
 }
 
 .workout-details-popup-close-button {
@@ -331,12 +337,18 @@
 }
 
 .workout-details-popup-table-header-row, .workout-details-popup-table-row {
+    width: 80%;
+    margin: auto;
     display: flex;
     justify-content: space-evenly;
 }
 
-.workout-details-popup-table-header-row {
+.workout-details-popup-table-row {
     border-bottom: 1px solid #ddd;
+}
+
+.workout-details-popup-table-header-row {
+    border-bottom: 1px solid #000;
     /* display: flex;
     justify-content: space-evenly; */
 }
