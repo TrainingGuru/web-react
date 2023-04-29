@@ -21,7 +21,10 @@ export default class TrainerProfile extends Component
         this.state = {
             isPopupClicked: false,
             workouts: [],
-            trainerDetails: []
+            trainerDetails: [],
+            savedWorkoutDetails: [],
+            currentWorkoutID: 0,
+            workoutName: ""
         };
     }
 
@@ -53,6 +56,22 @@ export default class TrainerProfile extends Component
                     console.log("Data not Found!")
                 }
             })
+    }
+
+    getWorkoutDetails(workoutId) {
+        // -------------------------- Workout Details ------------------------------
+        axios.get(`https://traininggurubackend.onrender.com/Client/Workout/${workoutId}`)
+        .then(res =>
+        {
+            if(res.data)
+            {
+                console.log("WorkoutDetails Data read!")
+                this.setState({savedWorkoutDetails: res.data})
+            }
+            else {
+                console.log("Data not Found!")
+            }
+        })
     }
 
     render()
@@ -144,6 +163,8 @@ export default class TrainerProfile extends Component
 
                     </div>
                 </div>
+                <div className={this.state.isPopupClicked ? 'popup-container' : 'hidden'}></div>
+                <div className={this.state.isWorkoutPopupClicked ? 'workout-details-popup-container' : 'hidden'}></div>
                 <div className={this.state.isPopupClicked ? 'saved-workouts-popup sections' : 'hidden'}>
                     <div className='popup-nav'>
                         <div className='headers'>Saved Workouts</div>
@@ -162,7 +183,12 @@ export default class TrainerProfile extends Component
                         <tbody>
                             { this.state.workouts?.map((workout) => {
                                 return <tr>
-                                    <td><FontAwesomeIcon className='expand-icon' icon={faChevronDown}/></td>
+                                    <td><FontAwesomeIcon className='expand-icon' onClick={() => {
+                                            this.getWorkoutDetails(workout.id);
+                                            this.setState({currentWorkoutId: workout.id})
+                                            this.setState({ workoutName: workout.WorkoutName });
+                                            this.setState({ isWorkoutPopupClicked: !this.state.isWorkoutPopupClicked });
+                                        }} icon={faChevronDown}/></td>
                                     <td>{workout.WorkoutName}</td>
                                     <td>6</td>
                                     <td><button>Edit</button></td>
@@ -171,6 +197,28 @@ export default class TrainerProfile extends Component
                             }) }
                         </tbody>
                     </table>
+                    
+                </div>
+                <div className={this.state.isWorkoutPopupClicked ? 'workout-details-popup sections' : 'hidden'}>
+                    <div className='popup-nav'>
+                        <div className='headers'>{this.state.workoutName}</div>
+                        <FontAwesomeIcon onClick={() => this.setState({ isWorkoutPopupClicked: !this.state.isWorkoutPopupClicked })} className='workout-details-popup-close-button' icon={faX}/>
+                    </div>
+                    <div className='workout-details-popup-table-header-row'>
+                        <div>Exercise Name</div>
+                        <div>Exercise Type</div>
+                        <div>Sets</div>
+                        <div>Reps</div>
+                    </div>
+                    {this.state.savedWorkoutDetails?.map((workoutDetail) => {
+                        // this.setState({currentWorkoutId: workoutDetail.TrainerWorkoutID})
+                        return <div className='workout-details-popup-table-row'>
+                            <div>{workoutDetail.Exercises[0].Name}</div>
+                            <div>{workoutDetail.Exercises[0].Type}</div>
+                            <div>{workoutDetail.Sets}</div>
+                            <div>{workoutDetail.Reps}</div>
+                        </div>
+                    })}
                     
                 </div>
             </div>

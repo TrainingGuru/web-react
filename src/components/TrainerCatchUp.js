@@ -418,11 +418,24 @@ export default class TrainerCatchUp extends Component
                 if(res.data)
                 {
                     console.log("workout notes Data read!")
-                    console.log(res.data)
+                    // console.log(res.data)
                     if(res.data.Notes === null) {
                         this.setState({clientWorkoutNotes: JSON.parse('{ "Notes" : "No Notes to Display" }') })    
                     } else {
-                        this.setState({clientWorkoutNotes: res.data})
+                        // console.log(JSON.parse(res.data.Notes))
+                        let myArray = res.data.Notes.split("\n")
+                        myArray = myArray.filter((entry) => {
+                            return entry.localeCompare("") != 0
+                        })
+                        for(let i = 0; i < myArray.length; i++){
+                            myArray[i] = myArray[i].split(": ")
+                        }
+                        // myArray = myArray.split(": ")
+                        // console.log(myArray)
+                        // I know 0, 1 is user notes and notes
+                        // End of 1 is workout: and 2 is workout title
+                        // Then till the end is Exercise: exercise name, completed yes, weight used x
+                        this.setState({clientWorkoutNotes: myArray})
                     }
                     
                 }
@@ -1090,6 +1103,9 @@ export default class TrainerCatchUp extends Component
                         }}>Start Meeting</button>}
                 </div>
                 <div className={this.state.isStartMeetingPopupClicked ? 'start-meeting-confirmation-popup sections' : 'hidden'}>
+                    <div className='popup-nav'>
+                        <FontAwesomeIcon onClick={() => this.setState({ isStartMeetingPopupClicked: !this.state.isStartMeetingPopupClicked })} className='start-meeting-popup-close-button' icon={faX}/>
+                    </div>
                     <div className='start-meeting-confirmation-popup-content'>
                         <div className='start-meeting-confirmation-text'>Start Meeting With</div>
                         {/* <div className='start-meeting-confirmation-name'>{ document.getElementById("clients").value }</div> */}
@@ -1127,12 +1143,17 @@ export default class TrainerCatchUp extends Component
                         }}>Submit</button>
                     </div>
                 </div>
+                <div className={this.state.isPopupClicked ? 'popup-container' : this.state.isSubmitMeetingPopupClicked ? 'popup-container' : this.state.isStartMeetingPopupClicked ? 'popup-container' : 'hidden'}></div>
                 <div className={this.state.isPopupClicked ? 'workout-notes-popup sections' : 'hidden' }>
                     <div className='popup-nav'>
                         <div className='headers'>{this.state.workoutName}</div>
                         <FontAwesomeIcon onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} className='workout-notes-popup-close-button' icon={faX}/>
                     </div>
-                    <div>{this.state.clientWorkoutNotes?.Notes}</div>
+                    {/* loop through notes array */}
+                    
+                    <div className='workout-notes-content'>
+                        {/* used daysTag from calendar  */}
+                    </div>
                 </div>
             </div>
         )

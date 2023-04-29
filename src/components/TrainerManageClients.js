@@ -692,6 +692,8 @@ export default class TrainerManageClients extends Component
                     </div>
                     
                 </div>
+                <div className={this.state.isPopupClicked ? 'popup-container' : 'hidden'}></div>
+                <div className={this.state.isWorkoutPopupClicked ? 'workout-details-popup-container' : 'hidden'}></div>
                 <div className={this.state.isPopupClicked ? 'assign-workout-popup sections' : 'hidden'}>
                     <div className='popup-nav'>
                         <div className='headers'>Assign Workout</div>

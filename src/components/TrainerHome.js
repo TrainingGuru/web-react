@@ -120,7 +120,7 @@ export default class TrainerHome extends Component
                 if(isToday) {
                     currentDay = i;
                 }
-                liTag += `<li id="${i}" class="${isToday}">${i}`
+                liTag += `<li id="${i}" class="${isToday} current-month">${i}`
                 
                 // console.log(new Date("2023-04-28").getFullYear() === currYear && new Date("2023-04-28").getDate() === i && new Date("2023-04-28").getMonth() === currMonth)
                 
@@ -145,7 +145,7 @@ export default class TrainerHome extends Component
             daysTag.innerHTML = liTag;
             eventCurrentDay.innerText = `${months[currMonth]} ${currentDay}, ${currYear}`
 
-            let daysLi = document.querySelectorAll(".days li");
+            let daysLi = document.querySelectorAll(".days .current-month");
 
             daysLi.forEach(day => {
                 day.addEventListener("click", () => {

@@ -35,6 +35,7 @@
 .clients-dropdown {
     grid-column: span 2;
     display: flex;
+    gap: 2rem;
     align-items: center;
     justify-content: space-evenly;
 }
@@ -243,7 +244,7 @@
     /* grid-row-start: 6; */
     height: 100%;
     width: 100%;
-    overflow: hidden;
+    overflow-y: scroll;
 }
 
 .goals-entry {
@@ -412,7 +413,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 1;
+    z-index: 2;
     background: rgba(0, 0, 0, 0.2);
     color: white;
     display: flex;
@@ -457,7 +458,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 1;
+    z-index: 2;
     /* display: flex;
     flex-direction: column;
     justify-content: center; */
@@ -473,6 +474,20 @@
     /* line-height: 18px; */
     position: absolute;
     top: 5%;
+    right: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.start-meeting-popup-close-button {
+    cursor: pointer;
+    margin: auto;
+    /* font-weight: 500;*/
+    font-size: 20px; 
+    /* line-height: 18px; */
+    position: absolute;
+    top: 10%;
     right: 5%;
     display: flex;
     flex-direction: column;
@@ -530,7 +545,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 1;
+    z-index: 2;
     /* display: flex;
     flex-direction: column;
     justify-content: center; */
@@ -583,7 +598,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 1;
+    z-index: 2;
     /* display: flex;
     flex-direction: column;
     justify-content: center; */
