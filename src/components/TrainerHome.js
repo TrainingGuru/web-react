@@ -36,7 +36,9 @@ export default class TrainerHome extends Component
             timeValue: "",
             selectedDate: "",
             count: 0,
-            isAddClientPopupClicked: false
+            isAddClientPopupClicked: false,
+            isEditClientPopupClicked: false,
+            displayPopupContainer: false
 
         }
     }
@@ -337,7 +339,7 @@ export default class TrainerHome extends Component
                     </div>
                     <div className='clients-menu'>
                         <div onClick={() => this.setState({ isAddClientPopupClicked: !this.state.isAddClientPopupClicked })}><FontAwesomeIcon className='clients-add-icon' icon={faPlus}/></div>
-                        <div><FontAwesomeIcon className='clients-edit-icon' icon={faPenToSquare}/></div>
+                        <div onClick={() => this.setState({ isEditClientPopupClicked: !this.state.isEditClientPopupClicked })}><FontAwesomeIcon className='clients-edit-icon' icon={faPenToSquare}/></div>
                     </div>
                 </div>
                 <div className='calendar-container sections'>
@@ -429,6 +431,7 @@ export default class TrainerHome extends Component
                     <button className='schedule-meeting-submit-button' onClick={this.handleSubmit}>Submit</button>
                 </div>
             </div>
+            <div className={this.state.isAddClientPopupClicked ? 'popup-container' : this.state.isPopupClicked ? 'popup-container' : this.state.isEditClientPopupClicked ? 'popup-container' : 'hidden'}></div>
             <div className={this.state.isAddClientPopupClicked ? 'add-client-popup sections' : 'hidden'}>
                 <div className='popup-nav'>
                     <div className='headers popup-header'>Add Client</div>
@@ -445,6 +448,25 @@ export default class TrainerHome extends Component
                     </div>
                     
                     <button className='add-client-submit-button' onClick={this.handleAddClientSubmit}>Submit</button>
+                </div>
+            </div>
+            <div className={this.state.isEditClientPopupClicked ? 'add-client-popup sections' : 'hidden'}>
+                <div className='popup-nav'>
+                    <div className='headers popup-header'>Edit Client Info</div>
+                    <FontAwesomeIcon onClick={() => this.setState({ isEditClientPopupClicked: !this.state.isEditClientPopupClicked })} className='add-client-popup-close-button' icon={faX}/>
+                </div>
+                <div className='edit-clients-table'>
+                    <div className='edit-clients-table-header-row'>
+                        <div>Name</div>
+                        <div>E-mail</div>
+                        <div></div>
+                    </div>
+                    {/* map through clients info and add to rows */}
+                    <div className='edit-clients-table-row'>
+                        <div>Kieran McCormack</div>
+                        <div>a@a.com</div>
+                        <div><FontAwesomeIcon icon={faPenToSquare}/></div>
+                    </div>
                 </div>
             </div>
             
