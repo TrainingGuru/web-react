@@ -24,7 +24,8 @@ export default class TrainerProfile extends Component
             trainerDetails: [],
             savedWorkoutDetails: [],
             currentWorkoutID: 0,
-            workoutName: ""
+            workoutName: "",
+            exercises: []
         };
     }
 
@@ -43,6 +44,11 @@ export default class TrainerProfile extends Component
                 }
             })
 
+            this.getSavedWorkouts()
+        
+    }
+
+    getSavedWorkouts(){
         // --------------------- Saved Workouts -------------------
         axios.get(`https://traininggurubackend.onrender.com/Trainer/1/AllWorkouts`)
             .then(res =>
@@ -72,6 +78,51 @@ export default class TrainerProfile extends Component
                 console.log("Data not Found!")
             }
         })
+    }
+
+    handleAddExercise = () => {
+        // add to this.state.exercises
+        let exerciseObject = {}
+        exerciseObject["ExName"] = document.getElementById("exercise-name-input").value
+        exerciseObject["Sets"] = document.getElementById("exercise-sets-input").value
+        exerciseObject["Reps"] = document.getElementById("exercise-reps-input").value
+
+        this.state.exercises.push(exerciseObject)
+
+        this.setState({ exercises: this.state.exercises })
+
+        document.getElementById("exercise-name-input").value = ""
+        document.getElementById("exercise-sets-input").value = ""
+        document.getElementById("exercise-reps-input").value = ""
+    }
+
+    handleAddWorkout = () => {
+        const workoutNameInput = document.getElementById("workout-name-input").value
+
+        // ------------------- Create Workout -----------------------------------
+        axios.post(`https://traininggurubackend.onrender.com/Trainer/TrainerWorkout`, {
+                "TrainerID": 1,
+                "WorkoutName": workoutNameInput,
+                "Exercises": this.state.exercises
+            })
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("Workout Created!")
+                    // this.setState({meetings: res.data})
+                    // console.log(res.data)
+                    this.getSavedWorkouts();
+                    document.getElementById("workout-name-input").value = ""
+                    this.setState({ exercises: [] })
+                }
+                else {
+                    console.log("Data not Found!")
+                }
+            })
+
+
+        // clear exercises state
     }
 
     render()
@@ -127,38 +178,50 @@ export default class TrainerProfile extends Component
                             <div className='create-workout-header'>
                                 <h1 className='create-workout-header-h1 create-workout-line'>Create Workout</h1>
                             </div>
-                            <form className='create-workout-form'>
+                            <div className='create-workout-form'>
                                 <div>
                                     <div className='create-workout-form-item create-workout-line'>
                                         <label className='create-workout-item-label'>Name:</label>
-                                        <input className='create-workout-item-input' type="text" placeholder="Enter Name" required/>
+                                        <input className='create-workout-item-input' type="text" id='workout-name-input' placeholder="Enter Name" required/>
                                     </div>
-                                </div>
-                                <div className='create-workout-line'>
-                                    <div className='create-workout-exercise'>
-                                        <label className='create-workout-exercise-label'>Exercise:</label>
-                                        <input className='create-workout-exercise-input' type="text" placeholder="Enter Exercise Name" required/>
-                                    </div>
-                                    <div className='create-workout-exercise'>
-                                        <label className='create-workout-exercise-label'>Sets:</label>
-                                        <input className='create-workout-exercise-input' type="text" placeholder="Enter Sets" required/>
-                                    </div>
-                                    <div className='create-workout-exercise'>
-                                        <label className='create-workout-exercise-label'>Reps:</label>
-                                        <input className='create-workout-exercise-input' type="text" placeholder="Enter Reps" required/>
-                                    </div>
-                                
-                                    <button className='create-workout-button' type="submit">ADD</button>
                                 </div>
                                 <div>
-                                    <p>Name: Sets: Reps:</p>
-                                    <p>Name: Sets: Reps:</p>
-                                    <p>Name: Sets: Reps:</p>
+                                    <div className='create-workout-line'>
+                                        <div className='create-workout-exercise'>
+                                            <label className='create-workout-exercise-label'>Exercise:</label>
+                                            <input className='create-workout-exercise-input' type="text" id='exercise-name-input' placeholder="Enter Exercise Name" required/>
+                                        </div>
+                                        <div className='create-workout-exercise'>
+                                            <label className='create-workout-exercise-label'>Sets:</label>
+                                            <input className='create-workout-exercise-input' type="number" id='exercise-sets-input' placeholder="Enter Sets" required/>
+                                        </div>
+                                        <div className='create-workout-exercise'>
+                                            <label className='create-workout-exercise-label'>Reps:</label>
+                                            <input className='create-workout-exercise-input' type="number" id='exercise-reps-input' placeholder="Enter Reps" required/>
+                                        </div>
+                                    
+                                        <button className='create-exercise-button' onClick={this.handleAddExercise}>ADD</button>
+                                    </div>
+                                    <div>
+                                        <div className='exercises-header-row'>
+                                            <div>Name</div>
+                                            <div>Sets</div>
+                                            <div>Reps</div>
+                                        </div>
+                                        { this.state.exercises.map((exercise) => {
+                                            return <div className='exercise'>
+                                                <div>{exercise.ExName}</div>
+                                                <div>{exercise.Sets}</div>
+                                                <div>{exercise.Reps}</div>
+                                            </div>
+                                        }) }
 
-                                    <button className='create-workout-button' type="submit">DONE</button>
+                                        
+                                    </div>
                                 </div>
+                                <div className='create-workout-button-container'><button className='create-workout-button' onClick={this.handleAddWorkout}>DONE</button></div>
                                 
-                            </form>
+                            </div>
                         </div>
 
                     </div>
