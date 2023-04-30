@@ -8,6 +8,9 @@ import TrainerManageClients from './components/TrainerManageClients';
 import TrainerProfile from './components/TrainerProfile';
 import TrainerLogin from './components/TrainerLogin';
 import TrainerRegister from './components/TrainerRegister';
+import PrivateRoute from './components/PrivateRoute';
+import LoginRoute from './components/LoginRoute';
+import LogoutRoute from './components/LogoutRoute';
 
 export default class App extends Component 
 {
@@ -16,12 +19,40 @@ export default class App extends Component
     return (
       <HashRouter>
         <Routes>
-          <Route exact path="/" element={<TrainerHome />} />
-          <Route exact path="/CatchUp" element={<TrainerCatchUp />} />
-          <Route exact path="/Manage" element={<TrainerManageClients />} />
-          <Route exact path="/Profile" element={<TrainerProfile />} />
-          <Route exact path="/Login" element={<TrainerLogin />} />
+          <Route exact path="/Login" element={
+            <LoginRoute>
+              <TrainerLogin />
+            </LoginRoute>
+          } />
           <Route exact path="/Register" element={<TrainerRegister />} />
+
+          <Route exact path="/" element={
+            <PrivateRoute>
+              <TrainerHome />
+            </PrivateRoute>
+          } />
+          <Route exact path="/CatchUp" element={
+            <PrivateRoute>
+              <TrainerCatchUp />
+            </PrivateRoute>
+          } />
+          <Route exact path="/Manage" element={
+            <PrivateRoute>
+              <TrainerManageClients />
+            </PrivateRoute>
+          } />
+          <Route exact path="/Profile" element={
+            <PrivateRoute>
+              <TrainerProfile />
+            </PrivateRoute>
+          } />
+
+
+          <Route exact path="/Logout" element={
+            <LogoutRoute>
+              <TrainerLogin />
+            </LogoutRoute>
+          } />
         </Routes>
       </HashRouter>
     )

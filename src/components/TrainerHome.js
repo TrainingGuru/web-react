@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
 
 import Nav from './Nav';
@@ -42,14 +42,15 @@ export default class TrainerHome extends Component
             isEditClientDetailsClicked: false,
             name: "",
             email: "",
-            currentClientID: 0
+            currentClientID: 0,
+            trainerID: sessionStorage.getItem("TrainerID")
 
         }
     }
 
-    getClients(){
+    getClients(trainerID){
         //------------------------- Clients ----------------------------------------------
-        axios.get(`https://traininggurubackend.onrender.com/Trainer/1/Clients`)
+        axios.get(`https://traininggurubackend.onrender.com/Trainer/${trainerID}/Clients`)
             .then(res =>
             {
                 if(res.data)
@@ -65,16 +66,16 @@ export default class TrainerHome extends Component
 
     componentDidMount()
     {
-
         
-        this.getClients();
+
+        this.getClients(this.state.trainerID);
         // fetch(`https://traininggurubackend.onrender.com/Trainer/1/Clients`)
         //     .then((response) => response.json())
         //     // .then((actualData) => console.log(actualData[0]))
         //     .then((actualData) => this.setState({clients: actualData}));
 
         // ------------------- Upcoming Meetings -----------------------------------
-        axios.get(`https://traininggurubackend.onrender.com/Trainer/1/UpcomingMeetings`)
+        axios.get(`https://traininggurubackend.onrender.com/Trainer/${this.state.trainerID}/UpcomingMeetings`)
             .then(res =>
             {
                 if(res.data)
@@ -92,6 +93,9 @@ export default class TrainerHome extends Component
         const clientSelect = document.getElementById("clients");
         clientSelect.addEventListener('change', this.handleClientChange);
 
+        
+        
+        
         
     
     }
@@ -199,9 +203,9 @@ export default class TrainerHome extends Component
         this.setState({clientValue: event.target.value});
     }
 
-    getUpcomingMeetings() {
+    getUpcomingMeetings(trainerID) {
         // ------------------- Upcoming Meetings -----------------------------------
-        axios.get(`https://traininggurubackend.onrender.com/Trainer/1/UpcomingMeetings`)
+        axios.get(`https://traininggurubackend.onrender.com/Trainer/${trainerID}/UpcomingMeetings`)
         .then(res =>
         {
             if(res.data)
@@ -223,7 +227,7 @@ export default class TrainerHome extends Component
         this.setState({timeValue: document.getElementById("schedule-time").value});
 
         this.setState({ isPopupClicked: !this.state.isPopupClicked });
-        this.getUpcomingMeetings();
+        this.getUpcomingMeetings(this.state.trainerID);
 
         console.log(document.getElementById("clients").value);
         console.log(document.getElementById("schedule-date").value);
@@ -241,7 +245,7 @@ export default class TrainerHome extends Component
                     console.log("Meeting Scheduled!")
                     // this.setState({meetings: res.data})
                     // console.log(res.data)
-                    this.getUpcomingMeetings();
+                    this.getUpcomingMeetings(this.state.trainerID);
                 }
                 else {
                     console.log("Data not Found!")
@@ -274,7 +278,7 @@ export default class TrainerHome extends Component
                     console.log("Client Details Updated!")
                     // this.setState({meetings: res.data})
                     // console.log(res.data)
-                    this.getClients();
+                    this.getClients(this.state.trainerID);
                 }
                 else {
                     console.log("Client Details Updated!")
@@ -300,7 +304,7 @@ export default class TrainerHome extends Component
 
         // ------------------- add new client -----------------------------------
         axios.post(`https://traininggurubackend.onrender.com/Client/Register`, {
-                "TrainerID": 1,
+                "TrainerID": this.state.trainerID,
                 "Name": document.getElementById("new-client-name").value,
                 "Email": document.getElementById("new-client-email").value,
                 "Password": ""
@@ -351,10 +355,10 @@ export default class TrainerHome extends Component
 
     render()
     {
+        console.log("render Home")
         return (
         <div className='trainer-home'>
             <Nav />
-
             <div className='trainer-home-container'>
                 <div className='clients sections'>
                     <div className='headers'>Clients</div>

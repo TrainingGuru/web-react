@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import Nav from './Nav';
 
+import {Link, Navigate} from "react-router-dom";
+
 import axios from 'axios';
 import moment from 'moment';
 
@@ -48,6 +50,7 @@ export default class TrainerManageClients extends Component
             // allClientWorkouts: [],
             workoutWeeks: [],
             currentWeekNumber: 5,
+            trainerID: sessionStorage.getItem("TrainerID"),
             assignDayNumber: 0,
             daysOfTheWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
         }
@@ -117,7 +120,7 @@ export default class TrainerManageClients extends Component
     componentDidMount()
     {
         // --------------------- Clients -------------------
-        axios.get(`https://traininggurubackend.onrender.com/Trainer/1/Clients`)
+        axios.get(`https://traininggurubackend.onrender.com/Trainer/${this.state.trainerID}/Clients`)
             .then(res =>
             {
                 if(res.data)
@@ -131,7 +134,7 @@ export default class TrainerManageClients extends Component
             })
 
         // --------------------- Saved Workouts -------------------
-        axios.get(`https://traininggurubackend.onrender.com/Trainer/1/AllWorkouts`)
+        axios.get(`https://traininggurubackend.onrender.com/Trainer/${this.state.trainerID}/AllWorkouts`)
         .then(res =>
         {
             if(res.data)

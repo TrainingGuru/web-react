@@ -4,7 +4,7 @@ import Nav from './Nav'
 
 import axios from 'axios';
 
-import {Link} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
@@ -25,13 +25,15 @@ export default class TrainerProfile extends Component
             savedWorkoutDetails: [],
             currentWorkoutID: 0,
             workoutName: "",
+            trainerID: sessionStorage.getItem("TrainerID"),
             exercises: []
         };
+        
     }
 
     componentDidMount() {
         // --------------------- Trainer Details -------------------
-        axios.get(`https://traininggurubackend.onrender.com/Trainer/1`)
+        axios.get(`https://traininggurubackend.onrender.com/Trainer/${this.state.trainerID}`)
             .then(res =>
             {
                 if(res.data)
@@ -44,13 +46,13 @@ export default class TrainerProfile extends Component
                 }
             })
 
-            this.getSavedWorkouts()
+            this.getSavedWorkouts(this.state.trainerID)
         
     }
 
-    getSavedWorkouts(){
+    getSavedWorkouts(trainerID){
         // --------------------- Saved Workouts -------------------
-        axios.get(`https://traininggurubackend.onrender.com/Trainer/1/AllWorkouts`)
+        axios.get(`https://traininggurubackend.onrender.com/Trainer/${trainerID}/AllWorkouts`)
             .then(res =>
             {
                 if(res.data)
@@ -101,7 +103,7 @@ export default class TrainerProfile extends Component
 
         // ------------------- Create Workout -----------------------------------
         axios.post(`https://traininggurubackend.onrender.com/Trainer/TrainerWorkout`, {
-                "TrainerID": 1,
+                "TrainerID": this.state.trainerID,
                 "WorkoutName": workoutNameInput,
                 "Exercises": this.state.exercises
             })
@@ -112,7 +114,7 @@ export default class TrainerProfile extends Component
                     console.log("Workout Created!")
                     // this.setState({meetings: res.data})
                     // console.log(res.data)
-                    this.getSavedWorkouts();
+                    this.getSavedWorkouts(this.state.trainerID);
                     document.getElementById("workout-name-input").value = ""
                     this.setState({ exercises: [] })
                 }
@@ -147,7 +149,7 @@ export default class TrainerProfile extends Component
                                     <div>Edit</div>
                                     <FontAwesomeIcon icon={faPenToSquare}/>
                                 </div>
-                                <Link to="/Login" className='profile-logout-icon'>
+                                <Link to="/Logout" className='profile-logout-icon'>
                                     <div>Logout</div>
                                     <FontAwesomeIcon icon={faRightFromBracket}/>
                                 </Link>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Nav from './Nav';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 import axios from 'axios';
 import moment from 'moment';
@@ -56,6 +56,7 @@ export default class TrainerCatchUp extends Component
             workoutName: "",
             clientName: "",
             currentWeekNumber: 5,
+            trainerID: sessionStorage.getItem("TrainerID"),
             daysOfTheWeek: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
         }
     }
@@ -191,7 +192,7 @@ export default class TrainerCatchUp extends Component
         })
 
         // --------------------- Clients -------------------
-        axios.get(`https://traininggurubackend.onrender.com/Trainer/1/Clients`)
+        axios.get(`https://traininggurubackend.onrender.com/Trainer/${this.state.trainerID}/Clients`)
             .then(res =>
             {
                 if(res.data)
@@ -822,391 +823,393 @@ export default class TrainerCatchUp extends Component
     render()
     {
         return (
-            <div className='catchUp'>
-                <Nav />
-                <div className='catchUp-container'>
-                    <div className='goals catchup-sections'>
-                        <div className='headers'>Goals</div>
-                            { this.state.goals?.map((goal) => {
-                                return <div className='goals-entry'>
-                                            {goal.Goal}
-                                        </div>
-                                }) 
-                            }
-                    </div>
-                    <div className='clients-dropdown'>
-                        <div className={this.state.meetingStarted ? "client-name-meeting-started" : "hidden"}>
-                            <div className='clients-locked-name'>{this.state.clientName}</div>
+            
+            
+                <div className='catchUp'>
+                    <Nav />
+                    <div className='catchUp-container'>
+                        <div className='goals catchup-sections'>
+                            <div className='headers'>Goals</div>
+                                { this.state.goals?.map((goal) => {
+                                    return <div className='goals-entry'>
+                                                {goal.Goal}
+                                            </div>
+                                    }) 
+                                }
                         </div>
-                        <select id="clients" value={this.state.currentClientID} className={this.state.meetingStarted ? "hidden" : 'client-heading-dropdown'}>
-                            { this.state.clients?.map((client) => {
-                                return <option className='clients-dropdown-name' value={`${client.ClientID}`}>{client.Name}</option>
-                            })
-                        }
-                        </select>
-                        {this.state.meetingStarted ? <FontAwesomeIcon className='lock' icon={faLock}/> 
-                        :
-                        <Link to="/Manage" className='clients-manage-link'><FontAwesomeIcon className='gear-icon' icon={faGear}/></Link>
-                        }
-                    </div>
-                    <div className='intake catchup-sections'>
-                        <div className='headers'>Todays Intake</div>
-                        { <div className='intake-table'>
-                                    <div className='intake-table-heading'>Calories</div>
-                                    <div className='intake-table-data'>{this.state.intake?.CaloriesIntake}/{this.state.intake?.TotalCalories}cal</div>
-                                    <div className='intake-table-heading'>Protein</div>
-                                    <div className='intake-table-data'>{this.state.intake?.ProteinIntake}/{this.state.intake?.TotalProtein}g</div>
-                                    <div className='intake-table-heading'>Fat</div>
-                                    <div className='intake-table-data'>{this.state.intake?.FatsIntake}/{this.state.intake?.TotalFats}g</div>
-                                    <div className='intake-table-heading'>Carbs</div>
-                                    <div className='intake-table-data'>{this.state.intake?.CarbohydratesIntake}/{this.state.intake?.TotalCarbohydrates}g</div>
-                                </div>
-                                
-                            }
-                    </div>
-                    <div className='progress-chart catchup-sections'>
-                        <div className='headers'>Client Weight</div>
-                        <img className='progress-chart-image'
-                            src={progressChart}
-                            alt="Progress Chart"/>
-                    </div>
-                    <div className='fitbit-icons'>
-                        <div>
-                            <FontAwesomeIcon className='fitbit-icon calBurnt' icon={faFire}/>
-                            <div className='fitbit-content'>
-                                <div className='fitbit-data'>
-                                    <div className='fitbit-data-heading'>Calories Burnt</div>
-                                    <div>1500kcl</div>
-                                </div>
-                                <FontAwesomeIcon className='down-icon' icon={faChevronDown}/>
+                        <div className='clients-dropdown'>
+                            <div className={this.state.meetingStarted ? "client-name-meeting-started" : "hidden"}>
+                                <div className='clients-locked-name'>{this.state.clientName}</div>
                             </div>
-                        </div>
-                        {/* <div>
-                            <FontAwesomeIcon className='fitbit-icon waterIntake' icon={faDroplet}/>
-                            <div className='fitbit-content'>
-                                <div className='fitbit-data'>
-                                    <div>Water Intake</div>
-                                    <div>1.5L</div>
-                                </div>
-                                <FontAwesomeIcon className='down-icon' icon={faChevronDown}/>
-                            </div>
-                        </div> */}
-                        <div>
-                            <FontAwesomeIcon className='fitbit-icon floorsClimbed' icon={faStairs}/>
-                            <div className='fitbit-content'>
-                                <div className='fitbit-data'>
-                                    <div className='fitbit-data-heading'>Floors Climbed</div>
-                                    <div>5 Floors</div>
-                                </div>
-                                <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
-                            </div>
-                        </div>
-                        <div>
-                            <FontAwesomeIcon className='fitbit-icon activeMins' icon={faBolt}/>
-                            <div className='fitbit-content'>
-                                <div className='fitbit-data'>
-                                    <div className='fitbit-data-heading'>Active Minutes</div>
-                                    <div>40 Min</div>
-                                </div>
-                                <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
-                            </div>
-                        </div>
-                        <div>
-                            <FontAwesomeIcon className='fitbit-icon steps-icon' icon={faShoePrints}/>
-                            <div className='fitbit-content'>
-                                <div className='fitbit-data'>
-                                    <div className='fitbit-data-heading'>Steps</div>
-                                    <div>2.1km</div>
-                                </div>
-                                <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='calorie-summary catchup-sections'>
-                        <div className='headers'>Current Week Intake</div>
-                        <div className='calorie-summary-table'>
-                            { this.state.calHistory7Days?.map((history) => {
-
-                                return <div>
-                                        <div className='calorie-summary-day'>{history.Day}</div>
-                                        <div className='calorie-summary-icon'>
-                                            { history.CaloriesHit ? <FontAwesomeIcon className='check' icon={faCheck}/> : !history.CaloriesHit ? <FontAwesomeIcon className='xmark' icon={faX}/> : history.CaloriesHit.localeCompare("dash") === 0 ? <FontAwesomeIcon className='dash' icon={faMinus}/> : <div></div> }
-                                        </div>
-                                    </div>
-                                }) 
-                            }
-                        </div>
-                        
-
-                        {/* { this.state.calHistory?.map((history) => {
-
-                            return <div className='calorie-summary-icon'>
-                                        { history.CaloriesHit ? <FontAwesomeIcon className='check' icon={faCheck}/> : <FontAwesomeIcon className='xmark' icon={faX}/> }
-                                    </div>
-                            }) 
-                        } */}
-
-
-                        {/* <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
-                        <div className='calorie-summary-icon'><FontAwesomeIcon className='xmark' icon={faX}/></div>
-                        <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
-                        <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
-                        <div className='calorie-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
-                        <div className='calorie-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
-                        <div className='calorie-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div> */}
-
-                    </div>
-                    <div className='feedback-summary catchup-sections'>
-                        <div className='headers checkin-header'>Weekly Checkin Rankings</div>
-                        <div className='feedback-summary-table'>
-                            
-                            <div className='feedback-summary-day'>1</div>
-                            <div className='feedback-summary-day'>2</div>
-                            <div className='feedback-summary-day'>3</div>
-                            <div className='feedback-summary-day'>4</div>
-                            <div className='feedback-summary-day'>5</div>
-                            <div className='feedback-summary-day'>6</div>
-                            <div className='feedback-summary-day'>7</div>
-
-                            
-                            <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
-                            <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
-                            <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
-                            <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
-                            <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
-                            <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
-                            <div className='feedback-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
-
-                        </div>
-                        
-                    </div>
-                    <div className='personal-bests catchup-sections'>
-                        <div className='headers'>Personal Bests</div>
-                        <div className='personal-bests-content'>
-                            {   this.state.pbs?.map((PB) => {
-                                    return <div className='personal-bests-entry'>
-                                        <div className='personal-bests-entry-data'>
-                                            <div className='personal-bests-exercise'>{PB.Exercise.Name}</div>
-                                            <div className='personal-bests-previous'>{PB.LastPB}</div>
-                                            <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
-                                            <div className='personal-bests-new'>{PB.PersonalBest}</div>
-                                        </div>
-                                    </div>
+                            <select id="clients" value={this.state.currentClientID} className={this.state.meetingStarted ? "hidden" : 'client-heading-dropdown'}>
+                                { this.state.clients?.map((client) => {
+                                    return <option className='clients-dropdown-name' value={`${client.ClientID}`}>{client.Name}</option>
                                 })
                             }
+                            </select>
+                            {this.state.meetingStarted ? <FontAwesomeIcon className='lock' icon={faLock}/> 
+                            :
+                            <Link to="/Manage" className='clients-manage-link'><FontAwesomeIcon className='gear-icon' icon={faGear}/></Link>
+                            }
                         </div>
-                    </div>
-                    <div className='schedule catchup-sections'>
-                        {/* <FontAwesomeIcon icon={faLessThan}/> */}
-                        <div className='headers schedule-header'>Schedule</div>
-                        {/* <FontAwesomeIcon icon={faGreaterThan}/> */}
-                        <div className='carousel'>
-                            <div className='button-left hidden'>
-                                <FontAwesomeIcon icon={faLessThan}/>
+                        <div className='intake catchup-sections'>
+                            <div className='headers'>Todays Intake</div>
+                            { <div className='intake-table'>
+                                        <div className='intake-table-heading'>Calories</div>
+                                        <div className='intake-table-data'>{this.state.intake?.CaloriesIntake}/{this.state.intake?.TotalCalories}cal</div>
+                                        <div className='intake-table-heading'>Protein</div>
+                                        <div className='intake-table-data'>{this.state.intake?.ProteinIntake}/{this.state.intake?.TotalProtein}g</div>
+                                        <div className='intake-table-heading'>Fat</div>
+                                        <div className='intake-table-data'>{this.state.intake?.FatsIntake}/{this.state.intake?.TotalFats}g</div>
+                                        <div className='intake-table-heading'>Carbs</div>
+                                        <div className='intake-table-data'>{this.state.intake?.CarbohydratesIntake}/{this.state.intake?.TotalCarbohydrates}g</div>
+                                    </div>
+                                    
+                                }
+                        </div>
+                        <div className='progress-chart catchup-sections'>
+                            <div className='headers'>Client Weight</div>
+                            <img className='progress-chart-image'
+                                src={progressChart}
+                                alt="Progress Chart"/>
+                        </div>
+                        <div className='fitbit-icons'>
+                            <div>
+                                <FontAwesomeIcon className='fitbit-icon calBurnt' icon={faFire}/>
+                                <div className='fitbit-content'>
+                                    <div className='fitbit-data'>
+                                        <div className='fitbit-data-heading'>Calories Burnt</div>
+                                        <div>1500kcl</div>
+                                    </div>
+                                    <FontAwesomeIcon className='down-icon' icon={faChevronDown}/>
+                                </div>
                             </div>
-                            <div className='track-container'>
-                                <ul className='track'>
-                                    <li className='slide current-slide'>
-                                        {   this.state.schedule.days?.slice(0,7).map((day) => {
-                                                var found = false;
-                                                var dayNumber = 0;
-                                                return <div className='slide-content'>
-                                                    <div className='slide-content-day'>{day.day}</div>
-                                                    <div className='slide-content-date'>{day.date}</div>
-                                                    { this.state.clientWorkoutsPrevWeek?.map((clientWorkout) => {
-                                                        var d = new Date(clientWorkout.Date);
-                                                        dayNumber = d.getDay();
-                                                        if(dayNumber == 0) {
-                                                            dayNumber=6;
-                                                        } else {
-                                                            dayNumber -= 1;
-                                                        }
-                                                        var workoutDay = this.state.daysOfTheWeek[dayNumber];
-                                                        // console.log(clientWorkout.Date + " " + workoutDay);
-                                                        if(day.day.localeCompare(workoutDay)==0){
-                                                            found = true;
-                                                            return <div><div className='slide-content-workout'>{clientWorkout.TrainerWorkout.WorkoutName}</div>
-                                                            <div className='see-notes' onClick={() => {
-                                                                this.setState({ isPopupClicked: !this.state.isPopupClicked });
-                                                                this.setState({ clientWorkoutNotes: this.getClientNotesForOneWorkout(clientWorkout.ClientWorkoutID) });
-                                                                this.setState({ workoutName: clientWorkout.TrainerWorkout.WorkoutName });
-                                                            }}>See notes</div></div>
-                                                        } 
-                                                        })
-                                                    }
-                                                    
+                            {/* <div>
+                                <FontAwesomeIcon className='fitbit-icon waterIntake' icon={faDroplet}/>
+                                <div className='fitbit-content'>
+                                    <div className='fitbit-data'>
+                                        <div>Water Intake</div>
+                                        <div>1.5L</div>
+                                    </div>
+                                    <FontAwesomeIcon className='down-icon' icon={faChevronDown}/>
+                                </div>
+                            </div> */}
+                            <div>
+                                <FontAwesomeIcon className='fitbit-icon floorsClimbed' icon={faStairs}/>
+                                <div className='fitbit-content'>
+                                    <div className='fitbit-data'>
+                                        <div className='fitbit-data-heading'>Floors Climbed</div>
+                                        <div>5 Floors</div>
+                                    </div>
+                                    <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
+                                </div>
+                            </div>
+                            <div>
+                                <FontAwesomeIcon className='fitbit-icon activeMins' icon={faBolt}/>
+                                <div className='fitbit-content'>
+                                    <div className='fitbit-data'>
+                                        <div className='fitbit-data-heading'>Active Minutes</div>
+                                        <div>40 Min</div>
+                                    </div>
+                                    <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
+                                </div>
+                            </div>
+                            <div>
+                                <FontAwesomeIcon className='fitbit-icon steps-icon' icon={faShoePrints}/>
+                                <div className='fitbit-content'>
+                                    <div className='fitbit-data'>
+                                        <div className='fitbit-data-heading'>Steps</div>
+                                        <div>2.1km</div>
+                                    </div>
+                                    <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='calorie-summary catchup-sections'>
+                            <div className='headers'>Current Week Intake</div>
+                            <div className='calorie-summary-table'>
+                                { this.state.calHistory7Days?.map((history) => {
 
-                                                    {/* <div>Chest Beginner</div>
-                                                    <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>notes</div>
-                                                    <div className={this.state.isPopupClicked ? 'popup' : 'hidden'}>
-                                                        This is the notes popup!
-                                                        <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Close</div>
-                                                    </div> */}
-                                                </div>
-                                            })
-                                        }
-                                    </li>
-                                    <li className='slide'>
-                                        {   this.state.schedule.days?.slice(7,14).map((day) => {
-                                                var found = false;
-                                                var dayNumber = 0;
-                                                return <div className='slide-content'>
-                                                    <div className='slide-content-day'>{day.day}</div>
-                                                    <div className='slide-content-date'>{day.date}</div>
-                                                    { this.state.clientWorkouts?.map((clientWorkout) => {
-                                                        var d = new Date(clientWorkout.Date);
-                                                        dayNumber = d.getDay();
-                                                        if(dayNumber == 0) {
-                                                            dayNumber=6;
-                                                        } else {
-                                                            dayNumber -= 1;
-                                                        }
-                                                        var workoutDay = this.state.daysOfTheWeek[dayNumber];
-                                                        // console.log(clientWorkout.Date + " " + workoutDay);
-                                                        if(day.day.localeCompare(workoutDay)==0){
-                                                            found = true;
-                                                            return <div><div className='slide-content-workout'>{clientWorkout.TrainerWorkout.WorkoutName}</div>
-                                                            <div className='see-notes' onClick={() => {
-                                                                this.setState({ isPopupClicked: !this.state.isPopupClicked });
-                                                                this.setState({ clientWorkoutNotes: this.getClientNotesForOneWorkout(clientWorkout.ClientWorkoutID) });
-                                                                this.setState({ workoutName: clientWorkout.TrainerWorkout.WorkoutName });
-                                                            }}>See notes</div></div>
-                                                        }
-                                                        })
-                                                    }
-                                                    
+                                    return <div>
+                                            <div className='calorie-summary-day'>{history.Day}</div>
+                                            <div className='calorie-summary-icon'>
+                                                { history.CaloriesHit ? <FontAwesomeIcon className='check' icon={faCheck}/> : !history.CaloriesHit ? <FontAwesomeIcon className='xmark' icon={faX}/> : history.CaloriesHit.localeCompare("dash") === 0 ? <FontAwesomeIcon className='dash' icon={faMinus}/> : <div></div> }
+                                            </div>
+                                        </div>
+                                    }) 
+                                }
+                            </div>
+                            
 
-                                                    {/* <div>Chest Beginner</div>
-                                                    <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>notes</div>
-                                                    <div className={this.state.isPopupClicked ? 'popup' : 'hidden'}>
-                                                        This is the notes popup!
-                                                        <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Close</div>
-                                                    </div> */}
-                                                </div>
-                                            })
-                                        }
-                                    </li>
-                                    <li className='slide'>
-                                        {   this.state.schedule.days?.slice(14,21).map((day) => {
-                                                var found = false;
-                                                var dayNumber = 0;
-                                                return <div className='slide-content'>
-                                                    <div className='slide-content-day'>{day.day}</div>
-                                                    <div className='slide-content-date'>{day.date}</div>
-                                                    { this.state.clientWorkoutsNextWeek?.map((clientWorkout) => {
-                                                        var d = new Date(clientWorkout.Date);
-                                                        dayNumber = d.getDay();
-                                                        if(dayNumber == 0) {
-                                                            dayNumber=6;
-                                                        } else {
-                                                            dayNumber -= 1;
-                                                        }
-                                                        var workoutDay = this.state.daysOfTheWeek[dayNumber];
-                                                        // console.log(clientWorkout.Date + " " + workoutDay);
-                                                        if(day.day.localeCompare(workoutDay)==0){
-                                                            found = true;
-                                                            return <div><div className='slide-content-workout'>{clientWorkout.TrainerWorkout.WorkoutName}</div>
-                                                            <div className='see-notes' onClick={() => {
-                                                                this.setState({ isPopupClicked: !this.state.isPopupClicked });
-                                                                this.setState({ clientWorkoutNotes: this.getClientNotesForOneWorkout(clientWorkout.ClientWorkoutID) });
-                                                                this.setState({ workoutName: clientWorkout.TrainerWorkout.WorkoutName });
-                                                            }}>See notes</div></div>
-                                                        }
-                                                        })
-                                                    }
-                                                    
+                            {/* { this.state.calHistory?.map((history) => {
 
-                                                    {/* <div>Chest Beginner</div>
-                                                    <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>notes</div>
-                                                    <div className={this.state.isPopupClicked ? 'popup' : 'hidden'}>
-                                                        This is the notes popup!
-                                                        <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Close</div>
-                                                    </div> */}
-                                                </div>
-                                            })
-                                        }
-                                    </li>
-                                </ul>
+                                return <div className='calorie-summary-icon'>
+                                            { history.CaloriesHit ? <FontAwesomeIcon className='check' icon={faCheck}/> : <FontAwesomeIcon className='xmark' icon={faX}/> }
+                                        </div>
+                                }) 
+                            } */}
+
+
+                            {/* <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
+                            <div className='calorie-summary-icon'><FontAwesomeIcon className='xmark' icon={faX}/></div>
+                            <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
+                            <div className='calorie-summary-icon'><FontAwesomeIcon className='check' icon={faCheck}/></div>
+                            <div className='calorie-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
+                            <div className='calorie-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
+                            <div className='calorie-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div> */}
+
+                        </div>
+                        <div className='feedback-summary catchup-sections'>
+                            <div className='headers checkin-header'>Weekly Checkin Rankings</div>
+                            <div className='feedback-summary-table'>
+                                
+                                <div className='feedback-summary-day'>1</div>
+                                <div className='feedback-summary-day'>2</div>
+                                <div className='feedback-summary-day'>3</div>
+                                <div className='feedback-summary-day'>4</div>
+                                <div className='feedback-summary-day'>5</div>
+                                <div className='feedback-summary-day'>6</div>
+                                <div className='feedback-summary-day'>7</div>
+
+                                
+                                <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+                                <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
+                                <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+                                <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+                                <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
+                                <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
+                                <div className='feedback-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
+
                             </div>
-                            <div className='button-right'>
-                                <FontAwesomeIcon icon={faGreaterThan}/>
+                            
+                        </div>
+                        <div className='personal-bests catchup-sections'>
+                            <div className='headers'>Personal Bests</div>
+                            <div className='personal-bests-content'>
+                                {   this.state.pbs?.map((PB) => {
+                                        return <div className='personal-bests-entry'>
+                                            <div className='personal-bests-entry-data'>
+                                                <div className='personal-bests-exercise'>{PB.Exercise.Name}</div>
+                                                <div className='personal-bests-previous'>{PB.LastPB}</div>
+                                                <FontAwesomeIcon className='up-icon' icon={faChevronUp}/>
+                                                <div className='personal-bests-new'>{PB.PersonalBest}</div>
+                                            </div>
+                                        </div>
+                                    })
+                                }
                             </div>
-                            <div className='carousel-nav'>
-                                <button className='carousel-nav-indicator nav-current-slide'></button>
-                                <button className='carousel-nav-indicator'></button>
-                                <button className='carousel-nav-indicator'></button>
+                        </div>
+                        <div className='schedule catchup-sections'>
+                            {/* <FontAwesomeIcon icon={faLessThan}/> */}
+                            <div className='headers schedule-header'>Schedule</div>
+                            {/* <FontAwesomeIcon icon={faGreaterThan}/> */}
+                            <div className='carousel'>
+                                <div className='button-left hidden'>
+                                    <FontAwesomeIcon icon={faLessThan}/>
+                                </div>
+                                <div className='track-container'>
+                                    <ul className='track'>
+                                        <li className='slide current-slide'>
+                                            {   this.state.schedule.days?.slice(0,7).map((day) => {
+                                                    var found = false;
+                                                    var dayNumber = 0;
+                                                    return <div className='slide-content'>
+                                                        <div className='slide-content-day'>{day.day}</div>
+                                                        <div className='slide-content-date'>{day.date}</div>
+                                                        { this.state.clientWorkoutsPrevWeek?.map((clientWorkout) => {
+                                                            var d = new Date(clientWorkout.Date);
+                                                            dayNumber = d.getDay();
+                                                            if(dayNumber == 0) {
+                                                                dayNumber=6;
+                                                            } else {
+                                                                dayNumber -= 1;
+                                                            }
+                                                            var workoutDay = this.state.daysOfTheWeek[dayNumber];
+                                                            // console.log(clientWorkout.Date + " " + workoutDay);
+                                                            if(day.day.localeCompare(workoutDay)==0){
+                                                                found = true;
+                                                                return <div><div className='slide-content-workout'>{clientWorkout.TrainerWorkout.WorkoutName}</div>
+                                                                <div className='see-notes' onClick={() => {
+                                                                    this.setState({ isPopupClicked: !this.state.isPopupClicked });
+                                                                    this.setState({ clientWorkoutNotes: this.getClientNotesForOneWorkout(clientWorkout.ClientWorkoutID) });
+                                                                    this.setState({ workoutName: clientWorkout.TrainerWorkout.WorkoutName });
+                                                                }}>See notes</div></div>
+                                                            } 
+                                                            })
+                                                        }
+                                                        
+
+                                                        {/* <div>Chest Beginner</div>
+                                                        <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>notes</div>
+                                                        <div className={this.state.isPopupClicked ? 'popup' : 'hidden'}>
+                                                            This is the notes popup!
+                                                            <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Close</div>
+                                                        </div> */}
+                                                    </div>
+                                                })
+                                            }
+                                        </li>
+                                        <li className='slide'>
+                                            {   this.state.schedule.days?.slice(7,14).map((day) => {
+                                                    var found = false;
+                                                    var dayNumber = 0;
+                                                    return <div className='slide-content'>
+                                                        <div className='slide-content-day'>{day.day}</div>
+                                                        <div className='slide-content-date'>{day.date}</div>
+                                                        { this.state.clientWorkouts?.map((clientWorkout) => {
+                                                            var d = new Date(clientWorkout.Date);
+                                                            dayNumber = d.getDay();
+                                                            if(dayNumber == 0) {
+                                                                dayNumber=6;
+                                                            } else {
+                                                                dayNumber -= 1;
+                                                            }
+                                                            var workoutDay = this.state.daysOfTheWeek[dayNumber];
+                                                            // console.log(clientWorkout.Date + " " + workoutDay);
+                                                            if(day.day.localeCompare(workoutDay)==0){
+                                                                found = true;
+                                                                return <div><div className='slide-content-workout'>{clientWorkout.TrainerWorkout.WorkoutName}</div>
+                                                                <div className='see-notes' onClick={() => {
+                                                                    this.setState({ isPopupClicked: !this.state.isPopupClicked });
+                                                                    this.setState({ clientWorkoutNotes: this.getClientNotesForOneWorkout(clientWorkout.ClientWorkoutID) });
+                                                                    this.setState({ workoutName: clientWorkout.TrainerWorkout.WorkoutName });
+                                                                }}>See notes</div></div>
+                                                            }
+                                                            })
+                                                        }
+                                                        
+
+                                                        {/* <div>Chest Beginner</div>
+                                                        <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>notes</div>
+                                                        <div className={this.state.isPopupClicked ? 'popup' : 'hidden'}>
+                                                            This is the notes popup!
+                                                            <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Close</div>
+                                                        </div> */}
+                                                    </div>
+                                                })
+                                            }
+                                        </li>
+                                        <li className='slide'>
+                                            {   this.state.schedule.days?.slice(14,21).map((day) => {
+                                                    var found = false;
+                                                    var dayNumber = 0;
+                                                    return <div className='slide-content'>
+                                                        <div className='slide-content-day'>{day.day}</div>
+                                                        <div className='slide-content-date'>{day.date}</div>
+                                                        { this.state.clientWorkoutsNextWeek?.map((clientWorkout) => {
+                                                            var d = new Date(clientWorkout.Date);
+                                                            dayNumber = d.getDay();
+                                                            if(dayNumber == 0) {
+                                                                dayNumber=6;
+                                                            } else {
+                                                                dayNumber -= 1;
+                                                            }
+                                                            var workoutDay = this.state.daysOfTheWeek[dayNumber];
+                                                            // console.log(clientWorkout.Date + " " + workoutDay);
+                                                            if(day.day.localeCompare(workoutDay)==0){
+                                                                found = true;
+                                                                return <div><div className='slide-content-workout'>{clientWorkout.TrainerWorkout.WorkoutName}</div>
+                                                                <div className='see-notes' onClick={() => {
+                                                                    this.setState({ isPopupClicked: !this.state.isPopupClicked });
+                                                                    this.setState({ clientWorkoutNotes: this.getClientNotesForOneWorkout(clientWorkout.ClientWorkoutID) });
+                                                                    this.setState({ workoutName: clientWorkout.TrainerWorkout.WorkoutName });
+                                                                }}>See notes</div></div>
+                                                            }
+                                                            })
+                                                        }
+                                                        
+
+                                                        {/* <div>Chest Beginner</div>
+                                                        <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>notes</div>
+                                                        <div className={this.state.isPopupClicked ? 'popup' : 'hidden'}>
+                                                            This is the notes popup!
+                                                            <div onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })}>Close</div>
+                                                        </div> */}
+                                                    </div>
+                                                })
+                                            }
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div className='button-right'>
+                                    <FontAwesomeIcon icon={faGreaterThan}/>
+                                </div>
+                                <div className='carousel-nav'>
+                                    <button className='carousel-nav-indicator nav-current-slide'></button>
+                                    <button className='carousel-nav-indicator'></button>
+                                    <button className='carousel-nav-indicator'></button>
+                                </div>
                             </div>
+                            
                         </div>
                         
                     </div>
-                    
-                </div>
-                <div className='catch-up-meeting-form'>
-                    {this.state.meetingStarted ? 
-                        <div className='cancel-submit-buttons-container'>
-                            <button className='cancel-meeting-button meeting-buttons' onClick={() => this.setState({ meetingStarted: !this.state.meetingStarted })}>Cancel</button>
-                            <button className='submit-meeting-button meeting-buttons' onClick={() => this.setState({ isSubmitMeetingPopupClicked: !this.state.isSubmitMeetingPopupClicked })}>Submit</button>
-                        </div> 
-                        : 
-                        <button className='start-meeting-button meeting-buttons' onClick={() => {
-                            this.setState({ isStartMeetingPopupClicked: !this.state.isStartMeetingPopupClicked })
-                            this.setState({ clientName: this.getClientName(this.state.currentClientID) })
-                        }}>Start Meeting</button>}
-                </div>
-                <div className={this.state.isStartMeetingPopupClicked ? 'start-meeting-confirmation-popup sections' : 'hidden'}>
-                    <div className='popup-nav'>
-                        <FontAwesomeIcon onClick={() => this.setState({ isStartMeetingPopupClicked: !this.state.isStartMeetingPopupClicked })} className='start-meeting-popup-close-button' icon={faX}/>
+                    <div className='catch-up-meeting-form'>
+                        {this.state.meetingStarted ? 
+                            <div className='cancel-submit-buttons-container'>
+                                <button className='cancel-meeting-button meeting-buttons' onClick={() => this.setState({ meetingStarted: !this.state.meetingStarted })}>Cancel</button>
+                                <button className='submit-meeting-button meeting-buttons' onClick={() => this.setState({ isSubmitMeetingPopupClicked: !this.state.isSubmitMeetingPopupClicked })}>Submit</button>
+                            </div> 
+                            : 
+                            <button className='start-meeting-button meeting-buttons' onClick={() => {
+                                this.setState({ isStartMeetingPopupClicked: !this.state.isStartMeetingPopupClicked })
+                                this.setState({ clientName: this.getClientName(this.state.currentClientID) })
+                            }}>Start Meeting</button>}
                     </div>
-                    <div className='start-meeting-confirmation-popup-content'>
-                        <div className='start-meeting-confirmation-text'>Start Meeting With</div>
-                        {/* <div className='start-meeting-confirmation-name'>{ document.getElementById("clients").value }</div> */}
-                        <div className='start-meeting-confirmation-name'>{this.state.clientName}</div>
-                    </div>
-                    <div className='start-meeting-confirmation-button'><button className='start-meeting-button meeting-buttons confirmation-button' onClick={() => {
-                        this.setState({ isStartMeetingPopupClicked: !this.state.isStartMeetingPopupClicked });
-                        this.setState({ meetingStarted: !this.state.meetingStarted });
-
-                    }}>Start Meeting</button></div>
-                </div>
-                <div className={this.state.isSubmitMeetingPopupClicked ? 'submit-meeting-popup sections' : 'hidden'}>
-                    <div className='submit-meeting-icons'>
-                        {/* <div className='submit-meeting-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
-                        <div className='submit-meeting-icon'><FontAwesomeIcon className='face-thinking' icon={faThumbsUp}/></div>
-                        <div className='submit-meeting-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div> */}
-                        <input type='radio' name='feedback' id="thumbs-up"/>
-                        <label for="thumbs-up"><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></label>
-
-                        <input type='radio' name='feedback' id="thumbs-middle"/>
-                        <label for="thumbs-middle"><FontAwesomeIcon className='thumbs-middle' icon={faThumbsUp}/></label>
-
-                        <input type='radio' name='feedback' id="thumbs-down"/>
-                        <label for="thumbs-down"><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></label>
-
-                    </div>
-                    <div className='submit-catchup-notes catchup-notes-textbox-container' id='catchup-notes-container'>
-                        <textarea className='catchup-notes-textbox' id='catchup-notes'></textarea>
-                    </div>
-                    <div className='submit-meeting-confirmation-button'>
-                        <button className='submit-meeting-button meeting-buttons' onClick={() => {
-                            this.setState({ isSubmitMeetingPopupClicked: !this.state.isSubmitMeetingPopupClicked });
+                    <div className={this.state.isStartMeetingPopupClicked ? 'start-meeting-confirmation-popup sections' : 'hidden'}>
+                        <div className='popup-nav'>
+                            <FontAwesomeIcon onClick={() => this.setState({ isStartMeetingPopupClicked: !this.state.isStartMeetingPopupClicked })} className='start-meeting-popup-close-button' icon={faX}/>
+                        </div>
+                        <div className='start-meeting-confirmation-popup-content'>
+                            <div className='start-meeting-confirmation-text'>Start Meeting With</div>
+                            {/* <div className='start-meeting-confirmation-name'>{ document.getElementById("clients").value }</div> */}
+                            <div className='start-meeting-confirmation-name'>{this.state.clientName}</div>
+                        </div>
+                        <div className='start-meeting-confirmation-button'><button className='start-meeting-button meeting-buttons confirmation-button' onClick={() => {
+                            this.setState({ isStartMeetingPopupClicked: !this.state.isStartMeetingPopupClicked });
                             this.setState({ meetingStarted: !this.state.meetingStarted });
-                            /* Submit details */
-                        }}>Submit</button>
+
+                        }}>Start Meeting</button></div>
+                    </div>
+                    <div className={this.state.isSubmitMeetingPopupClicked ? 'submit-meeting-popup sections' : 'hidden'}>
+                        <div className='submit-meeting-icons'>
+                            {/* <div className='submit-meeting-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+                            <div className='submit-meeting-icon'><FontAwesomeIcon className='face-thinking' icon={faThumbsUp}/></div>
+                            <div className='submit-meeting-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div> */}
+                            <input type='radio' name='feedback' id="thumbs-up"/>
+                            <label for="thumbs-up"><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></label>
+
+                            <input type='radio' name='feedback' id="thumbs-middle"/>
+                            <label for="thumbs-middle"><FontAwesomeIcon className='thumbs-middle' icon={faThumbsUp}/></label>
+
+                            <input type='radio' name='feedback' id="thumbs-down"/>
+                            <label for="thumbs-down"><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></label>
+
+                        </div>
+                        <div className='submit-catchup-notes catchup-notes-textbox-container' id='catchup-notes-container'>
+                            <textarea className='catchup-notes-textbox' id='catchup-notes'></textarea>
+                        </div>
+                        <div className='submit-meeting-confirmation-button'>
+                            <button className='submit-meeting-button meeting-buttons' onClick={() => {
+                                this.setState({ isSubmitMeetingPopupClicked: !this.state.isSubmitMeetingPopupClicked });
+                                this.setState({ meetingStarted: !this.state.meetingStarted });
+                                /* Submit details */
+                            }}>Submit</button>
+                        </div>
+                    </div>
+                    <div className={this.state.isPopupClicked ? 'popup-container' : this.state.isSubmitMeetingPopupClicked ? 'popup-container' : this.state.isStartMeetingPopupClicked ? 'popup-container' : 'hidden'}></div>
+                    <div className={this.state.isPopupClicked ? 'workout-notes-popup sections' : 'hidden' }>
+                        <div className='popup-nav'>
+                            <div className='headers'>{this.state.workoutName}</div>
+                            <FontAwesomeIcon onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} className='workout-notes-popup-close-button' icon={faX}/>
+                        </div>
+                        {/* loop through notes array */}
+                        
+                        <div className='workout-notes-content'>
+                            {/* used daysTag from calendar  */}
+                        </div>
                     </div>
                 </div>
-                <div className={this.state.isPopupClicked ? 'popup-container' : this.state.isSubmitMeetingPopupClicked ? 'popup-container' : this.state.isStartMeetingPopupClicked ? 'popup-container' : 'hidden'}></div>
-                <div className={this.state.isPopupClicked ? 'workout-notes-popup sections' : 'hidden' }>
-                    <div className='popup-nav'>
-                        <div className='headers'>{this.state.workoutName}</div>
-                        <FontAwesomeIcon onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} className='workout-notes-popup-close-button' icon={faX}/>
-                    </div>
-                    {/* loop through notes array */}
-                    
-                    <div className='workout-notes-content'>
-                        {/* used daysTag from calendar  */}
-                    </div>
-                </div>
-            </div>
         )
     }
 }
