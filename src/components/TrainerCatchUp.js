@@ -9,7 +9,7 @@ import moment from 'moment';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faChevronUp, faChevronDown, faLock } from "@fortawesome/free-solid-svg-icons";
 
-import {faFire} from "@fortawesome/free-solid-svg-icons/faFire";
+import {faFire, height} from "@fortawesome/free-solid-svg-icons/faFire";
 import {faDroplet} from "@fortawesome/free-solid-svg-icons/faDroplet";
 import {faStairs} from "@fortawesome/free-solid-svg-icons/faStairs";
 import {faBolt} from "@fortawesome/free-solid-svg-icons/faBolt";
@@ -27,6 +27,8 @@ import { faGreaterThan } from '@fortawesome/free-solid-svg-icons';
 import barChart from '../barChart.png'
 import progressChart from '../progress-chart.png'
 
+import Plotly from 'plotly.js-dist';
+
 import '../css/TrainerCatchUp.css';
 
 export default class TrainerCatchUp extends Component
@@ -43,6 +45,7 @@ export default class TrainerCatchUp extends Component
             calHistory: [],
             calHistory7Days: [],
             catchupHistory: [],
+            displayCatchupHistory: [],
             weight: [],
             schedule: {},
             isPopupClicked: false,
@@ -57,7 +60,8 @@ export default class TrainerCatchUp extends Component
             clientName: "",
             currentWeekNumber: 5,
             trainerID: sessionStorage.getItem("TrainerID"),
-            daysOfTheWeek: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+            daysOfTheWeek: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            daysOfTheWeekShort: ["M", "T", "W", "T", "F", "S", "S"]
         }
     }
 
@@ -67,10 +71,10 @@ export default class TrainerCatchUp extends Component
         this.setState({currentClientID: event.target.value});
         this.setState({goals: this.getClientGoals(event.target.value)});
         this.setState({intake: this.getClientIntake(event.target.value)});
-        
+        this.setState({calHistory7Days: []})
         this.setState({calHistory: this.getClientCalHistory(event.target.value)});
         // this.setState({calHistory7Days: this.getCalorieSummary7Days()});
-
+        this.setState({displayCatchupHistory: []})
         this.setState({catchupHistory: this.getClientCatchUpHistory(event.target.value)});
         this.setState({pbs: this.getClientPBs(event.target.value)});
         this.setState({weight: this.getClientWeight(event.target.value)});
@@ -363,11 +367,47 @@ export default class TrainerCatchUp extends Component
                 {
                     console.log("Weight Data read!")
                     this.setState({weight: res.data})
+                    this.getClientWeightGraph(res.data)
                 }
                 else {
                     console.log("Data not Found!")
                 }
             })
+    }
+
+    getClientWeightGraph(weightData) {
+        var graphDiv = document.getElementById("progress-chart-container")
+
+        var xDateArray = []
+        var yWeightArray = []
+
+        // fill arrays
+        let j = 0;
+        for(let i = weightData.length-1; i >= 0; i--) {
+            xDateArray[j] = weightData[i].Date;
+            yWeightArray[j] = weightData[i].Weight;
+            j++;
+        }
+
+        const data = [{
+            x: xDateArray,
+            y: yWeightArray,
+            mode: "markers"
+        }];
+
+        const config = {
+            displayModeBar: false,
+        };
+
+        const layout = {
+            autosize: false,
+            width: 500,
+            height: 400,
+            paper_bgcolor: 'rgba(0, 0, 0, 0)',
+            plot_bgcolor: 'rgba(0, 0, 0, 0)'
+        }
+
+        Plotly.newPlot(graphDiv, data, layout, config); // , layout
     }
 
     getClientCalHistory(currentClientID) {
@@ -401,6 +441,8 @@ export default class TrainerCatchUp extends Component
                 {
                     console.log("catchup History Data read!")
                     this.setState({catchupHistory: res.data})
+                    this.getDisplayCatchupHistory(res.data)
+                    
                 }
                 else {
                     console.log("Data not Found!")
@@ -410,6 +452,132 @@ export default class TrainerCatchUp extends Component
             // let mondaysDate = moment().startOf('isoweek').format();
             // let mondaysDateString = mondaysDate.substring(0, 10);
     }
+
+    // <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+    
+    // <div className='feedback-summary-week'>1</div>
+
+    getDisplayCatchupHistory(catchupHistory) {
+        console.log("getDisplayCatchupHistory")
+        let catchupObject = {}
+        console.log("length: " + catchupHistory.length)
+        if(catchupHistory.length < 7){
+            for (let i = catchupHistory.length-1; i >= 0; i--) {
+                catchupObject = {}
+                catchupObject["Week"] = catchupHistory[i].Week
+                catchupObject["Icon-Number"] = catchupHistory[i].Rating
+                
+                // console.log("Week: " + catchupHistory[i].Week + ", Rating: " + catchupHistory[i].Rating)
+                // console.log("Object - Week: " + catchupObject.Week + ", Rating: " + catchupObject['Icon-Number'])
+                this.state.displayCatchupHistory.push(catchupObject)
+                
+
+                // this.setState({displayCatchupHistory: this.state.displayCatchupHistory})
+
+                // console.log(this.state.displayCatchupHistory)
+            }
+            for(let i = catchupHistory.length+1; i <= 7; i++) {
+                catchupObject = {}
+                catchupObject["Week"] = i
+                catchupObject["Icon-Number"] = 3
+
+                this.state.displayCatchupHistory.push(catchupObject)
+                this.setState({displayCatchupHistory: this.state.displayCatchupHistory})
+            }
+        } else if (catchupHistory.length > 7) {
+            for (let i = catchupHistory.length-1; i >= catchupHistory.length-7; i--) {
+                catchupObject = {}
+                catchupObject["Week"] = catchupHistory[i].Week
+                catchupObject["Icon-Number"] = catchupHistory[i].Rating
+
+                this.state.displayCatchupHistory.push(catchupObject)
+                this.setState({displayCatchupHistory: this.state.displayCatchupHistory})
+            }
+        } else {
+            for (let i = catchupHistory.length-1; i >= 0; i--) {
+                catchupObject = {}
+                catchupObject["Week"] = catchupHistory[i].Week
+                catchupObject["Icon-Number"] = catchupHistory[i].Rating
+
+                this.state.displayCatchupHistory.push(catchupObject)
+                this.setState({displayCatchupHistory: this.state.displayCatchupHistory})
+            }
+        }
+        // console.log(this.state.displayCatchupHistory)
+        
+    }
+
+    // getDisplayCatchupHistory(catchupHistory) {
+    //     const weeksTag = document.getElementById("feedback-weeks");
+    //     let weeksDiv = ""
+    //     const iconsTag = document.getElementById("feedback-icons");
+    //     let iconsDiv = ""
+    //     if(catchupHistory.length < 7){
+    //         for(let i = 0; i < catchupHistory.length; i++) {
+    //             weeksDiv += `<div class='feedback-summary-week'>${catchupHistory[i].Week}</div>`
+    //             iconsDiv += `<div class='feedback-summary-icon'>`
+    //             if(catchupHistory[i].Rating === 0) {
+    //                 // thumbs down
+    //                 iconsDiv += `<FontAwesomeIcon class='thumbs-down' icon={faThumbsDown}/>`
+    //             } else if(catchupHistory[i].Rating === 1) {
+    //                 // middle thumb
+    //                 iconsDiv += `<FontAwesomeIcon class='thumbs-middle' icon={faThumbsUp}/>`
+    //             } else if (catchupHistory[i].Rating === 2) {
+    //                 // Thumbs up
+    //                 iconsDiv += `<FontAwesomeIcon class='thumbs-up' icon={faThumbsUp}/>`
+    //             } else {
+    //                 // dash
+    //                 iconsDiv += `<FontAwesomeIcon class='dash' icon={faThumbsUp}/>`
+    //             }
+    //             iconsDiv += `</div>`
+    //         }
+    //         for(let i = catchupHistory.length+1; i <= 7; i++) {
+    //             weeksDiv += `<div class='feedback-summary-week'>${i}</div>`
+    //             iconsDiv += `<div class='feedback-summary-icon'><FontAwesomeIcon class='dash' icon={faThumbsUp}/></div>`
+    //         }
+    //     } else if (catchupHistory.length > 7) {
+    //         for(let i = catchupHistory.length-7; i < catchupHistory.length; i++) {
+    //             weeksDiv += `<div class='feedback-summary-week'>${catchupHistory[i].Week}</div>`
+    //             iconsDiv += `<div class='feedback-summary-icon'>`
+    //             if(catchupHistory[i].Rating === 0) {
+    //                 // thumbs down
+    //                 iconsDiv += `<FontAwesomeIcon class='thumbs-down' icon={faThumbsDown}/>`
+    //             } else if(catchupHistory[i].Rating === 1) {
+    //                 // middle thumb
+    //                 iconsDiv += `<FontAwesomeIcon class='thumbs-middle' icon={faThumbsUp}/>`
+    //             } else if (catchupHistory[i].Rating === 2) {
+    //                 // Thumbs up
+    //                 iconsDiv += `<FontAwesomeIcon class='thumbs-up' icon={faThumbsUp}/>`
+    //             } else {
+    //                 // dash
+    //                 iconsDiv += `<FontAwesomeIcon class='dash' icon={faThumbsUp}/>`
+    //             }
+    //             iconsDiv += `</div>`
+    //         }
+    //     } else {
+    //         for(let i = 0; i < catchupHistory.length; i++) {
+    //             weeksDiv += `<div class='feedback-summary-week'>${catchupHistory[i].Week}</div>`
+    //             iconsDiv += `<div class='feedback-summary-icon'>`
+    //             if(catchupHistory[i].Rating === 0) {
+    //                 // thumbs down
+    //                 iconsDiv += `<FontAwesomeIcon class='thumbs-down' icon={faThumbsDown}/>`
+    //             } else if(catchupHistory[i].Rating === 1) {
+    //                 // middle thumb
+    //                 iconsDiv += `<FontAwesomeIcon class='thumbs-middle' icon={faThumbsUp}/>`
+    //             } else if (catchupHistory[i].Rating === 2) {
+    //                 // Thumbs up
+    //                 iconsDiv += `<FontAwesomeIcon class='thumbs-up' icon={faThumbsUp}/>`
+    //             } else {
+    //                 // dash
+    //                 iconsDiv += `<FontAwesomeIcon class='dash' icon={faThumbsUp}/>`
+    //             }
+    //             iconsDiv += `</div>`
+    //         }
+    //     }
+
+    //     weeksTag.innerHTML = weeksDiv;
+    //     iconsTag.innerHTML = iconsDiv;
+    // }
 
     getClientNotesForOneWorkout(clientWorkoutID) {
         // -------------------------- catchup History ------------------------------
@@ -498,31 +666,148 @@ export default class TrainerCatchUp extends Component
     }
 
     getCalorieSummary7Days(calHistory) {
-        var calorieSummaryString = '['
-        var dayNumber = 0;
-        for(let i = 5; i>=0; i--) {
-            var d = new Date(calHistory[i]?.Date);
-            // console.log(d)
-            dayNumber = d.getDay();
-            if(dayNumber == 0) {
-                dayNumber = 6;
-            } else {
-                dayNumber -= 1;
-            }
-            // console.log(dayNumber)
-            var dayString = this.state.daysOfTheWeek[dayNumber]?.substring(0,1);
-            // console.log(dayString);
-            calorieSummaryString += '{ "Day": "' + dayString + '", "CaloriesHit": ' + calHistory[i]?.CaloriesHit + '},';
+        console.log("getCalorieSummary7Days")
+        // compare against last 7 days array
+        let last7Days = [] // [0] = "2023-04-30"
+        let date = moment().subtract(6, 'days').format('L');
+        // console.log(date.substring(0,2)) //month
+        // console.log(date.substring(3,5)) //day
+        // console.log(date.substring(6,)) //year
+        for(let i = 0; i < 7; i++) {
+            date = moment().subtract(6-i, 'days').format('L');
+            last7Days[i] = date.substring(6,) + "-" + date.substring(0,2) + "-" + date.substring(3,5)
         }
 
-        dayNumber++;
-        calorieSummaryString += '{ "Day": "' + this.state.daysOfTheWeek[dayNumber]?.substring(0,1) + '", "CaloriesHit": "dash"}';
+        let calorieObject = {}
+    
+        last7Days.forEach((day) => {
+            calorieObject = {}
+            if(calHistory.filter(row => row.Date.localeCompare(day) === 0).length > 0) {
+                // day exists - find that days result
+                calHistory.filter(row => row.Date.localeCompare(day) === 0).map((history) => {
+                    calorieObject = {}
+                    let dayNumber = new Date(history.Date).getDay();
+                    if(dayNumber == 0) {
+                        dayNumber=6;
+                    } else {
+                        dayNumber -= 1;
+                    }
+                    var caloreDay = this.state.daysOfTheWeekShort[dayNumber];
+                    calorieObject["Day"] = caloreDay
 
-        calorieSummaryString += ']';
+                    if(history.CaloriesHit) {
+                        calorieObject["Icon-Number"] = 1
+                    } else if(!history.CaloriesHit) {
+                        calorieObject["Icon-Number"] = 0
+                    } else {
+                        calorieObject["Icon-Number"] = 2
+                    }
+                    // 0 - X
+                    // 1 - tick
+                    // 2 - dash
+                })
+                this.state.calHistory7Days.push(calorieObject)
+            } else {
+                // day doesn't exist
+                calorieObject = {}
+                let dayNumber = new Date(day).getDay();
+                if(dayNumber == 0) {
+                    dayNumber=6;
+                } else {
+                    dayNumber -= 1;
+                }
+                var caloreDay = this.state.daysOfTheWeekShort[dayNumber];
+                calorieObject["Day"] = caloreDay
+
+                calorieObject["Icon-Number"] = 2
+
+                this.state.calHistory7Days.push(calorieObject)
+            }
+        })
+
+        this.setState({ calHistory7Days: this.state.calHistory7Days })
         
-        this.setState({ calHistory7Days: JSON.parse(calorieSummaryString) })
-        // console.log(this.state.calHistory7Days);
+
+
+        // let calorieObject = {}
+        // // console.log("length: " + calHistory.length)
+        // if(calHistory.length < 7){
+        //     for (let i = catchupHistory.length-1; i >= 0; i--) {
+        //         catchupObject = {}
+        //         catchupObject["Week"] = catchupHistory[i].Week
+        //         catchupObject["Icon-Number"] = catchupHistory[i].Rating
+                
+        //         // console.log("Week: " + catchupHistory[i].Week + ", Rating: " + catchupHistory[i].Rating)
+        //         // console.log("Object - Week: " + catchupObject.Week + ", Rating: " + catchupObject['Icon-Number'])
+        //         this.state.displayCatchupHistory.push(catchupObject)
+                
+
+        //         // this.setState({displayCatchupHistory: this.state.displayCatchupHistory})
+
+        //         // console.log(this.state.displayCatchupHistory)
+        //     }
+        //     for(let i = catchupHistory.length+1; i <= 7; i++) {
+        //         catchupObject = {}
+        //         catchupObject["Week"] = i
+        //         catchupObject["Icon-Number"] = 3
+
+        //         this.state.displayCatchupHistory.push(catchupObject)
+        //         this.setState({displayCatchupHistory: this.state.displayCatchupHistory})
+        //     }
+        // } else if (catchupHistory.length > 7) {
+        //     for (let i = catchupHistory.length-1; i >= catchupHistory.length-7; i--) {
+        //         catchupObject = {}
+        //         catchupObject["Week"] = catchupHistory[i].Week
+        //         catchupObject["Icon-Number"] = catchupHistory[i].Rating
+
+        //         this.state.displayCatchupHistory.push(catchupObject)
+        //         this.setState({displayCatchupHistory: this.state.displayCatchupHistory})
+        //     }
+        // } else {
+        //     for (let i = catchupHistory.length-1; i >= 0; i--) {
+        //         catchupObject = {}
+        //         catchupObject["Week"] = catchupHistory[i].Week
+        //         catchupObject["Icon-Number"] = catchupHistory[i].Rating
+
+        //         this.state.displayCatchupHistory.push(catchupObject)
+        //         this.setState({displayCatchupHistory: this.state.displayCatchupHistory})
+        //     }
+        // }
+
+
+
+        // this.setState({ calHistory7Days: [] })
     }
+
+    // getCalorieSummary7Days(calHistory) {
+    //     var calorieSummaryString = '['
+    //     var dayNumber = 0;
+    //     for(let i = 6; i>=0; i--) {
+    //         var d = new Date(calHistory[i]?.Date);
+    //         // console.log(d)
+    //         dayNumber = d.getDay();
+    //         if(dayNumber == 0) {
+    //             dayNumber = 6;
+    //         } else {
+    //             dayNumber -= 1;
+    //         }
+    //         // console.log(dayNumber)
+    //         var dayString = this.state.daysOfTheWeek[dayNumber]?.substring(0,1);
+    //         // console.log(dayString);
+    //         calorieSummaryString += '{ "Day": "' + dayString + '", "CaloriesHit": ' + calHistory[i]?.CaloriesHit + '}';
+    //         if(i != 0){
+    //             calorieSummaryString +=','
+    //         }
+    //     }
+
+    //     // dayNumber++;
+    //     // calorieSummaryString += '{ "Day": "' + this.state.daysOfTheWeek[dayNumber]?.substring(0,1) + '", "CaloriesHit": "dash"}';
+
+    //     calorieSummaryString += ']';
+        
+    //     this.setState({ calHistory7Days: JSON.parse(calorieSummaryString) })
+    //     // console.log(this.state.calHistory7Days);
+    // }
 
     // setTextboxHeight(fieldID) {
     //     document.getElementById(fieldID).style.height = document.getElementById(fieldID).scrollHeight+'px';
@@ -868,10 +1153,13 @@ export default class TrainerCatchUp extends Component
                                 }
                         </div>
                         <div className='progress-chart catchup-sections'>
-                            <div className='headers'>Client Weight</div>
-                            <img className='progress-chart-image'
+                            <div className='headers progress-chart-header'>Client Weight</div>
+                            {/* <img className='progress-chart-image'
                                 src={progressChart}
-                                alt="Progress Chart"/>
+                                alt="Progress Chart"/> */}
+                            <div id='progress-chart-container'>
+
+                            </div>
                         </div>
                         <div className='fitbit-icons'>
                             <div>
@@ -933,7 +1221,13 @@ export default class TrainerCatchUp extends Component
                                     return <div>
                                             <div className='calorie-summary-day'>{history.Day}</div>
                                             <div className='calorie-summary-icon'>
-                                                { history.CaloriesHit ? <FontAwesomeIcon className='check' icon={faCheck}/> : !history.CaloriesHit ? <FontAwesomeIcon className='xmark' icon={faX}/> : history.CaloriesHit.localeCompare("dash") === 0 ? <FontAwesomeIcon className='dash' icon={faMinus}/> : <div></div> }
+                                                { history["Icon-Number"] === 0 ? 
+                                                    <FontAwesomeIcon className='xmark' icon={faX}/> 
+                                                : 
+                                                history["Icon-Number"] === 1 ? 
+                                                    <FontAwesomeIcon className='check' icon={faCheck}/> 
+                                                : 
+                                                    <FontAwesomeIcon className='dash' icon={faMinus}/> }
                                             </div>
                                         </div>
                                     }) 
@@ -962,23 +1256,34 @@ export default class TrainerCatchUp extends Component
                         <div className='feedback-summary catchup-sections'>
                             <div className='headers checkin-header'>Weekly Checkin Rankings</div>
                             <div className='feedback-summary-table'>
+                                <div className='feedback-summary-table-weeks-row' id='feedback-weeks'>
+                                    {/* <div className='feedback-summary-week'>1</div>*/}
+                                    { this.state.displayCatchupHistory.map((feedback) => {
+                                        return <div className='feedback-summary-week'>{feedback["Week"]}</div>
+                                    }) }
+                                </div>
+                                <div className='feedback-summary-table-feedback-row' id='feedback-icons'>
+                                    {/* <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+                                    <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
+                                    <div className='feedback-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div> */}
+                                    { this.state.displayCatchupHistory.map((feedback) => {
+                                        return feedback["Icon-Number"] === 0 ?
+                                            <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
+                                        :
+                                        feedback["Icon-Number"] === 1 ?
+                                            <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-middle' icon={faThumbsUp}/></div>
+                                        :
+                                        feedback["Icon-Number"] === 2 ?
+                                            <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
+                                        :
+                                            <div className='feedback-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
+                                    }) }
+                                </div>
                                 
-                                <div className='feedback-summary-day'>1</div>
-                                <div className='feedback-summary-day'>2</div>
-                                <div className='feedback-summary-day'>3</div>
-                                <div className='feedback-summary-day'>4</div>
-                                <div className='feedback-summary-day'>5</div>
-                                <div className='feedback-summary-day'>6</div>
-                                <div className='feedback-summary-day'>7</div>
+                                
+
 
                                 
-                                <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
-                                <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
-                                <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
-                                <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-up' icon={faThumbsUp}/></div>
-                                <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
-                                <div className='feedback-summary-icon'><FontAwesomeIcon className='thumbs-down' icon={faThumbsDown}/></div>
-                                <div className='feedback-summary-icon'><FontAwesomeIcon className='dash' icon={faMinus}/></div>
 
                             </div>
                             

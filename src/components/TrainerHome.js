@@ -34,6 +34,7 @@ export default class TrainerHome extends Component
             clientValue: 0,
             dateValue: "",
             timeValue: "",
+            todaysDate: new Date(),
             selectedDate: "",
             count: 0,
             isAddClientPopupClicked: false,
@@ -46,6 +47,7 @@ export default class TrainerHome extends Component
             trainerID: sessionStorage.getItem("TrainerID")
 
         }
+        
     }
 
     getClients(trainerID){
@@ -67,7 +69,7 @@ export default class TrainerHome extends Component
     componentDidMount()
     {
         
-
+        this.setState({ selectedDate: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}` })
         this.getClients(this.state.trainerID);
         // fetch(`https://traininggurubackend.onrender.com/Trainer/1/Clients`)
         //     .then((response) => response.json())
@@ -161,6 +163,9 @@ export default class TrainerHome extends Component
 
             daysLi.forEach(day => {
                 day.addEventListener("click", () => {
+                    daysLi.forEach(day => {
+                        day.classList.remove("selected-day");
+                    })
                     eventCurrentDay.innerText = `${months[currMonth]} ${day.id}, ${currYear}`
                     // console.log(day.id + ' ' + months[currMonth] + ' ' + currYear);
                     let dateString = `${currYear}-${currMonth+1}-${day.id}`;
@@ -168,6 +173,7 @@ export default class TrainerHome extends Component
                     // console.log(new Date("2023-04-28").getTime());
                     // console.log(new Date(dateString).getTime());
                     this.setState({ selectedDate:  dateString});
+                    
                     day.classList.toggle("selected-day");
                     // console.log(new Date("2023-04-28").getFullYear() === new Date(dateString).getFullYear() && new Date("2023-04-28").getDate() === new Date(dateString).getDate() && new Date("2023-04-28").getMonth() === new Date(dateString).getMonth())
                     
@@ -427,6 +433,7 @@ export default class TrainerHome extends Component
                         <header>
                             <p>Schedule for <span className='event-current-day'></span>:</p>
                         </header>
+                        {/* { console.log(this.state.selectedDate) } */}
                         {/* { console.log(new Date("2023-04-28").getFullYear() === new Date(this.state.selectedDate).getFullYear() && new Date("2023-04-28").getDate() === new Date(this.state.selectedDate).getDate() && new Date("2023-04-28").getMonth() === new Date(this.state.selectedDate).getMonth()) } */}
                         { this.state.meetings.filter((meeting) => 
                             new Date(meeting.Date).getFullYear() === new Date(this.state.selectedDate).getFullYear() && new Date(meeting.Date).getDate() === new Date(this.state.selectedDate).getDate() && new Date(meeting.Date).getMonth() === new Date(this.state.selectedDate).getMonth()
@@ -441,7 +448,7 @@ export default class TrainerHome extends Component
                                 </div>
                             }) 
                         :
-                        <p>No meetings for today.</p>
+                            <p>No meetings for today.</p>
                         }
                     </div>
                 </div>

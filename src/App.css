@@ -74,6 +74,7 @@ html, body {
   position: relative;
   margin: auto;
   top: -0.75em;
+  cursor: pointer;
 }
 
 .nav-logo-catch-up {
