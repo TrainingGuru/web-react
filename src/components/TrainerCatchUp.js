@@ -430,6 +430,57 @@ export default class TrainerCatchUp extends Component
                         for(let i = 0; i < myArray.length; i++){
                             myArray[i] = myArray[i].split(": ")
                         }
+
+                        const notesTag = document.querySelector(".workout-notes-content")
+
+                        let notesContentTag = "";
+                        
+                        // User Notes:
+                        notesContentTag += `<div class="workout-notes-user-notes">`
+                        notesContentTag += `<div class="headings">${myArray[0][0]}: </div>`
+                        notesContentTag += `<div>${myArray[0][1]}</div>`
+                        notesContentTag += `</div>`
+
+                        // Workout:
+                        notesContentTag += `<div class="workout-notes-workout-name">`
+                        notesContentTag += `<div class="headings">${myArray[1][0]}: </div>`
+                        notesContentTag += `<div>${myArray[1][1]}</div>`
+                        notesContentTag += `</div>`
+
+
+                        notesContentTag += `<div class="workout-notes-exercises">`
+                        notesContentTag += `<div class="workout-notes-exercises-headers">`
+                        notesContentTag += `<div>Exercise</div>`
+                        notesContentTag += `<div>Completed</div>`
+                        notesContentTag += `<div>Weight Used</div>`
+                        notesContentTag += `</div>`
+                        for(let j = 2; j < myArray.length; j++) {
+                            notesContentTag += `<div class="workout-notes-exercise-details">`
+                            // Exercise:
+                            notesContentTag += `<div class="workout-notes-exercise">`
+                            // notesContentTag += `<div>${myArray[j][0]}: </div>`
+                            notesContentTag += `<div>${myArray[j][1]}</div>`
+                            notesContentTag += `</div>`
+                            j++;
+                            // Completed: 
+                            notesContentTag += `<div class="workout-notes-completed">`
+                            // notesContentTag += `<div>${myArray[j][0]}: </div>`
+                            notesContentTag += `<div>${myArray[j][1]}</div>`
+                            notesContentTag += `</div>`
+                            j++;
+                            // Weight Used:
+                            notesContentTag += `<div class="workout-notes-weight-used">`
+                            // notesContentTag += `<div>${myArray[j][0]}: </div>`
+                            notesContentTag += `<div>${myArray[j][1]}</div>`
+                            notesContentTag += `</div>`
+
+                            notesContentTag += `</div>`
+                        }
+                        
+                        notesContentTag += `</div>`
+
+                        notesTag.innerHTML = notesContentTag;
+
                         // myArray = myArray.split(": ")
                         // console.log(myArray)
                         // I know 0, 1 is user notes and notes
@@ -469,7 +520,7 @@ export default class TrainerCatchUp extends Component
         calorieSummaryString += ']';
         
         this.setState({ calHistory7Days: JSON.parse(calorieSummaryString) })
-        console.log(this.state.calHistory7Days);
+        // console.log(this.state.calHistory7Days);
     }
 
     // setTextboxHeight(fieldID) {

@@ -480,6 +480,57 @@
     justify-content: center;
 }
 
+.workout-notes-content {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+}
+.workout-notes-user-notes, .workout-notes-workout-name {
+    display: flex;
+    width: 60%;
+    /* justify-content: space-between; */
+    /* text-align: center; */
+    margin: auto;
+    gap: 1rem;
+}
+
+
+.workout-notes-user-notes .headings, .workout-notes-workout-name .headings {
+    font-weight: 700;
+    width: 10%;
+}
+
+.workout-notes-exercises {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 2%;
+}
+
+.workout-notes-exercises-headers {
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    width: 80%;
+    margin: auto;
+    font-weight: 700;
+    border-bottom: 1px solid #000;
+}
+
+.workout-notes-exercise-details {
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    width: 80%;
+    margin: auto;
+    
+    border-bottom: 1px solid #ddd;
+}
+
+.workout-notes-exercise-details > *, .workout-notes-exercises-headers > * {
+    width: 33%;
+}
+
 .start-meeting-popup-close-button {
     cursor: pointer;
     margin: auto;
