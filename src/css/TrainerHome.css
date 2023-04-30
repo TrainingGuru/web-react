@@ -417,6 +417,11 @@ header .icons span:hover {
     width: 33%;
 }
 
+.edit-clients-table-row input {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+}
+
 .edit-clients-table-header-row {
     display: flex;
     justify-content: space-evenly;

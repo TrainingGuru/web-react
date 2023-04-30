@@ -38,15 +38,16 @@ export default class TrainerHome extends Component
             count: 0,
             isAddClientPopupClicked: false,
             isEditClientPopupClicked: false,
-            displayPopupContainer: false
+            displayPopupContainer: false,
+            isEditClientDetailsClicked: false,
+            name: "",
+            email: "",
+            currentClientID: 0
 
         }
     }
 
-    componentDidMount()
-    {
-
-        
+    getClients(){
         //------------------------- Clients ----------------------------------------------
         axios.get(`https://traininggurubackend.onrender.com/Trainer/1/Clients`)
             .then(res =>
@@ -60,6 +61,13 @@ export default class TrainerHome extends Component
                     console.log("Data not Found!")
                 }
             })
+    }
+
+    componentDidMount()
+    {
+
+        
+        this.getClients();
         // fetch(`https://traininggurubackend.onrender.com/Trainer/1/Clients`)
         //     .then((response) => response.json())
         //     // .then((actualData) => console.log(actualData[0]))
@@ -243,6 +251,40 @@ export default class TrainerHome extends Component
         // reload upcoming meetings
     }
 
+    handleClientNameChange = (event) => {
+        // console.log(event.target.value)
+        this.setState({ name: event.target.value })
+        this.updateClientDetails(this.state.currentClientID, event.target.value, this.state.email);
+    }
+    handleClientEmailChange = (event) => {
+        this.setState({ email: event.target.value })
+        this.updateClientDetails(this.state.currentClientID, this.state.name, event.target.value);
+    }
+
+    updateClientDetails(currentClientID, name, email) {
+        // ------------------- Update Client Details -----------------------------------
+        axios.put(`https://traininggurubackend.onrender.com/Client/${currentClientID}/Details`, {
+                "Name": name,
+                "Email": email
+            })
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("Client Details Updated!")
+                    // this.setState({meetings: res.data})
+                    // console.log(res.data)
+                    this.getClients();
+                }
+                else {
+                    console.log("Client Details Updated!")
+                }
+            })
+    }
+
+    
+
+
     handleMeetingDelete = () => {
 
     }
@@ -278,6 +320,14 @@ export default class TrainerHome extends Component
             })
 
         // reload upcoming meetings
+    }
+
+    setOnChangeEvents(){
+        const clientNameInput = document.getElementById("client-name-input");
+        clientNameInput.addEventListener('change', this.handleClientNameChange);
+
+        const clientEmailInput = document.getElementById("client-email-input");
+        clientEmailInput.addEventListener('change', this.handleClientEmailChange);
     }
     
 
@@ -339,7 +389,10 @@ export default class TrainerHome extends Component
                     </div>
                     <div className='clients-menu'>
                         <div onClick={() => this.setState({ isAddClientPopupClicked: !this.state.isAddClientPopupClicked })}><FontAwesomeIcon className='clients-add-icon' icon={faPlus}/></div>
-                        <div onClick={() => this.setState({ isEditClientPopupClicked: !this.state.isEditClientPopupClicked })}><FontAwesomeIcon className='clients-edit-icon' icon={faPenToSquare}/></div>
+                        <div onClick={() => {
+                            this.setState({ isEditClientPopupClicked: !this.state.isEditClientPopupClicked })
+                            this.setOnChangeEvents()
+                        }}><FontAwesomeIcon className='clients-edit-icon' icon={faPenToSquare}/></div>
                     </div>
                 </div>
                 <div className='calendar-container sections'>
@@ -459,14 +512,23 @@ export default class TrainerHome extends Component
                     <div className='edit-clients-table-header-row'>
                         <div>Name</div>
                         <div>E-mail</div>
-                        <div></div>
                     </div>
                     {/* map through clients info and add to rows */}
-                    <div className='edit-clients-table-row'>
-                        <div>Kieran McCormack</div>
-                        <div>a@a.com</div>
-                        <div><FontAwesomeIcon icon={faPenToSquare}/></div>
-                    </div>
+                    { this.state.clients?.map((client) => {
+                        return <div className='edit-clients-table-row'>
+                                    <input type='text' id='client-name-input' defaultValue={client.Name} onClick={() => {
+                                        this.setState({ currentClientID: client.ClientID })
+                                        this.setState({ email: client.Email })
+                                    }}/>
+                                    <input type='email' id='client-email-input' defaultValue={client.Email} onClick={() => {
+                                        this.setState({ currentClientID: client.ClientID })
+                                        this.setState({ name: client.Name })
+                                    }}/>
+                                </div>
+                        
+                    
+                    })}
+                    
                 </div>
             </div>
             

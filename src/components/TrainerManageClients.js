@@ -223,7 +223,7 @@ export default class TrainerManageClients extends Component
     }
 
     updateStepGoal(currentClientID, newStepGoal) {
-        console.log("In update method")
+        // console.log("In update method")
         // ------------------- Update Step Goal -----------------------------------
         axios.put(`https://traininggurubackend.onrender.com/Nutrition/${currentClientID}/Steps`, {
                 "StepsGoal": newStepGoal
