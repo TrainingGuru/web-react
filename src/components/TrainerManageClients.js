@@ -680,16 +680,19 @@ export default class TrainerManageClients extends Component
                     </div>
                     <div className='client-description sections'>
                         <div className='headers'>Client Description</div>
-                        { this.state.editClientDescriptionClicked ? 
-                        <input type='text' rows="5" defaultValue={this.state.clientDescription} onChange={this.handleDescriptionChange} id='edit-client-description'/>
-                        :
-                        <div className='client-description-content'>{this.state.clientDescription}</div>
-                        }
-                        
-                        {/* <div>7,000</div> */}
-                        <FontAwesomeIcon onClick={() => {
-                            this.setState({ editClientDescriptionClicked: !this.state.editClientDescriptionClicked })
-                        }} className='manage-clients-edit-icon edit-description-icon' icon={faPenToSquare}/>
+                        <div className='client-description-content-container'>
+
+                            { this.state.editClientDescriptionClicked ? 
+                            <input type='text' rows="5" defaultValue={this.state.clientDescription} onChange={this.handleDescriptionChange} id='edit-client-description'/>
+                            :
+                            <div className='client-description-content'>{this.state.clientDescription}</div>
+                            }
+                            
+                            {/* <div>7,000</div> */}
+                            <FontAwesomeIcon onClick={() => {
+                                this.setState({ editClientDescriptionClicked: !this.state.editClientDescriptionClicked })
+                            }} className='manage-clients-edit-icon edit-description-icon' icon={faPenToSquare}/>
+                        </div>
 
                         
                     </div>
