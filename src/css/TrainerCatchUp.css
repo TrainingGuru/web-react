@@ -242,6 +242,7 @@
     width: 100%;
     margin: auto;
     padding: 0;
+    min-height: 33vh;
 }
 
 .progress-chart-header {
@@ -260,8 +261,8 @@
     position: relative;
     /* height: 50%; */
     z-index: 1;
-    max-height: 30vh;
-    top: -7.5vh;
+    max-height: 28.5vh;
+    top: -9vh;
 }
 
 /* .plot-container {
@@ -487,6 +488,47 @@
     cursor: pointer;
 }
 
+.fitbit-popup {
+    position: absolute;
+    margin: 15%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center; */
+    /* text-align: center; */
+    padding: 1%;
+}
+
+.fitbit-popup-content {
+    width: 80%;
+    margin: auto;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 5%;
+    text-align: center;
+}
+
+.fitbit-popup-content-entry, .fitbit-popup-content-entry-headings {
+    width: 12%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.fitbit-popup-content-entry-headings > * {
+    font-weight: 700;
+}
+
+.fitbit-popup-header {
+    font-size: 25px;
+}
+
 .workout-notes-popup {
     position: absolute;
     margin: 5%;
@@ -516,9 +558,23 @@
     justify-content: center;
 }
 
+.fitbit-popup-close-button {
+    cursor: pointer;
+    margin: auto;
+    /* font-weight: 500;
+    font-size: 14px; */
+    /* line-height: 18px; */
+    position: absolute;
+    top: 12%;
+    right: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .workout-notes-content {
     font-family: 'Poppins', sans-serif;
-    font-size: 18px;
+    font-size: 20px;
 }
 .workout-notes-user-notes, .workout-notes-workout-name {
     display: flex;
@@ -529,10 +585,14 @@
     gap: 1rem;
 }
 
+.no-client-workout-notes {
+    text-align: center;
+}
+
 
 .workout-notes-user-notes .headings, .workout-notes-workout-name .headings {
     font-weight: 700;
-    width: 10%;
+    width: 20%;
 }
 
 .workout-notes-exercises {
@@ -625,6 +685,12 @@
     text-align: center;
 }
 
+#is-meeting-scheduled-alert {
+    color: red;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+
 .start-meeting-confirmation-popup {
     position: absolute;
     margin: 15%;
@@ -700,11 +766,13 @@
 .submit-meeting-confirmation-button {
     display: flex;
     justify-content: center;
+    gap: 2rem;
     font-size: 2em;
+    margin-top: 2%;
 }
 
 .thumbs-middle {
-    color: yellow;
+    color: rgb(189 181 55);
 }
 
 .meeting-buttons {
@@ -733,12 +801,12 @@
     background-color: green;
 }
 
-.cancel-meeting-button {
+.cancel-meeting-button, .cancel-submit-meeting-button {
     color: red;
     border: 2px solid red;
 }
 
-.cancel-meeting-button:hover {
+.cancel-meeting-button:hover, .cancel-submit-meeting-button:hover {
     color: white;
     background-color: red;
 }
@@ -759,6 +827,7 @@
     justify-content: space-evenly;
     width: 50%;
     margin: auto;
+    margin-bottom: 1%;
     font-size: 4em;
 }
 
@@ -769,4 +838,6 @@ input[type="radio"] {
 input[type="radio"]:checked + label {
     background-color: lightgrey;
     box-shadow: 0 15px 45px rgba(245, 245, 245, 0.2);
+    border-radius: 50%;
+    padding: 0 2%;
 }

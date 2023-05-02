@@ -27,19 +27,19 @@ export default class TrainerRegister extends Component
                         <form className='trainer-register-form'>
                             <div className='trainer-register-form-item'>
                                 <FontAwesomeIcon className='trainer-register-form-item-icon' icon={faUser}/>
-                                <input className='trainer-register-form-item-input' type="text" placeholder="Enter Name" required autoFocus/>
+                                <input className='trainer-register-form-item-input' type="text" placeholder="Enter Name"  autoFocus/>
                             </div>
                             <div className='trainer-register-form-item'>
                                 <FontAwesomeIcon className='trainer-register-form-item-icon' icon={faEnvelope}/>
-                                <input className='trainer-register-form-item-input' type="text" placeholder="Enter Email" required/>
+                                <input className='trainer-register-form-item-input' type="text" placeholder="Enter Email" />
                             </div>
                             <div className='trainer-register-form-item'>
                                 <FontAwesomeIcon className='trainer-register-form-item-icon' icon={faLock}/>
-                                <input className='trainer-register-form-item-input' type="password" placeholder="Enter Password" required/>
+                                <input className='trainer-register-form-item-input' type="password" placeholder="Enter Password" />
                             </div>
                             <div className='trainer-register-form-item'>
                                 <FontAwesomeIcon className='trainer-register-form-item-icon' icon={faLock}/>
-                                <input className='trainer-register-form-item-input' type="password" placeholder="Confirm Password" required/>
+                                <input className='trainer-register-form-item-input' type="password" placeholder="Confirm Password" />
                             </div>
                             <div className='trainer-register-form-other'>
                                 By clicking 'Create Account', you agree to our <a className='trainer-register-a' href="#">Privacy Policy</a>

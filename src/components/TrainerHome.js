@@ -60,6 +60,10 @@ export default class TrainerHome extends Component
                     console.log("Client Data read!")
                     this.setState({clients: res.data})
                 }
+                else if(res.status === 404){
+                    console.log("No Clients Found!");
+                    document.querySelector(".clients-content").innerText = "No Clients Found!";
+                }
                 else {
                     console.log("Data not Found!")
                 }
@@ -86,6 +90,12 @@ export default class TrainerHome extends Component
                     this.setState({meetings: res.data})
                     // console.log(res.data)
                     this.getCalendar(res.data);
+                }
+                else if(res.status === 404){
+                    console.log("No Upcoming Meetings Scheduled!");
+                    var meetings = [];
+                    this.getCalendar(meetings);
+                    document.querySelector(".upcoming-meetings-content").innerText = "No Upcoming Meetings Scheduled!";
                 }
                 else {
                     console.log("Data not Found!")
@@ -138,13 +148,20 @@ export default class TrainerHome extends Component
                 
                 // console.log(new Date("2023-04-28").getFullYear() === currYear && new Date("2023-04-28").getDate() === i && new Date("2023-04-28").getMonth() === currMonth)
                 
-                meetings.some((meeting) => 
-                    new Date(meeting.Date).getFullYear() === currYear && new Date(meeting.Date).getDate() === i && new Date(meeting.Date).getMonth() === currMonth
-                ) && (
-                    liTag += `<div class="dot"></div>`
-                )
-
+                meetings.some((meeting) => {
+                    if (new Date(meeting.Date).getFullYear() === currYear && new Date(meeting.Date).getDate() === i && new Date(meeting.Date).getMonth() === currMonth) {
+                        if(isToday === "active") {
+                            liTag += `<div class="active-dot"></div>`
+                        } else {
+                            liTag += `<div class="dot"></div>`
+                        }
+                        
+                    }
+                })
+                    
                 liTag += `</li>`;
+
+                
 
                 // console.log(liTag)
             }
@@ -219,6 +236,13 @@ export default class TrainerHome extends Component
                 console.log("Meeting Data read!")
                 this.setState({meetings: res.data})
                 // console.log(res.data)
+                this.getCalendar(res.data)
+            }
+            else if(res.status === 404){
+                console.log("No Upcoming Meetings Scheduled!");
+                var meetings = [];
+                this.getCalendar(meetings);
+                document.querySelector(".upcoming-meetings-content").innerText = "No Upcoming Meetings Scheduled!";
             }
             else {
                 console.log("Data not Found!")
@@ -240,7 +264,7 @@ export default class TrainerHome extends Component
         console.log(document.getElementById("schedule-time").value);
 
         // ------------------- Schedule Meeting -----------------------------------
-        axios.post(`https://traininggurubackend.onrender.com/CatchUp/${this.state.clientValue}`, {
+        axios.post(`https://traininggurubackend.onrender.com/CatchUp/${document.getElementById("clients").value}`, {
                 "Date": document.getElementById("schedule-date").value,
                 "Time": document.getElementById("schedule-time").value
             })
@@ -252,6 +276,7 @@ export default class TrainerHome extends Component
                     // this.setState({meetings: res.data})
                     // console.log(res.data)
                     this.getUpcomingMeetings(this.state.trainerID);
+                    
                 }
                 else {
                     console.log("Data not Found!")
@@ -264,6 +289,7 @@ export default class TrainerHome extends Component
     handleClientNameChange = (event) => {
         // console.log(event.target.value)
         this.setState({ name: event.target.value })
+        // console.log("Edit client name, ID: " + this.state.currentClientID + ", new name: " + event.target.value)
         this.updateClientDetails(this.state.currentClientID, event.target.value, this.state.email);
     }
     handleClientEmailChange = (event) => {
@@ -333,11 +359,18 @@ export default class TrainerHome extends Component
     }
 
     setOnChangeEvents(){
-        const clientNameInput = document.getElementById("client-name-input");
-        clientNameInput.addEventListener('change', this.handleClientNameChange);
+        const clientNameInput = document.querySelectorAll(".client-name-input");
 
-        const clientEmailInput = document.getElementById("client-email-input");
-        clientEmailInput.addEventListener('change', this.handleClientEmailChange);
+        clientNameInput.forEach(clientName => {
+            clientName.addEventListener("change", this.handleClientNameChange)
+        })
+        // clientNameInput.addEventListener('change', this.handleClientNameChange);
+
+        const clientEmailInput = document.querySelectorAll(".client-email-input");
+        clientEmailInput.forEach(clientEmail => {
+            clientEmail.addEventListener("change", this.handleClientEmailChange)
+        })
+        // clientEmailInput.addEventListener('change', this.handleClientEmailChange);
     }
     
 
@@ -367,7 +400,7 @@ export default class TrainerHome extends Component
             <Nav />
             <div className='trainer-home-container'>
                 <div className='clients sections'>
-                    <div className='headers'>Clients</div>
+                    <div className='headers clients-header'>Clients</div>
                     <div className='clients-content poppins'>
                         { this.state.clients?.map((client) => {
                             return <div className='clients-content-entry'>
@@ -527,11 +560,11 @@ export default class TrainerHome extends Component
                     {/* map through clients info and add to rows */}
                     { this.state.clients?.map((client) => {
                         return <div className='edit-clients-table-row'>
-                                    <input type='text' id='client-name-input' defaultValue={client.Name} onClick={() => {
+                                    <input type='text' className='client-name-input' defaultValue={client.Name} onClick={() => {
                                         this.setState({ currentClientID: client.ClientID })
                                         this.setState({ email: client.Email })
                                     }}/>
-                                    <input type='email' id='client-email-input' defaultValue={client.Email} onClick={() => {
+                                    <input type='email' className='client-email-input' defaultValue={client.Email} onClick={() => {
                                         this.setState({ currentClientID: client.ClientID })
                                         this.setState({ name: client.Name })
                                     }}/>

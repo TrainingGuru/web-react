@@ -33,6 +33,7 @@ export default class TrainerManageClients extends Component
             editProteinClicked: false,
             editFatClicked: false,
             editCarbsClicked: false,
+            editAssignedWorkoutClicked: false,
             caloriesGoal: 0,
             proteinGoal: 0,
             fatGoal: 0,
@@ -49,7 +50,7 @@ export default class TrainerManageClients extends Component
             editClientDescriptionClicked: false,
             // allClientWorkouts: [],
             workoutWeeks: [],
-            currentWeekNumber: 5,
+            currentWeekNumber: 6,
             trainerID: sessionStorage.getItem("TrainerID"),
             assignDayNumber: 0,
             daysOfTheWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -113,6 +114,21 @@ export default class TrainerManageClients extends Component
     handleCarbsGoalChange = (event) => {
         this.setState({carbsGoal: event.target.value});
         this.updateCarbsGoal(this.state.currentClientID, event.target.value);
+    }
+
+    editAssignedWorkout(assignedWorkoutID){
+        // --------------------- Delete Assigned Workout -------------------
+        axios.delete(`https://traininggurubackend.onrender.com/Client/Workout/${assignedWorkoutID}`)
+            .then(res =>
+            {
+                if(res.data)
+                {
+                    console.log("Assigned Workout deleted!")
+                }
+                else {
+                    console.log("Data not Found!")
+                }
+            })
     }
 
 
@@ -581,7 +597,8 @@ export default class TrainerManageClients extends Component
                                                         <div><FontAwesomeIcon className='assign-workout-name-content-edit-icon' onClick={() => {
                                                                 this.setState({ isPopupClicked: !this.state.isPopupClicked });
                                                                 this.setState({ assignDayNumber: this.state.daysOfTheWeek.indexOf(day) });
-
+                                                                this.setState({ editAssignedWorkoutClicked: true });
+                                                                this.setState({ assignedWorkoutID: clientWorkout.ClientWorkoutID })
                                                             }} icon={faPenToSquare}/></div>
                                                     </div>
                                                 }
@@ -685,10 +702,30 @@ export default class TrainerManageClients extends Component
                                 Leave intake goals for another week and reassess
                             </textarea> */}
                             { this.state.catchUpNotes?.map((catchUpNote) => {
+                                if((new Date(catchUpNote.Date).getFullYear() > new Date().getFullYear()) || (new Date(catchUpNote.Date).getMonth() > new Date().getMonth()) || (new Date(catchUpNote.Date).getMonth() === new Date().getMonth() && new Date(catchUpNote.Date).getDate() > new Date().getDate())){
+                                    return <div className='catch-up-notes-entry'>
+                                        <div>{catchUpNote.Date}</div>
+                                        <div>*Meeting hasn't occured yet*</div>
+                                    </div>
+                                }
+                                else if(catchUpNote.Notes === null){
+                                    return <div className='catch-up-notes-entry'>
+                                        <div>{catchUpNote.Date}</div>
+                                        <div>*No Notes to Display*</div>
+                                    </div>
+                                }
+                                else if(catchUpNote.Notes !== ""){
                                     return <div className='catch-up-notes-entry'>
                                         <div>{catchUpNote.Date}</div>
                                         <div>{catchUpNote.Notes}</div>
                                     </div>
+                                } else {
+                                    return <div className='catch-up-notes-entry'>
+                                        <div>{catchUpNote.Date}</div>
+                                        <div>*No Notes to Display*</div>
+                                    </div>
+                                }
+                        
                                 })
                             }
                         </div>
@@ -700,7 +737,10 @@ export default class TrainerManageClients extends Component
                 <div className={this.state.isPopupClicked ? 'assign-workout-popup sections' : 'hidden'}>
                     <div className='popup-nav'>
                         <div className='headers'>Assign Workout</div>
-                        <FontAwesomeIcon onClick={() => this.setState({ isPopupClicked: !this.state.isPopupClicked })} className='assign-workout-popup-close-button' icon={faX}/>
+                        <FontAwesomeIcon onClick={() => {
+                            this.setState({ isPopupClicked: !this.state.isPopupClicked })
+                            this.setState({ editAssignedWorkoutClicked: false });
+                        }} className='assign-workout-popup-close-button' icon={faX}/>
                     </div>
                     <div className='assign-workout-popup-table'>
                         <div className='assign-workout-popup-table-header-row'>
@@ -721,6 +761,9 @@ export default class TrainerManageClients extends Component
                                     <div>{workout.WorkoutName}</div>
                                     <div>6</div>
                                     <div><button onClick={() => {
+                                        if(this.state.editAssignedWorkoutClicked){
+                                            this.editAssignedWorkout(this.state.assignedWorkoutID)
+                                        }
                                         this.assignWorkout(workout.id)
                                         this.setState({ isPopupClicked: !this.state.isPopupClicked });
                                     }}>Assign</button></div>
@@ -763,6 +806,9 @@ export default class TrainerManageClients extends Component
                         </div>
                     })}
                     <div className='workout-details-assign-button'><button onClick={() => {
+                        if(this.state.editAssignedWorkoutClicked){
+                            this.editAssignedWorkout(this.state.assignedWorkoutID)
+                        }
                         this.assignWorkout(this.state.currentWorkoutId)
                         this.setState({ isWorkoutPopupClicked: !this.state.isWorkoutPopupClicked });
                         this.setState({ isPopupClicked: !this.state.isPopupClicked });

@@ -47,6 +47,10 @@
     position: relative;
 }
 
+.clients-header {
+    font-size: 22px;
+}
+
 .clients-content {
     display: flex;
     flex-direction: column;
@@ -77,7 +81,7 @@
 }
 
 .thumbs-middle {
-    color: yellow;
+    color: rgb(189 181 55);
 }
 
 .thumbs-down {
@@ -191,12 +195,24 @@ header .icons span:hover {
 .dot {
     position: absolute;
     z-index: 5;
-    width: 10px;
-    height: 10px;
-    top: 50%;
+    width: 5px;
+    height: 5px;
+    top: 125%;
     left: 50%;
-    /* border-radius: 50%; */
-    color: skyblue;
+    border-radius: 50%;
+    background-color: black;
+    transform: translate(-50%, -50%);
+}
+
+.active-dot {
+    position: absolute;
+    z-index: 5;
+    width: 5px;
+    height: 5px;
+    top: 125%;
+    left: 50%;
+    border-radius: 50%;
+    background-color: white;
     transform: translate(-50%, -50%);
 }
 
@@ -323,6 +339,10 @@ header .icons span:hover {
     box-shadow: rgb(0 0 0 / 10%) 0px 3px 1px;
     padding: 0.5rem;
 } */
+
+.popup-header {
+    font-size: 22px;
+}
 
 
 .schedule-meeting-popup-close-button, .add-client-popup-close-button {
