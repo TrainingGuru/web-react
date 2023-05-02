@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/web-react/static/css/main.aa1f4b65.css",
-    "main.js": "/web-react/static/js/main.d18f56f8.js",
+    "main.css": "/web-react/static/css/main.f8ed7151.css",
+    "main.js": "/web-react/static/js/main.20a9ac30.js",
     "static/js/787.11c99fe1.chunk.js": "/web-react/static/js/787.11c99fe1.chunk.js",
     "static/media/progress-chart.png": "/web-react/static/media/progress-chart.203611d8c5430740e461.png",
     "index.html": "/web-react/index.html",
-    "main.aa1f4b65.css.map": "/web-react/static/css/main.aa1f4b65.css.map",
-    "main.d18f56f8.js.map": "/web-react/static/js/main.d18f56f8.js.map",
+    "main.f8ed7151.css.map": "/web-react/static/css/main.f8ed7151.css.map",
+    "main.20a9ac30.js.map": "/web-react/static/js/main.20a9ac30.js.map",
     "787.11c99fe1.chunk.js.map": "/web-react/static/js/787.11c99fe1.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.aa1f4b65.css",
-    "static/js/main.d18f56f8.js"
+    "static/css/main.f8ed7151.css",
+    "static/js/main.20a9ac30.js"
   ]
 }
